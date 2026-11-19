@@ -18,6 +18,11 @@ Según la aclaración del equipo, las actividades formativas previas fueron elim
 
 No validar ni copiar automáticamente los datos bibliográficos de la guía: comprobar cada obra y DOI en su fuente.
 
+## Acuerdo del equipo
+
+El equipo aceptó el reparto descrito en EQUIPO.md. Los formatos comunes de mensajes
+y CSV están concretados en ACUERDOS_TECNICOS.md y deben usarse en ambos mecanismos.
+
 ## Qué hay que construir
 
 Un mismo sistema de mensajería en dos implementaciones: TCP/JSON y gRPC/Protocol Buffers.

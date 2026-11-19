@@ -2,7 +2,7 @@
 
 Estado: estructura inicial; implementación, mediciones e informe pendientes.
 
-Equipo de cuatro integrantes. Completar nombres en `EQUIPO.md`.
+Equipo de cuatro integrantes con nombres y bloques confirmados en `EQUIPO.md`.
 Código de la actividad: GA-SUM-02 / PE-U1 (renumeración confirmada por el equipo).
 Repositorio público: https://github.com/BelindaTZ/GA-SUM-02-PE-U1. Video de 3 a 5 minutos: PENDIENTE.
 Fecha límite: sábado 21 de noviembre de 2026, 23:59 (America/Guayaquil).
@@ -10,7 +10,7 @@ Fecha límite: sábado 21 de noviembre de 2026, 23:59 (America/Guayaquil).
 ## Empezar aquí
 
 1. Leer `PLAN_ACTIVIDAD.md`. No hay actividades formativas previas exigidas para esta práctica.
-2. Completar `EQUIPO.md` y acordar la hipótesis antes de medir.
+2. Consultar el reparto aceptado en `EQUIPO.md` y los formatos comunes en `ACUERDOS_TECNICOS.md`. Completar las cuentas GitHub pendientes y registrar la hipótesis antes de medir.
 3. Implementar los módulos indicados en los README de cada carpeta.
 4. Preparar Python 3.11 o superior y fijar versiones exactas en `requirements.txt` tras validar el entorno.
 5. Ejecutar experimentos reales, análisis y verificación de Lamport; conservar los CSV sin editar.

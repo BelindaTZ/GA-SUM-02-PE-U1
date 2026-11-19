@@ -1,6 +1,9 @@
-# Equipo y reparto propuesto
+# Equipo y reparto acordado
 
-Completar nombres, usuarios GitHub y escenario del PFC antes de implementar.
+Estado: propuesta aceptada por los cuatro integrantes, según confirmación del equipo.
+
+Integrantes y bloques confirmados por el equipo. Completar las cuentas GitHub de los integrantes 2, 3 y 4 y el escenario del PFC antes de implementar.
+Los mensajes y CSV se definen en `ACUERDOS_TECNICOS.md`.
 Los roles distribuyen responsabilidad; los cuatro deben entender y poder demostrar ambos mecanismos.
 
 ## Modalidad: cuatro bloques con entregas consecutivas
@@ -11,14 +14,14 @@ Las mediciones finales requieren ambos mecanismos funcionando; el análisis real
 
 | Integrante | Nombre / GitHub | Bloque principal | Informe que debe entregar escrito |
 |---|---|---|---|
-| 1 (tú) | PENDIENTE | Base compartida y TCP | Objetivo, hipótesis previa, arquitectura e implementación TCP |
-| 2 | PENDIENTE | gRPC equivalente a TCP | Comunicación RPC/gRPC, contrato proto e implementación gRPC |
-| 3 | PENDIENTE | Corridas y verificación Lamport | Protocolo experimental, entorno y verificación de Lamport |
-| 4 | PENDIENTE | Análisis estadístico y salidas LaTeX | Resultados y primera versión de la comparación cuantitativa |
+| 1 | TOAQUIZA ZAMBRANO BELINDA BETZABETH / BelindaTZ | Base compartida y TCP | Objetivo, hipótesis previa, arquitectura e implementación TCP |
+| 2 | PIGUAVE MONTAÑO NIXON ANTONIO / GitHub pendiente | gRPC equivalente a TCP | Comunicación RPC/gRPC, contrato proto e implementación gRPC |
+| 3 | EMANUEL PINO JULIANA ROMINA / GitHub pendiente | Corridas y verificación Lamport | Protocolo experimental, entorno y verificación de Lamport |
+| 4 | HERRERA BARCO HUMBERTO ALDAIR / GitHub pendiente | Análisis estadístico y salidas LaTeX | Resultados y primera versión de la comparación cuantitativa |
 
-### Bloque 1: tú preparas la base y TCP
+### Bloque 1: Belinda prepara la base y TCP
 
-- Acordar con todos los nodos, el formato de mensajes/acuses, IDs, esquema CSV y comandos públicos. Registrar la hipótesis antes de medir.
+- Implementar los nodos y respetar los campos de mensajes y CSV de `ACUERDOS_TECNICOS.md`. Documentar los comandos públicos y registrar la hipótesis antes de medir.
 - Implementar reloj Lamport y registro compartido en src/common; configuración de tres nodos.
 - Implementar servidor y cliente TCP: framing, JSON, acuses, timeouts y errores.
 - Entregar una ejecución funcional de tres nodos con un intercambio trazable; documentar instalación y comandos TCP.
@@ -27,7 +30,7 @@ Las mediciones finales requieren ambos mecanismos funcionando; el análisis real
 Entrega al integrante 2: TCP funcional, utilidades compartidas e interfaces documentadas.
 Tres aportes posibles: reloj/registro; servidor TCP y framing; cliente e integración de nodos.
 
-### Bloque 2: segundo integrante implementa gRPC
+### Bloque 2: Nixon implementa gRPC
 
 - Definir proto/messaging.proto y generación reproducible de los módulos Python.
 - Implementar servidor y cliente gRPC reutilizando reloj y registro del bloque 1.
@@ -38,7 +41,7 @@ Tres aportes posibles: reloj/registro; servidor TCP y framing; cliente e integra
 Entrega al integrante 3: ambos mecanismos ejecutables y procedimiento de arranque/parada.
 Tres aportes posibles: contrato y generación; servidor gRPC; cliente e integración equivalente.
 
-### Bloque 3: tercer integrante ejecuta los experimentos
+### Bloque 3: Emanuel ejecuta los experimentos
 
 - Crear runner y plan común: 20 intercambios por mecanismo, tamaños de aproximadamente 100 B y 10 KB, calentamiento, cinco corridas de 100 envíos y concurrencia.
 - Registrar el entorno y duración de lotes, conservar CSV sin editar e identificar fallos y calentamiento.
@@ -49,7 +52,7 @@ Tres aportes posibles: contrato y generación; servidor gRPC; cliente e integrac
 Entrega al integrante 4: CSV completos y documentados, entorno, manifiesto y verificación real.
 Tres aportes posibles: runner común; concurrencia y entorno; verificación de Lamport y validación de trazas.
 
-### Bloque 4: cuarto integrante analiza los datos
+### Bloque 4: Herrera analiza los datos
 
 - Implementar analyze.py con media, mediana, desviación estándar, p95 y mensajes/segundo; separar tamaños y modos.
 - Generar boxplot a 300 DPI, barras con intervalos definidos y tablas LaTeX desde los CSV reales.

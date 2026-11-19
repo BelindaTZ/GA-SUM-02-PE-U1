@@ -1,7 +1,8 @@
-# Contrato pendiente
+# Contrato por implementar
 
-Crear messaging.proto: servicio MessagingService, método EnviarMensaje, Mensaje y Acuse.
-Mensaje incluye sender, timestamp y message, más identificador para correlacionar eventos.
-Decidir si message es string o bytes y medir tamaños de carga de igual forma en TCP.
-Acuse debe permitir actualizar Lamport si representa un mensaje del nodo receptor.
+Usar los campos y tipos de ../ACUERDOS_TECNICOS.md en messaging.proto.
+Servicio previsto: MessagingService; método EnviarMensaje; mensajes Mensaje y Acuse.
+Mensaje y Acuse usan message_id, sender, timestamp y message.
+message es string UTF-8; payload_bytes mide su contenido codificado, sin metadatos.
+El acuse conserva message_id y lleva el reloj del nodo que responde.
 Documentar generación con grpcio-tools e incluir el contrato en el informe.
