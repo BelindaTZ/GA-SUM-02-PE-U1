@@ -1,0 +1,48 @@
+% Página de planificación: retirar de la versión final de entrega.
+\section*{Reparto del informe LaTeX}
+Esta página sirve para organizar la redacción. Se retirará del informe final.
+Cada responsable entrega su texto en LaTeX con citas verificadas; los resultados
+se incorporan únicamente después de ejecutar los experimentos.
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}p{2.6cm}p{12.1cm}@{}}
+\toprule
+Responsable & Apartados y tareas de redacción \\
+\midrule
+Belinda Toaquiza & Objetivo e hipótesis previa; sistemas distribuidos, ANSA y CAP;
+arquitectura general y diagrama de nodos; implementación TCP. Coordina portada,
+integración, compilación y PDF identificativo del SGA. \\
+Nixon Piguave & Modelos de comunicación TCP/UDP, RPC, gRPC, Protocol Buffers y RMI;
+contrato proto y fragmentos de implementación gRPC. Coordina resumen y abstract
+al finalizar, a partir del objetivo y resultados revisados por todos. \\
+Emanuel Pino & Teoría de Lamport, relojes vectoriales y causalidad;
+protocolo experimental, condiciones de la máquina y verificación con trazas reales.
+Documenta caída de nodo y el análisis sobre número de nodos, con datos cuando corresponda. \\
+Humberto Herrera & Fallos, detección, recuperación y seguridad JWT/OAuth 2.0;
+resultados con tablas y gráficos generados; borrador de discusión, comparación
+y conclusiones cuantificadas. Coordina amenazas a la validez con aportes de todos. \\
+Todos & Aplicación al PFC y preguntas de la guía; revisión de hipótesis y discusión;
+una conclusión individual de al menos 150 palabras; aportes y enlaces a commits;
+declaración real de uso de IA y revisión de sus propias citas. \\
+\bottomrule
+\end{tabular}
+\endgroup
+
+\subsection*{Referencias y preguntas de la guía}
+Cada integrante busca y verifica dos fuentes de su tema. Después se seleccionan
+al menos seis fuentes distintas y se comprueban actualidad y DOI; al menos dos
+deben ser artículos indexados recientes con DOI verificable. Resolver con el docente
+la diferencia entre el criterio de la guía y el texto de la tarea sobre fuentes clásicas.
+No asumir que los datos bibliográficos de la guía están verificados.
+
+Belinda coordina la respuesta de ANSA; Emanuel, fallo de nodo y efecto del número
+de nodos. La elección TCP/gRPC para el PFC desde CAP se redacta entre todos.
+Lamport no garantiza convergencia a relojes iguales: aclarar el sentido de esa pregunta.
+
+\subsection*{Orden de entrega del texto}
+Cada persona puede adelantar el fundamento y las fuentes mientras implementa.
+Emanuel completa el protocolo después de medir; Humberto completa los resultados
+con los CSV definitivos. Belinda integra secciones ya redactadas por sus responsables.
+El resumen, la discusión y las conclusiones finales se cierran con resultados reales.

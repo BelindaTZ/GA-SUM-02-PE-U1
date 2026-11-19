@@ -1,70 +1,41 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[english,spanish]{babel}
-\usepackage[margin=2.5cm]{geometry}
-\usepackage{amsmath,booktabs,listings,graphicx,tikz}
-\usepackage[backend=biber,style=ieee]{biblatex}
-\addbibresource{referencias.bib}
-\usepackage{hyperref}
-\title{Práctica experimental U1: sockets TCP, gRPC y relojes de Lamport}
-\author{TOAQUIZA ZAMBRANO BELINDA BETZABETH \\ PIGUAVE MONTAÑO NIXON ANTONIO \\ EMANUEL PINO JULIANA ROMINA \\ HERRERA BARCO HUMBERTO ALDAIR}
-\date{Fecha pendiente}
+% Archivo principal: solo orden y unión de secciones. Coordina Belinda.
+\input{configuracion.tex}
 \begin{document}
-\maketitle
-\noindent Código de actividad: GA-SUM-02 / PE-U1. URL pública: \url{https://github.com/BelindaTZ/GA-SUM-02-PE-U1}.
-\newpage
-\section*{Estado de esta plantilla}
-Documento inicial sin resultados. Completar con trabajo y mediciones reales.
-Adaptar a la plantilla institucional y alcanzar diez páginas de contenido sin portada ni bibliografía.
-\section*{Resumen}
-Pendiente: resumen en español y palabras clave; aclarar extensión de 200 palabras.
-\begin{otherlanguage}{english}
-\section*{Abstract}
-Pending: English abstract and keywords.
-\end{otherlanguage}
-\section{Objetivo e hipótesis}
-Registrar hipótesis antes de medir.
+\input{secciones/belinda/portada.tex}
+\clearpage
+\input{secciones/belinda/estado.tex}
+\input{secciones/nixon/resumen.tex}
+\input{secciones/belinda/objetivo_hipotesis.tex}
 \section{Fundamento teórico}
-\subsection{Sistemas distribuidos, transparencias ANSA y CAP}
-Pendiente.
-\subsection{Sockets TCP/UDP, RPC, gRPC, Protocol Buffers y RMI}
-Pendiente.
-\subsection{Lamport, relojes vectoriales y causalidad}
-Pendiente.
-\subsection{Fallos y seguridad}
-Pendiente: clasificación de fallos, detección, recuperación, JWT y OAuth 2.0.
+\input{secciones/belinda/fundamento.tex}
+\input{secciones/nixon/fundamento.tex}
+\input{secciones/emanuel/fundamento.tex}
+\input{secciones/herrera/fundamento.tex}
 \section{Arquitectura}
-Pendiente: diagrama TikZ de la arquitectura de tres nodos y contrato proto.
-% Al existir el archivo: \lstinputlisting{../proto/messaging.proto}
+\input{secciones/belinda/arquitectura.tex}
+\input{secciones/nixon/contrato_proto.tex}
 \section{Implementación}
-Pendiente: decisiones, framing TCP, acuses, concurrencia y fragmentos breves de código real.
-\section{Protocolo experimental}
-Pendiente: máquina, versiones, tamaños, repeticiones, calentamiento y criterios de errores.
-\section{Resultados}
-Pendiente: importar tablas y gráficos producidos por el script.
-% Ejemplo futuro: \input{../analysis/tables/summary.tex}
-% Ejemplo futuro: \includegraphics[width=\linewidth]{figures/boxplot.png}
-\section{Discusión}
-Pendiente: hipótesis, latencia, variabilidad, rendimiento, tipado, desarrollo, errores, PFC y validez.
-\section{Verificación de Lamport}
-Pendiente: comprobación de datos reales, desigualdad envío/recepción y concurrencia.
+\input{secciones/belinda/implementacion_tcp.tex}
+\input{secciones/nixon/implementacion_grpc.tex}
+\input{secciones/emanuel/protocolo.tex}
+\input{secciones/herrera/resultados.tex}
+\input{secciones/herrera/discusion.tex}
+\input{secciones/emanuel/verificacion_lamport.tex}
 \section{Preguntas obligatorias de la guía}
-Pendiente: ANSA, caída de nodo, elección para el PFC desde CAP y efecto del número de nodos.
-\section{Conclusiones cuantificadas}
-Pendiente: afirmaciones respaldadas por mediciones reales.
-\subsection{Conclusión individual: Belinda Toaquiza}
-Pendiente: al menos 150 palabras escritas por el integrante.
-\subsection{Conclusión individual: Nixon Piguave}
-Pendiente: al menos 150 palabras escritas por el integrante.
-\subsection{Conclusión individual: Emanuel Pino}
-Pendiente: al menos 150 palabras escritas por el integrante.
-\subsection{Conclusión individual: Humberto Herrera}
-Pendiente: al menos 150 palabras escritas por el integrante.
+\input{secciones/belinda/pregunta_ansa.tex}
+\input{secciones/emanuel/preguntas_nodos.tex}
+\input{secciones/belinda/pfc.tex}
+\input{secciones/herrera/conclusiones_cuantificadas.tex}
+\input{secciones/belinda/conclusion_individual.tex}
+\input{secciones/nixon/conclusion_individual.tex}
+\input{secciones/emanuel/conclusion_individual.tex}
+\input{secciones/herrera/conclusion_individual.tex}
 \section{Aportes y autoría}
-Pendiente: tabla de aportes con enlaces a commits reales.
-\section{Declaración de uso de inteligencia artificial}
-La organización inicial del repositorio y esta plantilla se prepararon con asistencia de IA.
-El equipo debe revisar esta declaración y detallar las herramientas, usos y verificaciones efectivamente realizados.
+\input{secciones/belinda/aportes.tex}
+\input{secciones/nixon/aportes.tex}
+\input{secciones/emanuel/aportes.tex}
+\input{secciones/herrera/aportes.tex}
+\input{secciones/belinda/declaracion_ia.tex}
+\input{secciones/belinda/estado_referencias.tex}
 \printbibliography[title={Referencias}]
 \end{document}

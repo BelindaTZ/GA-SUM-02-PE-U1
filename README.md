@@ -31,7 +31,9 @@ analysis/           # Análisis y verificación de eventos reales
   figures/          # Gráficos generados
   tables/           # Tablas generadas para LaTeX
 docs/               # Informe, bibliografía y figuras
-  entrega_sga/      # PDF identificativo de una sola página
+  secciones/        # Fragmentos y bibliografía por integrante
+  organizacion/     # Planificación del informe
+  entrega_sga/      # PDF identificativo de una sola página para el SGA
 evidence/
   screenshots/      # Capturas reales de los cuatro integrantes
   video/            # Guion e información del video
@@ -64,10 +66,10 @@ pdflatex guia1_practica.tex
 ```
 
 Paquetes: babel (español e inglés), fontenc, inputenc, geometry, amsmath,
-booktabs, listings, graphicx, tikz, biblatex (estilo ieee) y hyperref.
+booktabs, listings, graphicx, tikz, biblatex (estilo ieee), csquotes y hyperref.
 Incorporar la plantilla institucional del LMS si es obligatoria.
 El PDF compilado final debe quedar en `docs/guia1_practica.pdf`.
-No se ha compilado ni validado el informe en esta preparación.
+El informe está dividido por responsable en `docs/secciones/`. Consultar `docs/README.md` antes de editar. El archivo principal incorpora los fragmentos y `configuracion.tex` reúne paquetes y bibliografías. El PDF compilado es una vista previa con contenido y fuentes pendientes; todavía no cumple los requisitos del informe final. La planificación se conserva fuera del informe, en `docs/organizacion/`.
 
 ## Autoría e inteligencia artificial
 

@@ -62,6 +62,14 @@ Tres aportes posibles: runner común; concurrencia y entorno; verificación de L
 Entrega al equipo: análisis reproducible, tablas, gráficos y sección de resultados integrada.
 Tres aportes posibles: métricas y rendimiento; gráficos e intervalos; tablas LaTeX e integración del análisis.
 
+## Reparto de los apartados del informe
+
+La matriz completa de redacción se conserva en `docs/organizacion/reparto_informe.tex`.
+Cada integrante edita exclusivamente sus fragmentos y bibliografía en `docs/secciones/`,
+según las instrucciones de `docs/README.md`. El principal solo une las secciones.
+Nixon coordina resumen y abstract al finalizar; todos revisan su contenido.
+Belinda integra y compila los textos ya escritos por cada responsable.
+
 ## Trabajo repartido para no sobrecargar el último bloque
 
 - Cada integrante escribe su sección directamente en LaTeX y su conclusión individual de al menos 150 palabras.

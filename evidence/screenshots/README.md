@@ -5,3 +5,7 @@ Distribuir capturas para que cada uno de los cuatro integrantes aparezca en al m
 tomada en su propio equipo, con usuario o máquina y fecha/hora del sistema visibles.
 Nombrar: AAAAMMDD_HHMM_integrante_escenario.png. No alterar ni simular capturas.
 Añadir un índice con autor, equipo, fecha y qué acredita cada archivo.
+
+Estas capturas son de ejecución. En la guía PDF y el texto de la tarea facilitados
+no se encontró un requisito de capturas o subrayado de fuentes bibliográficas.
+Si el docente facilita otra rúbrica con ese requisito, incorporarla antes de entregar.

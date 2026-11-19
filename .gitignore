@@ -18,3 +18,7 @@ Thumbs.db
 *.synctex.gz
 *.toc
 # Conservar CSV, gráficos, tablas, capturas y el PDF final en el repositorio.
+
+# Renders temporales de revisión del PDF
+tmp/pdfs/
+docs/**/compilacion_*.txt
