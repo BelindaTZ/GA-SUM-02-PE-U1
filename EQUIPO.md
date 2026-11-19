@@ -14,10 +14,26 @@ Las mediciones finales requieren ambos mecanismos funcionando; el análisis real
 
 | Integrante | Nombre / GitHub | Bloque principal | Informe que debe entregar escrito |
 |---|---|---|---|
-| 1 | TOAQUIZA ZAMBRANO BELINDA BETZABETH / BelindaTZ | Base compartida y TCP | Objetivo, hipótesis previa, arquitectura e implementación TCP |
-| 2 | PIGUAVE MONTAÑO NIXON ANTONIO / GitHub pendiente | gRPC equivalente a TCP | Comunicación RPC/gRPC, contrato proto e implementación gRPC |
-| 3 | EMANUEL PINO JULIANA ROMINA / GitHub pendiente | Corridas y verificación Lamport | Protocolo experimental, entorno y verificación de Lamport |
-| 4 | HERRERA BARCO HUMBERTO ALDAIR / GitHub pendiente | Análisis estadístico y salidas LaTeX | Resultados y primera versión de la comparación cuantitativa |
+| 1 | TOAQUIZA ZAMBRANO BELINDA BETZABETH / BelindaTZ | Base compartida y TCP | Fundamento 2.1; objetivo, hipótesis, arquitectura e implementación TCP |
+| 2 | PIGUAVE MONTAÑO NIXON ANTONIO / GitHub pendiente | gRPC equivalente a TCP | Fundamento 2.2; contrato proto e implementación gRPC |
+| 3 | EMANUEL PINO JULIANA ROMINA / GitHub pendiente | Corridas y verificación Lamport | Fundamento 2.3; protocolo, entorno y verificación de Lamport |
+| 4 | HERRERA BARCO HUMBERTO ALDAIR / GitHub pendiente | Análisis estadístico y salidas LaTeX | Fundamento 2.4; resultados y comparación cuantitativa |
+
+## Reparto del fundamento teórico (sección 2)
+
+El fundamento no lo redacta una sola persona: cada integrante completa su apartado.
+
+| Apartado | Responsable | Contenido de su fundamento.tex |
+|---|---|---|
+| 2.1 | Belinda | Sistemas distribuidos, comparación con centralizados y paralelos, ocho transparencias de la guía y CAP con ejemplos. |
+| 2.2 | Nixon | Sockets TCP/UDP, RPC, gRPC, Protocol Buffers, RMI, secuencias y comparación conceptual de comunicación. |
+| 2.3 | Emanuel | Sincronización, reglas de Lamport, causalidad, relojes vectoriales y ejemplo matemático. |
+| 2.4 | Herrera | Clasificación de fallos, detección, recuperación, JWT y OAuth 2.0. |
+
+**TCP:** Nixon explica la teoría (2.2); Belinda escribe el código y su documentación (4.1).
+**Lamport:** Emanuel explica la teoría (2.3) y verifica datos reales (8);
+Belinda implementa el reloj compartido y Nixon lo integra en gRPC.
+Cada persona edita fundamento.tex y referencias.bib dentro de su propia carpeta.
 
 ### Bloque 1: Belinda prepara la base y TCP
 

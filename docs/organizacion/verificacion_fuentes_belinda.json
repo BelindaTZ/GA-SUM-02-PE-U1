@@ -442,6 +442,125 @@
         "URL": "https://doi.org/10.17487/rfc9293",
         "link": null
       }
+    },
+    {
+      "doi": "10.7717/peerj-cs.1781",
+      "metadata": {
+        "DOI": "10.7717/peerj-cs.1781",
+        "title": [
+          "Evaluating FAIR Digital Object and Linked Data as distributed object systems"
+        ],
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0001-9842-9718",
+            "authenticated-orcid": true,
+            "given": "Stian",
+            "family": "Soiland-Reyes",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "Department of Computer Science, The University of Manchester, Manchester, UK"
+              },
+              {
+                "name": "Informatics Institute, University of Amsterdam, Amsterdam, Netherlands"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Carole",
+            "family": "Goble",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Department of Computer Science, The University of Manchester, Manchester, UK"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0003-0183-6910",
+            "authenticated-orcid": true,
+            "given": "Paul",
+            "family": "Groth",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Informatics Institute, University of Amsterdam, Amsterdam, Netherlands"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "PeerJ Computer Science"
+        ],
+        "publisher": "PeerJ",
+        "volume": "10",
+        "issue": null,
+        "page": "e1781",
+        "article-number": "e1781",
+        "published": {
+          "date-parts": [
+            [
+              2024,
+              4,
+              30
+            ]
+          ]
+        },
+        "published-online": {
+          "date-parts": [
+            [
+              2024,
+              4,
+              30
+            ]
+          ]
+        },
+        "URL": "https://doi.org/10.7717/peerj-cs.1781",
+        "link": [
+          {
+            "URL": "https://peerj.com/articles/cs-1781.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://peerj.com/articles/cs-1781.xml",
+            "content-type": "application/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://peerj.com/articles/cs-1781.html",
+            "content-type": "text/html",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://peerj.com/articles/cs-1781.pdf",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ]
+      }
     }
   ]
 }

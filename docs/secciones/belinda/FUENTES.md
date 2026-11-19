@@ -1,18 +1,19 @@
 # Fuentes seleccionadas para las secciones de Belinda
 
 Fecha de consulta: 18 de noviembre de 2026 (America/Guayaquil).
-Estado: cinco fuentes incorporadas al referencias.bib de esta carpeta.
-No se ha redactado teoría ni se han añadido citas de relleno al informe.
+Estado: seis fuentes incorporadas al referencias.bib de esta carpeta; cinco se citan en el fundamento.
+El fundamento teórico incluye citas a apartados efectivamente consultados. El RFC queda reservado para la sección de implementación TCP.
 
 ## Método y alcance de la comprobación
 
 Se utilizó SciSpace para localizar y preseleccionar artículos y búsqueda web para
 contrastar registros editoriales, institucionales y de estándares. Consensus y Elicit
 no están disponibles como conectores en esta sesión; no se afirma haberlos usado.
-Se consultaron fichas, resúmenes y registros bibliográficos, no todos los textos íntegros.
-Leer los apartados pertinentes antes de atribuir una afirmación específica o citar una página.
+En la búsqueda inicial se consultaron fichas y metadatos. Para redactar el fundamento
+se obtuvieron textos completos y se leyeron los apartados indicados en LECTURA_FUNDAMENTO.md.
+No se declara haber leído íntegramente todas las obras ni las 685 páginas del libro.
 
-Los cuatro DOI (tres artículos y un RFC) se verificaron con Crossref; el registro de
+Los cinco DOI (cuatro artículos y un RFC) se verificaron con Crossref; el registro de
 la consulta está en ../../organizacion/verificacion_fuentes_belinda.json.
 El libro se verificó en la página del autor/editor y no se le asignó un DOI inexistente.
 Las evidencias de indexación siguientes son de las revistas, no una exportación individual
@@ -21,19 +22,19 @@ certificada desde una sesión de Scopus. Un DOI por sí solo no demuestra indexa
 ## 1. Sistemas distribuidos y transparencia: libro académico
 
 **M. van Steen y A. S. Tanenbaum, Distributed Systems, 4.ª edición, 2023;
-versión 4.03 revisada en enero de 2025.**
+ejemplar consultado: versión 4.03x, febrero de 2025.**
 
 - Clave: `belinda_vansteen2023_distributed`.
 - ISBN digital: `978-90-815406-4-3` (incluido en el .bib). ISBN impreso: `978-90-815406-3-6`.
 - Ambos identificadores corresponden a la cuarta edición, versión 4.03, en el [catálogo de la biblioteca KIT](https://katalog.bibliothek.kit.edu/bib/1499492).
 - [Página oficial del autor/editor](https://www.distributed-systems.net/index.php/books/ds4/).
 - La página oficial pide citar la cuarta edición con año 2023; la revisión 2025
-  se registra como nota y no se presenta como una nueva edición.
+  del ejemplar consultado se registra como nota y no se presenta como una nueva edición.
 - Uso previsto: definición y objetivos de sistemas distribuidos, transparencia,
   arquitecturas y comunicación. Sirve como base conceptual de fundamento.tex y arquitectura.tex.
 - Es un libro académico, no uno de los tres artículos de revista seleccionados.
-- Comprobar en el texto la taxonomía exacta antes de atribuirle las ocho transparencias
-  ANSA de la guía; no asumir que todas las ediciones usan idéntica clasificación.
+- Se comprobó que su Figura 1.3 presenta siete transparencias. Para la persistencia
+  exigida por la guía se añadió el artículo de Soiland-Reyes et al. (2024).
 - La copia digital personalizada se solicita en la página del autor; no se enviaron
   datos personales ni se solicitó una copia en nombre del equipo.
 
@@ -104,9 +105,25 @@ STD 7, agosto de 2022.**
   aplicación. Distinguir el acuse de aplicación del ACK de transporte TCP.
 - Es un estándar técnico con revisión pública; no se cuenta como artículo de revista indexada.
 
+## 6. Transparencia de persistencia: artículo de PeerJ, 2024
+
+**S. Soiland-Reyes, C. Goble y P. Groth, “Evaluating FAIR Digital Object and Linked
+Data as distributed object systems”, PeerJ Computer Science, vol. 10, art. e1781, 2024.**
+
+- Clave: `belinda_soiland2024_transparency`.
+- DOI verificado con Crossref: [10.7717/peerj-cs.1781](https://doi.org/10.7717/peerj-cs.1781).
+- [Texto completo en el repositorio de la Universidad de Ámsterdam](https://pure.uva.nl/ws/files/177495031/peerj-cs-1781.pdf).
+- Consultados el apartado sobre infraestructuras middleware y la Tabla 4,
+  páginas impresas 15–17 (páginas 16–18 del PDF con cubierta institucional).
+- Uso: respaldar persistencia como ocultación de la desactivación/reactivación
+  de elementos. No se presenta su marco completo como una taxonomía idéntica a la guía.
+- Se añadió para cubrir una propiedad que no figura en la tabla de siete
+  transparencias de la revisión del libro consultada.
+
 ## Cómo usarlas en el informe
 
-- fundamento.tex: libro para conceptos/transparencia; Lee y Ahmed para CAP y sus límites.
+- fundamento.tex: libro para conceptos y siete transparencias; Soiland-Reyes para
+  persistencia; Lee y Ahmed para CAP; Blinowski para el contexto de medición de arquitecturas.
 - arquitectura.tex: libro y Blinowski como apoyo conceptual; el diagrama del equipo
   debe describir el sistema realmente diseñado, sin copiar una arquitectura ajena.
 - implementacion_tcp.tex: RFC 9293 para TCP y libro para comunicación por procesos.

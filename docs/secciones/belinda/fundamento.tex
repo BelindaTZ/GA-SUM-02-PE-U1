@@ -1,2 +1,193 @@
 \subsection{Sistemas distribuidos, transparencias ANSA y CAP}
-Pendiente: definición, ocho transparencias ANSA y comparación con sistemas centralizados y paralelos.
+\label{sec:fundamento-belinda}
+
+\subsubsection{Concepto y características de un sistema distribuido}
+
+Un sistema distribuido organiza procesos y recursos en varios equipos conectados
+para prestar servicios de manera coordinada. Su diseño requiere decidir qué
+componentes se separan, cómo se comunican y qué comportamiento se mantiene
+cuando una parte del sistema deja de responder. Van Steen y Tanenbaum explican
+que la distribución debe responder a necesidades concretas, como acercar recursos
+a los usuarios, compartir servicios o mejorar la continuidad de funcionamiento;
+la separación entre equipos también introduce dependencias y fallos parciales
+\cite[pp.~3--8]{belinda_vansteen2023_distributed}.
+
+Esta organización presenta varias características relevantes para la práctica.
+La comunicación sustituye parte del acceso directo a datos locales por intercambios
+entre procesos; las operaciones pueden solaparse y los componentes no siempre
+terminan al mismo tiempo. Además, un proceso puede funcionar mientras otro falla
+o queda incomunicado. Por ello, conocer el resultado de una operación remota exige
+interpretar respuestas, errores y esperas, y proteger el estado compartido frente a
+accesos concurrentes \cite[pp.~7--8, 13]{belinda_vansteen2023_distributed}.
+
+Entre los objetivos de diseño se encuentran compartir recursos, ofrecer interfaces
+compatibles y facilitar la expansión del servicio. Estos objetivos deben equilibrarse
+con el coste de coordinación. Blinowski, Ojdowska y Przybyłek muestran, en su
+comparación experimental entre monolitos y microservicios, que distribuir una
+aplicación no garantiza una mejora de rendimiento en todas las condiciones. Sus
+conclusiones están vinculadas a las aplicaciones y plataformas evaluadas; constituyen
+un antecedente para justificar mediciones controladas, no un resultado anticipado
+sobre TCP y gRPC \cite[pp.~20371--20372]{belinda_blinowski2022_architecture}.
+
+En esta práctica, los nodos A, B y C serán procesos independientes ejecutados en
+\texttt{localhost}. Esta configuración reproduce la separación lógica y el intercambio
+de mensajes, pero los tres procesos comparten equipo, sistema operativo y recursos
+físicos. En consecuencia, permite estudiar mecanismos de comunicación y ordenamiento
+de eventos sin representar por completo los retardos, fallos independientes y
+condiciones de una red entre máquinas diferentes. Esta delimitación corresponde
+al diseño experimental del equipo.
+
+\subsubsection{Comparación con sistemas centralizados y paralelos}
+
+La centralización y el paralelismo describen aspectos distintos de un sistema.
+La primera se relaciona con dónde se concentra una función o su control; el segundo,
+con la ejecución simultánea de partes de un trabajo. Un servicio lógicamente central
+puede tener una implementación física distribuida. A su vez, un clúster puede ser
+distribuido y ejecutar un cálculo paralelo mediante paso de mensajes
+\cite[pp.~6--7, 33--34]{belinda_vansteen2023_distributed}.
+La Tabla~\ref{tab:comparacion-sistemas} sintetiza estas diferencias como criterios
+de comparación, sin tratarlos como categorías mutuamente excluyentes.
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{4.0cm}@{}}
+\caption{Criterios para comparar centralización, paralelismo y distribución. Elaboración propia a partir de \cite[pp.~6--7, 33--34]{belinda_vansteen2023_distributed}.}
+\label{tab:comparacion-sistemas}\\
+\toprule
+Criterio & Centralizado & Paralelo & Distribuido \\
+\midrule
+\endfirsthead
+\toprule
+Criterio & Centralizado & Paralelo & Distribuido \\
+\midrule
+\endhead
+Organización & Una función o decisión se concentra en un punto lógico o físico.
+& Varias unidades ejecutan partes de un trabajo simultáneamente.
+& Procesos y recursos cooperan desde componentes conectados por una red. \\
+Comunicación & Puede resolverse mediante llamadas dentro de un proceso o acceso a un servicio central.
+& Puede usar memoria compartida o paso de mensajes, según la arquitectura.
+& Debe contemplar intercambios entre procesos y las condiciones de la comunicación. \\
+Reto principal & Gestionar capacidad, dependencias y continuidad de la función central.
+& Dividir tareas y sincronizar resultados con un coste aceptable.
+& Coordinar componentes, concurrencia y fallos parciales. \\
+Relación con la práctica & Un coordinador de pruebas puede iniciar y supervisar los nodos.
+& Los clientes pueden enviar de forma concurrente; eso no garantiza acelerar el trabajo.
+& Los tres procesos intercambian mensajes y mantienen estado lógico por nodo. \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+La última fila expresa decisiones del experimento. Distinguir estos criterios evita
+confundir el uso de varios procesos con una mejora automática de velocidad o con la
+ausencia de puntos centrales de coordinación.
+
+\subsubsection{Las ocho transparencias requeridas por la guía}
+
+La transparencia de distribución busca que usuarios y aplicaciones utilicen un
+servicio sin gestionar todos los detalles de la ubicación, representación o
+coordinación de sus componentes. Puede apoyarse en una capa de software intermedia
+que exponga interfaces comunes \cite[pp.~11--13]{belinda_vansteen2023_distributed}.
+
+Para responder a la clasificación solicitada en la guía, se consideran acceso,
+ubicación, migración, reubicación, replicación, concurrencia, fallos y persistencia.
+La Figura~1.3 del libro consultado presenta las primeras siete; para persistencia
+se utiliza además el análisis de infraestructuras distribuidas de Soiland-Reyes,
+Goble y Groth, que incluye esta propiedad en su Tabla~4
+\cite[pp.~12--13]{belinda_vansteen2023_distributed}
+\cite[tabla~4, pp.~16--17]{belinda_soiland2024_transparency}.
+La Tabla~\ref{tab:transparencias} reúne una explicación adaptada de esas categorías.
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{12.0cm}@{}}
+\caption{Transparencias consideradas para el análisis del sistema. Síntesis propia basada en \cite[pp.~11--15]{belinda_vansteen2023_distributed} y \cite[tabla~4]{belinda_soiland2024_transparency}.}
+\label{tab:transparencias}\\
+\toprule
+Transparencia & Aspecto que se busca ocultar \\
+\midrule
+\endfirsthead
+\toprule
+Transparencia & Aspecto que se busca ocultar \\
+\midrule
+\endhead
+Acceso & Diferencias de representación y mecanismos de acceso a recursos, mediante interfaces que no obliguen al usuario a manejar cada detalle interno. \\
+Ubicación & La localización física del recurso, permitiendo identificarlo de forma lógica sin depender directamente de la máquina que lo aloja. \\
+Migración & El cambio de ubicación de un recurso o proceso sin exigir que la aplicación modifique su forma de utilizarlo. \\
+Reubicación & El traslado de un recurso mientras está siendo utilizado, procurando conservar las operaciones o interacciones en curso. \\
+Replicación & La existencia de varias copias que colaboran para ofrecer un recurso o servicio presentado como una unidad. \\
+Concurrencia & Las interferencias entre accesos simultáneos, conservando el comportamiento definido para el recurso compartido. \\
+Fallos & La ocurrencia y recuperación de fallos internos, dentro de las condiciones que la implementación realmente pueda manejar. \\
+Persistencia & La desactivación y reactivación de recursos, manteniendo para sus usuarios una forma estable de utilizarlos a través de su ciclo de vida. \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+Estas transparencias son objetivos de diseño y deben comprobarse en cada
+implementación. Ocultar una operación detrás de una función no elimina los retardos
+ni asegura que un fallo pueda recuperarse. El libro advierte que intentar ocultar
+por completo la distribución puede aumentar el coste y dificultar que el programador
+comprenda los errores \cite[pp.~14--15]{belinda_vansteen2023_distributed}.
+En el sistema del equipo, guardar eventos en CSV conservará evidencia experimental,
+pero esa acción aislada no demostraría transparencia de persistencia de un servicio.
+La evaluación de las propiedades efectivamente implementadas se realizará después
+de ejecutar los nodos.
+
+\subsubsection{Teorema CAP y compromisos de diseño}
+
+CAP expresa un límite para sistemas que mantienen estado compartido a través de
+componentes conectados por una red: durante una partición no pueden garantizarse
+simultáneamente consistencia fuerte y disponibilidad para todas las solicitudes.
+Lee y sus colaboradores retoman este límite y estudian cómo los requisitos de una
+aplicación condicionan las decisiones entre consistencia, disponibilidad y latencia
+\cite[pp.~138:2--138:3]{belinda_lee2023_cap}.
+
+Para interpretar el teorema deben precisarse sus tres propiedades:
+\begin{description}
+    \item[Consistencia (C).] Las operaciones observan un estado compatible con una
+    única copia lógica y respetan el orden real de las operaciones ya completadas.
+    Esta exigencia se relaciona con la linealizabilidad, según la cual una operación
+    parece producir su efecto en algún instante entre su inicio y su finalización
+    \cite[p.~400]{belinda_vansteen2023_distributed}.
+    \item[Disponibilidad (A).] Las solicitudes dirigidas a componentes que no han
+    fallado pueden obtener una respuesta válida del servicio. La propiedad no debe
+    confundirse con observar un RTT pequeño durante una corrida sin fallos.
+    \item[Tolerancia a particiones (P).] El diseño contempla que se interrumpa la
+    comunicación entre partes del sistema y debe definir qué servicio conserva
+    en esa situación \cite[p.~138:2]{belinda_lee2023_cap}.
+\end{description}
+
+Como ejemplo conceptual, supóngase que dos réplicas mantienen una unidad disponible
+de un producto. La comunicación entre ellas se interrumpe y una venta confirmada
+en la primera reduce su inventario a cero. Si la segunda responde todavía que hay
+una unidad, puede atender la consulta, pero no conserva la visión de una única
+copia actualizada. Si necesita conocer la actualización antes de responder, deberá
+posponer o rechazar ciertas operaciones mientras no pueda comunicarse. El ejemplo
+ilustra el compromiso; no corresponde a datos ni a una funcionalidad implementada
+en esta práctica. La revisión de Ahmed y colaboradores analiza este problema en
+almacenes replicados y discute los costes de coordinación
+\cite[pp.~172--173]{belinda_ahmed2023_consistency}.
+
+La prioridad depende del servicio. Lee y colaboradores analizan, por ejemplo, la
+coordinación del acceso de vehículos a una intersección: actuar con desacuerdo sobre
+su estado puede comprometer la seguridad, por lo que puede ser necesario esperar.
+En contraste, explican que la respuesta al pedal de freno no debería quedar bloqueada
+por la llegada de un resultado remoto de visión artificial. Son aplicaciones
+concretas en las que el coste de esperar y el de actuar con información incompleta
+son diferentes \cite[pp.~138:2--138:3]{belinda_lee2023_cap}.
+
+El análisis tampoco termina cuando la red funciona sin particiones. La formulación
+PACELC considera entonces el compromiso entre latencia y consistencia: coordinar
+réplicas puede añadir intercambios y esperas aun sin una interrupción de red
+\cite[p.~172]{belinda_ahmed2023_consistency}.
+Por ello, el diseño de una aplicación debe especificar qué datos comparte, qué
+operaciones requieren coordinación y qué respuesta permite cuando esa coordinación
+no es posible.
+
+En el alcance de esta práctica, TCP y gRPC proporcionarán mecanismos de comunicación.
+Elegir uno de ellos no determina por sí solo una clasificación AP o CP: esa decisión
+depende de la lógica del servicio y del tratamiento de su estado compartido.
+Las pruebas de RTT, concurrencia y relojes de Lamport permitirán estudiar el
+comportamiento de los mensajes; sin un protocolo de replicación y un experimento
+de particiones definido, no constituirán una demostración experimental de CAP.
