@@ -20,9 +20,9 @@ impedir compilar el conjunto: comprobar la compilación antes de subir cambios.
 
 Cada carpeta tiene conclusion_individual.tex, aportes.tex y referencias.bib propios.
 Usar claves bibliográficas con el prefijo del responsable (belinda_, nixon_,
-emanuel_ o herrera_). El principal carga las cuatro bibliografías y referencias.bib,
-reservado para fuentes compartidas verificadas. Una obra debe tener una sola entrada;
-los demás pueden citar su clave sin volver a agregarla.
+emanuel_ o herrera_). La configuración carga únicamente las cuatro bibliografías
+de los integrantes. Una obra debe tener una sola entrada, en la carpeta de quien
+la incorpora; los demás pueden citar su clave sin volver a agregarla.
 
 ## Compilación desde esta carpeta
 
@@ -40,10 +40,8 @@ no se incorpora al informe académico.
 
 ## Entrega SGA
 
-entrega_sga/ contiene un documento independiente de UNA página con los cuatro
-integrantes y la URL pública completa en una línea. No es una segunda versión del informe.
-Compilar desde entrega_sga con pdflatex entrega_sga.tex. No requiere Biber.
-Subir al SGA ese PDF identificativo; el informe completo se conserva aquí y en GitHub.
+El documento identificativo de una página para el SGA se prepara aparte, fuera
+de esta carpeta y del repositorio. Aquí se mantiene únicamente el informe de la práctica.
 
 Los .aux, .bcf, .bbl, .blg, .log, .out y .run.xml son auxiliares locales ignorados por Git.
 Las imágenes temporales de revisión no forman parte del repositorio.

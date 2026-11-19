@@ -75,7 +75,7 @@ Belinda integra y compila los textos ya escritos por cada responsable.
 - Cada integrante escribe su sección directamente en LaTeX y su conclusión individual de al menos 150 palabras.
 - Bibliografía: cada uno busca y verifica dos fuentes de su tema; el equipo selecciona al menos seis sin duplicados y comprueba requisitos de actualidad, indexación y DOI.
 - Fundamento U1: integrante 1, sistemas distribuidos/ANSA/CAP; 2, comunicaciones y RMI; 3, Lamport/vectoriales; 4, fallos y seguridad.
-- Integrante 1 coordina integración y compilación del informe y PDF SGA, con textos ya escritos por todos.
+- Integrante 1 coordina integración y compilación del informe, con textos ya escritos por todos. El PDF identificativo del SGA se prepara aparte, fuera del repositorio.
 - Integrante 2 coordina guion y montaje del video; los cuatro aportan rostro y voz.
 - Integrante 3 organiza índice de capturas y datos; cada persona toma su captura en su propio equipo.
 - Integrante 4 coordina la revisión de cifras y enlaces a tablas/gráficos; todos revisan discusión, aplicación al PFC y amenazas a validez.

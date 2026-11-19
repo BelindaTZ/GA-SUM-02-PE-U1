@@ -33,7 +33,6 @@ analysis/           # Análisis y verificación de eventos reales
 docs/               # Informe, bibliografía y figuras
   secciones/        # Fragmentos y bibliografía por integrante
   organizacion/     # Planificación del informe
-  entrega_sga/      # PDF identificativo de una sola página para el SGA
 evidence/
   screenshots/      # Capturas reales de los cuatro integrantes
   video/            # Guion e información del video
