@@ -1,0 +1,447 @@
+{
+  "consulted_on": "2026-11-18",
+  "provider": "Crossref REST API",
+  "records": [
+    {
+      "doi": "10.1145/3609119",
+      "metadata": {
+        "DOI": "10.1145/3609119",
+        "title": [
+          "Consistency vs. Availability in Distributed Cyber-Physical Systems"
+        ],
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0002-5663-0584",
+            "authenticated-orcid": false,
+            "given": "Edward A.",
+            "family": "Lee",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "University of California, Berkeley, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0009-0005-4211-3593",
+            "authenticated-orcid": false,
+            "given": "Ravi",
+            "family": "Akella",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "DENSO International America, Inc., USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-5448-3664",
+            "authenticated-orcid": false,
+            "given": "Soroush",
+            "family": "Bateni",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of California, Berkeley, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-6885-5572",
+            "authenticated-orcid": false,
+            "given": "Shaokai",
+            "family": "Lin",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of California, Berkeley, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-8833-4117",
+            "authenticated-orcid": false,
+            "given": "Marten",
+            "family": "Lohstroh",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "University of California, Berkeley, USA"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-7134-8384",
+            "authenticated-orcid": false,
+            "given": "Christian",
+            "family": "Menard",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Technische Universität Dresden, Germany"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "editor": null,
+        "container-title": [
+          "ACM Transactions on Embedded Computing Systems"
+        ],
+        "publisher": "Association for Computing Machinery (ACM)",
+        "volume": "22",
+        "issue": "5s",
+        "page": "1-24",
+        "article-number": null,
+        "published": {
+          "date-parts": [
+            [
+              2023,
+              9,
+              9
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2023,
+              10,
+              31
+            ]
+          ]
+        },
+        "published-online": {
+          "date-parts": [
+            [
+              2023,
+              9,
+              9
+            ]
+          ]
+        },
+        "type": "journal-article",
+        "URL": "https://doi.org/10.1145/3609119",
+        "link": [
+          {
+            "URL": "https://dl.acm.org/doi/10.1145/3609119",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://dl.acm.org/doi/pdf/10.1145/3609119",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ]
+      }
+    },
+    {
+      "doi": "10.1109/ACCESS.2022.3152803",
+      "metadata": {
+        "DOI": "10.1109/access.2022.3152803",
+        "title": [
+          "Monolithic vs. Microservice Architecture: A Performance and Scalability Evaluation"
+        ],
+        "author": [
+          {
+            "ORCID": "https://orcid.org/0000-0002-0869-2828",
+            "authenticated-orcid": false,
+            "given": "Grzegorz",
+            "family": "Blinowski",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "Institute of Computer Science, Warsaw University of Technology, Warsaw, Poland"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Anna",
+            "family": "Ojdowska",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Faculty of Electronics, Telecommunications and Informatics, Gda&#x0144;sk University of Technology, Gda&#x0144;sk, Poland"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-8231-709X",
+            "authenticated-orcid": false,
+            "given": "Adam",
+            "family": "Przybylek",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "Faculty of Electronics, Telecommunications and Informatics, Gda&#x0144;sk University of Technology, Gda&#x0144;sk, Poland"
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "editor": null,
+        "container-title": [
+          "IEEE Access"
+        ],
+        "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+        "volume": "10",
+        "issue": null,
+        "page": "20357-20374",
+        "article-number": null,
+        "published": {
+          "date-parts": [
+            [
+              2022
+            ]
+          ]
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2022
+            ]
+          ]
+        },
+        "published-online": null,
+        "type": "journal-article",
+        "URL": "https://doi.org/10.1109/access.2022.3152803",
+        "link": [
+          {
+            "URL": "http://xplorestaging.ieee.org/ielx7/6287639/9668973/09717259.pdf?arnumber=9717259",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ]
+      }
+    },
+    {
+      "doi": "10.32620/reks.2023.2.14",
+      "metadata": {
+        "DOI": "10.32620/reks.2023.2.14",
+        "title": [
+          "Consistency issue and related trade-offs in distributed replicated systems and databases: a review"
+        ],
+        "author": [
+          {
+            "given": "Jaafar",
+            "family": "Ahmed",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0003-2789-1168",
+            "authenticated-orcid": false,
+            "given": "Andrii",
+            "family": "Karpenko",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-5991-8631",
+            "authenticated-orcid": false,
+            "given": "Olga",
+            "family": "Tarasyuk",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0001-6757-1797",
+            "authenticated-orcid": false,
+            "given": "Anatoliy",
+            "family": "Gorbenko",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0003-0677-7083",
+            "authenticated-orcid": false,
+            "given": "Akbar",
+            "family": "Sheikh-Akbari",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "editor": null,
+        "container-title": [
+          "Radioelectronic and Computer Systems"
+        ],
+        "publisher": "National Aerospace University - Kharkiv Aviation Institute",
+        "volume": null,
+        "issue": "2",
+        "page": "171-179",
+        "article-number": null,
+        "published": {
+          "date-parts": [
+            [
+              2023,
+              5,
+              25
+            ]
+          ]
+        },
+        "published-print": null,
+        "published-online": {
+          "date-parts": [
+            [
+              2023,
+              5,
+              25
+            ]
+          ]
+        },
+        "type": "journal-article",
+        "URL": "https://doi.org/10.32620/reks.2023.2.14",
+        "link": [
+          {
+            "URL": "http://nti.khai.edu/ojs/index.php/reks/article/viewFile/2024/2075",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "http://nti.khai.edu/ojs/index.php/reks/article/viewFile/2024/2075",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ]
+      }
+    },
+    {
+      "doi": "10.17487/RFC9293",
+      "metadata": {
+        "DOI": "10.17487/rfc9293",
+        "title": [
+          "Transmission Control Protocol (TCP)"
+        ],
+        "author": null,
+        "editor": [
+          {
+            "given": "W.",
+            "family": "Eddy",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "editor"
+              }
+            ]
+          }
+        ],
+        "container-title": [],
+        "publisher": "RFC Editor",
+        "volume": null,
+        "issue": null,
+        "page": null,
+        "article-number": null,
+        "published": {
+          "date-parts": [
+            [
+              2022,
+              8
+            ]
+          ]
+        },
+        "published-print": null,
+        "published-online": {
+          "date-parts": [
+            [
+              2022,
+              8
+            ]
+          ]
+        },
+        "type": "report",
+        "URL": "https://doi.org/10.17487/rfc9293",
+        "link": null
+      }
+    }
+  ]
+}

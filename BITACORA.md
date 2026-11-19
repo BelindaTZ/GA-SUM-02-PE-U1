@@ -1,6 +1,31 @@
 # Bitácora del equipo
 
-Registrar únicamente trabajo realizado y participantes reales.
+Actividad: GA-SUM-02 / PE-U1.
+Cada integrante registra sus sesiones con fecha, participantes, trabajo realizado,
+problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
+
+## 2026-11-18 — Preparación y organización del trabajo
+
+- **Responsable:** Belinda Toaquiza, con asistencia de Codex.
+- **Trabajo realizado:** revisión de la guía, preparación y publicación de la
+  estructura inicial del repositorio. Registro del reparto aceptado por el equipo,
+  acuerdos de mensajes y CSV, y división del informe LaTeX por integrante.
+- **Problemas y solución:** se corrigieron diferencias del enunciado según las
+  aclaraciones recibidas y se ajustó la organización del documento.
+- **Commits:** [plantillas](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/705a71fa4d5666edf5c5f5ea52dbc1f577717082),
+  [acuerdos](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/33e3f8b2ffe4396254b570280f8ec2127950936c),
+  [división del informe](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/469680162cc3d4ba2cd4142e1cceddcae59bc9f1).
+
+## 2026-11-18 — Objetivos, hipótesis y fuentes
+
+- **Responsable:** Belinda Toaquiza.
+- **Trabajo realizado:** redacción de objetivos e hipótesis y compilación del PDF.
+  Selección de cinco fuentes para sus secciones; verificación de datos bibliográficos,
+  DOI e ISBN e incorporación al archivo referencias.bib individual.
+- **Problemas y solución:** se corrigieron autores incompletos y el formato de
+  una entrada bibliográfica; se validó el archivo con Biber.
+- **Estado:** objetivos y fuentes incorporados al repositorio en esta actualización.
+- **Próximos pasos:** redactar el fundamento con citas y preparar la arquitectura.
 
 ## Sesión: 2026-11-18 (America/Guayaquil), contrato gRPC
 
@@ -24,15 +49,17 @@ Registrar únicamente trabajo realizado y participantes reales.
 - Próximos pasos: revisar el contrato e implementar el servidor gRPC usando
   el reloj y el registro compartidos de Belinda cuando estén disponibles.
 
-## Plantilla para próximas sesiones
+## Plantilla para nuevas sesiones — todos los integrantes
 
-## Sesión: AAAA-MM-DD, HH:MM a HH:MM (America/Guayaquil)
+Copiar este bloque para registrar cada sesión de trabajo real.
 
-- Presentes:
-- Objetivo:
-- Trabajo realizado:
-- Problemas encontrados:
-- Solución aplicada:
-- Corridas/archivos obtenidos:
-- Commits o PR relacionados:
-- Próximos pasos:
+### Sesión: AAAA-MM-DD, HH:MM a HH:MM (America/Guayaquil)
+
+- **Integrantes presentes:**
+- **Objetivo:**
+- **Trabajo realizado:**
+- **Problemas encontrados:**
+- **Solución aplicada:**
+- **Archivos o corridas obtenidas:**
+- **Commits o PR relacionados:**
+- **Próximos pasos:**
