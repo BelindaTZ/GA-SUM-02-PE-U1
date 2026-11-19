@@ -3,5 +3,9 @@ grpcio==1.76.0
 grpcio-tools==1.76.0
 protobuf==6.33.0
 
-# PENDIENTE del bloque de analisis: fijar y validar pandas y matplotlib
+# Análisis estadístico (analysis/analyze.py): lectura de CSV, estadísticas,
+# intervalos de confianza (t de Student), gráficos PNG y tablas LaTeX.
+pandas==3.0.5
+matplotlib==3.11.2
+scipy==1.18.1
 # antes de las corridas finales. Este archivo instala por ahora el bloque gRPC.
