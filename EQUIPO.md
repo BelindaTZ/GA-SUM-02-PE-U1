@@ -64,7 +64,7 @@ Tres aportes posibles: métricas y rendimiento; gráficos e intervalos; tablas L
 
 ## Reparto de los apartados del informe
 
-La matriz completa de redacción se conserva en `docs/organizacion/reparto_informe.tex`.
+La matriz completa de redacción está en `docs/organizacion/reparto_informe.tex` y se muestra después de la portada del PDF de trabajo. Se retirará del PDF final de entrega.
 Cada integrante edita exclusivamente sus fragmentos y bibliografía en `docs/secciones/`,
 según las instrucciones de `docs/README.md`. El principal solo une las secciones.
 Nixon coordina resumen y abstract al finalizar; todos revisan su contenido.

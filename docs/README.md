@@ -35,8 +35,9 @@ pdflatex -interaction=nonstopmode -halt-on-error guia1_practica.tex
 
 Requiere los paquetes indicados en el README raíz, incluidos csquotes y biblatex-ieee.
 El PDF actual es una vista previa sin contenido experimental ni bibliografía verificada.
-La tabla de reparto se conserva como planificación en organizacion/reparto_informe.tex;
-no se incorpora al informe académico.
+La tabla de reparto está visible justo después de la portada del PDF de trabajo.
+Su fuente es organizacion/reparto_informe.tex. Se retirará de la entrega final
+quitando su input y el clearpage siguiente del archivo principal.
 
 ## Entrega SGA
 

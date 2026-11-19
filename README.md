@@ -68,7 +68,7 @@ Paquetes: babel (español e inglés), fontenc, inputenc, geometry, amsmath,
 booktabs, listings, graphicx, tikz, biblatex (estilo ieee), csquotes y hyperref.
 Incorporar la plantilla institucional del LMS si es obligatoria.
 El PDF compilado final debe quedar en `docs/guia1_practica.pdf`.
-El informe está dividido por responsable en `docs/secciones/`. Consultar `docs/README.md` antes de editar. El archivo principal incorpora los fragmentos y `configuracion.tex` reúne paquetes y bibliografías. El PDF compilado es una vista previa con contenido y fuentes pendientes; todavía no cumple los requisitos del informe final. La planificación se conserva fuera del informe, en `docs/organizacion/`.
+El informe está dividido por responsable en `docs/secciones/`. Consultar `docs/README.md` antes de editar. El archivo principal incorpora los fragmentos y `configuracion.tex` reúne paquetes y bibliografías. El PDF compilado es una vista previa con contenido y fuentes pendientes; todavía no cumple los requisitos del informe final. La planificación de `docs/organizacion/` se muestra después de la portada del PDF de trabajo, para que todos vean el reparto; se retirará de la entrega final.
 
 ## Autoría e inteligencia artificial
 
