@@ -1,0 +1,3 @@
+# PENDIENTE: instalar y validar grpcio, grpcio-tools, protobuf, pandas y matplotlib.
+# Después sustituir estos comentarios por versiones exactas compatibles (paquete==version).
+# Este archivo todavía NO instala el entorno de la práctica.
