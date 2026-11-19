@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package pe_u1;
+
+service MessagingService {
+  rpc EnviarMensaje(Mensaje) returns (Acuse);
+}
+
+message Mensaje {
+  string message_id = 1;
+  string sender = 2;
+  int64 timestamp = 3;
+  string message = 4;
+}
+
+message Acuse {
+  string message_id = 1;
+  string sender = 2;
+  int64 timestamp = 3;
+  string message = 4;
+}

@@ -1,3 +1,7 @@
-# PENDIENTE: instalar y validar grpcio, grpcio-tools, protobuf, pandas y matplotlib.
-# Después sustituir estos comentarios por versiones exactas compatibles (paquete==version).
-# Este archivo todavía NO instala el entorno de la práctica.
+# Contrato y transporte gRPC: versiones compatibles para generar e importar.
+grpcio==1.76.0
+grpcio-tools==1.76.0
+protobuf==6.33.0
+
+# PENDIENTE del bloque de analisis: fijar y validar pandas y matplotlib
+# antes de las corridas finales. Este archivo instala por ahora el bloque gRPC.

@@ -1,3 +1,15 @@
 \subsection{Contrato Protocol Buffers}
-Pendiente: explicar el contrato y mostrar su contenido cuando exista el archivo real.
-% Activar solo al existir: \lstinputlisting{../proto/messaging.proto}
+El servicio \texttt{MessagingService} define la función \texttt{EnviarMensaje},
+que recibe un \texttt{Mensaje} y devuelve un \texttt{Acuse}.
+Ambos contienen \texttt{message\_id}, \texttt{sender}, \texttt{timestamp}
+y \texttt{message}, de acuerdo con el formato compartido con TCP.
+
+El acuse conserva el identificador de la solicitud. Su emisor es el nodo que
+responde y su timestamp lleva el reloj de Lamport al enviar la respuesta.
+El campo \texttt{message} contiene el texto de confirmación.
+El contrato define los tipos de datos; el cliente y el servidor deberán
+comprobar sus valores y actualizar el reloj.
+
+Se genera el código Python con \texttt{python scripts/generate\_proto.py}.
+El contrato se incluye desde su archivo original:
+\lstinputlisting[basicstyle=\ttfamily\small,breaklines=true]{../proto/messaging.proto}
