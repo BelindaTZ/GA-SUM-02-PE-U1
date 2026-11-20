@@ -1,2 +1,82 @@
 \subsection{Fallos y seguridad}
-Pendiente: clasificación de fallos, detección, recuperación, JWT y OAuth 2.0.
+\label{sec:fundamento-herrera}
+
+\subsubsection{Falla, error y avería}
+
+En un sistema distribuido conviene separar tres conceptos. Una falla (\emph{fault})
+es la causa supuesta de un problema, por ejemplo un defecto de software o un enlace
+que pierde paquetes. Cuando la falla se activa produce un error, es decir, un estado
+interno incorrecto. Si ese error llega a la interfaz del servicio, se observa una
+avería (\emph{failure}): el sistema deja de entregar lo que su especificación promete.
+Rehman, Aguiar y Barraca utilizan esta relación como punto de partida para estudiar
+la tolerancia a fallos, entendida como la capacidad de seguir prestando el servicio
+aunque alguno de sus componentes falle \cite{herrera_rehman2022}.
+
+\subsubsection{Clasificación de fallos}
+
+Según el comportamiento que se observa desde fuera de un proceso, los fallos
+suelen clasificarse así:
+
+\begin{itemize}
+  \item \textbf{Caída} (\emph{crash}): el proceso se detiene y no vuelve a responder.
+  \item \textbf{Omisión}: el proceso o el canal no envía o no recibe algunos mensajes.
+  \item \textbf{Temporización}: la respuesta llega fuera del intervalo de tiempo esperado.
+  \item \textbf{Respuesta}: el proceso responde, pero con un valor o una transición
+        de estado incorrectos.
+  \item \textbf{Arbitrario o bizantino}: el componente se comporta de forma
+        impredecible, incluso maliciosa o inconsistente frente a distintos nodos.
+\end{itemize}
+
+Los fallos de caída son los más sencillos de tratar; los bizantinos, los más difíciles,
+porque un nodo puede enviar información distinta a cada participante.
+
+\subsubsection{Detección}
+
+En un sistema asíncrono no existe un límite conocido para el retardo de los mensajes,
+por lo que un nodo no puede distinguir con certeza un proceso caído de uno lento.
+Por ello, la detección se basa en sospechas. El mecanismo más común son los mensajes
+periódicos de vida (\emph{heartbeats}) combinados con temporizadores (\emph{timeouts}):
+si un nodo no recibe noticias de otro dentro del plazo, lo considera sospechoso.
+Un plazo corto detecta antes las caídas, pero produce más falsas sospechas ante
+retardos de red; un plazo largo reduce los errores, pero retrasa la detección.
+
+\subsubsection{Recuperación}
+
+Una vez detectado el fallo, el sistema debe recuperar un estado correcto. Las técnicas
+habituales incluyen reintentar operaciones idempotentes, guardar puntos de control
+(\emph{checkpoints}) para reanudar desde un estado conocido, registrar operaciones
+en bitácoras para rehacerlas o deshacerlas y replicar servicios para que otra
+réplica atienda las solicitudes. Rehman et al.\ agrupan estas técnicas en enfoques
+reactivos, que actúan después de que ocurre el fallo, y proactivos, que monitorean
+el sistema para anticiparse a él \cite{herrera_rehman2022}.
+
+\subsubsection{Seguridad: JWT y OAuth 2.0}
+
+Además de los fallos accidentales, un sistema distribuido debe protegerse frente a
+accesos no autorizados entre sus componentes. Un JSON Web Token (JWT) es una forma
+compacta de transmitir afirmaciones (\emph{claims}) entre dos partes. Se compone de
+una cabecera, una carga útil y una firma, codificadas en Base64URL y separadas por
+puntos. La firma permite al receptor comprobar que el token no fue modificado y que
+lo emitió quien posee la clave. Su principal riesgo está en la
+validación: aceptar tokens sin firma o con un algoritmo no esperado, usar claves
+débiles o no comprobar la expiración permite falsificar o reutilizar tokens.
+
+OAuth 2.0 es un marco de autorización delegada. Un servidor de autorización emite
+tokens de acceso a un cliente con el consentimiento del propietario del recurso,
+y el servidor de recursos valida esos tokens antes de responder. Así, los servicios
+no comparten credenciales y los permisos pueden limitarse en alcance y duración.
+Chatterjee et al.\ aplican OAuth2, autenticación multifactor y control de acceso
+para proteger las APIs de una arquitectura de microservicios \cite{herrera_chatterjee2022}.
+En esa clase de arquitecturas es común que el token de acceso sea un JWT, de modo
+que cada servicio pueda validarlo sin consultar una base de datos central.
+
+\subsubsection{Relación con la práctica}
+
+Los tres nodos de esta práctica se ejecutan en un mismo equipo, por lo que no
+reproducen fallos independientes de red. Aun así, el formato acordado de latencias
+registra el estado de cada intento como \texttt{ok}, \texttt{timeout} o \texttt{error}.
+Un \texttt{timeout} corresponde a un fallo de omisión o de temporización observado
+por el cliente, y el análisis lo reporta aparte, sin asignarle una latencia inventada.
+La práctica tampoco implementa autenticación; JWT y OAuth 2.0 se describen como los
+mecanismos que habría que añadir si los nodos se comunicaran a través de una red
+no confiable.
