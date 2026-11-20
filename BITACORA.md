@@ -99,6 +99,24 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
   [arquitectura y diagrama](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/3aa884ab78f46509769b4ccaa4522ce5278bf389).
 - Próximos pasos: implementar el reloj, el registro compartido y los nodos TCP.
 
+## Sesión: 2026-11-19 (America/Guayaquil), código compartido y sockets TCP
+
+- Presentes: Belinda Toaquiza
+- Objetivo: implementar la base común y comprobar el intercambio TCP entre tres nodos.
+- Trabajo realizado: configuración, reloj Lamport y registro CSV compartidos;
+  servidor y cliente TCP con JSON, delimitación, acuses y manejo de errores,
+  con apoyo de Codex. Redacción de la implementación y revisión del PDF.
+- Problemas encontrados: lectura parcial de mensajes y riesgo de desordenar registros
+  al atender varios hilos; conexiones locales bloqueadas en el entorno restringido.
+- Solución aplicada: cabecera de longitud, lectura completa, reloj protegido y escritor
+  único; ejecución de las pruebas locales fuera de esa restricción.
+- Corridas/archivos obtenidos: 21 pruebas correctas y validaciones TCP de 20, 100
+  y 100 intercambios, con cargas de 100 y 10240 bytes, sin fallos. Código, CSV reales,
+  PDF y evidencias en screenshots/preliminares. No son las corridas comparativas finales.
+- Commits o PR relacionados: [base compartida, TCP y validaciones](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/4f6eda35ac8bb6306dc2cb202c6036ce1b79d637).
+- Próximos pasos: integrar la base compartida con gRPC y ejecutar el protocolo
+  experimental completo con el equipo.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
