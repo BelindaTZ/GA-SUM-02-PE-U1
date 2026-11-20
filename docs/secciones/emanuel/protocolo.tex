@@ -1,2 +1,14 @@
 \section{Protocolo experimental}
-Pendiente: entorno, versiones, tamaños, repeticiones, calentamiento, concurrencia y criterios de errores.
+
+\paragraph{Intercambios entre nodos.}
+Realizaré 20 intercambios con TCP y 20 con gRPC. Repetiré seis veces la
+secuencia de A a B, de B a C y de C a A. Para completar los 20
+intercambios, enviaré un mensaje adicional de A a B y otro de B a C.
+Usaré la misma secuencia con ambos mecanismos.
+
+\paragraph{Medición de latencia.}
+Usaré cargas útiles de 100 y 10\,240 bytes. Para cada mecanismo y
+tamaño, haré una corrida de calentamiento y cinco corridas de 100
+envíos. Mediré el tiempo desde justo antes de enviar cada mensaje
+hasta recibir su acuse y lo registraré en milisegundos. Excluiré
+el calentamiento del análisis.
