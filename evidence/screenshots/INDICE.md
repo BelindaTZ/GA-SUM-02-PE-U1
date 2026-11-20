@@ -22,6 +22,26 @@ no es una captura directa de la terminal ni una reconstrucción de su salida.
 Se conserva sin edición. Acredita pruebas de software con datos temporales;
 las capturas del experimento final se añadirán al ejecutar su protocolo completo.
 
+## Servidor gRPC de Nixon: 19 de noviembre
+
+Capturas originales de ejecución manual en PowerShell, conservadas sin edición
+en `preliminares/nixon/`. Usuario: `user`; equipo: `Nixon`; Python 3.12.14.
+La ejecución comenzó el 19/11/2026 a las 22:57:25, America/Guayaquil.
+ID de corrida: `5633183742e244a4a19616c10d0214f7`.
+
+| Número | Archivo dentro de preliminares/nixon/ | Qué acredita |
+|---|---|---|
+| 01 | 20261119_nixon_01_nodos_grpc.png | Tres procesos con PID distintos, nodos A/B/C y puertos 5000/5001/5002. |
+| 02 | 20261119_nixon_02_intercambio_grpc.png | Solicitud A hacia B y acuse, con relojes de envío 1, acuse 3 y recepción 4. |
+| 03 | 20261119_nixon_03_concurrencia_rechazo_grpc.png | Intercambios de A y C hacia B; INVALID_ARGUMENT por ID vacío y reloj de B sin cambio, 9 antes y después. |
+| 04 | 20261119_nixon_04_cierre_csv_grpc.png | Tres procesos detenidos, doce eventos, seis parejas Lamport verificadas y ruta de los registros. |
+
+Los archivos originales están en
+`data/grpc_validacion_5633183742e244a4a19616c10d0214f7/`.
+Esta validación utiliza `src/common`; no es una corrida de latencia ni reemplaza
+los 20 intercambios o el protocolo completo de repeticiones. La concurrencia
+comprobada aquí corresponde a dos emisores.
+
 ## Experimento final
 
 Pendiente: capturas de las ejecuciones TCP/gRPC y del análisis bajo el protocolo

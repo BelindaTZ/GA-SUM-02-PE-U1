@@ -1,2 +1,30 @@
 \subsection{Implementación gRPC}
-Pendiente: generación del contrato, servidor, cliente y manejo de errores.
+El contrato se convierte a Python mediante el script
+\texttt{scripts/generate\_proto.py}. El servidor utiliza los mensajes generados
+y completa la función remota \texttt{EnviarMensaje}.
+
+Antes de procesar una solicitud se comprueba que el identificador no esté vacío,
+el emisor corresponda a uno de los tres nodos y el timestamp no sea negativo.
+También se comprueba que el reloj tenga espacio para avanzar dentro de
+\texttt{int64}. Los campos inválidos producen una respuesta de error de gRPC.
+
+\texttt{GRPCServer} reutiliza la configuración,
+\texttt{LamportClock} y \texttt{EventLogger} de la base común. Registra la recepción
+con \texttt{receive\_event} y el envío del acuse con \texttt{send\_event}; el texto
+de confirmación es \texttt{ACK}, como en TCP.
+El servidor comprueba el identificador, el nombre del nodo que responde y el reloj
+del acuse antes de devolverlo. La atención utiliza un grupo de hilos y el reloj
+compartido protege la actualización y el registro de cada evento.
+El servidor no crea otro reloj permanente ni escribe directamente los CSV.
+
+El script \texttt{scripts/validate\_grpc\_server.py} permite comprobar esa
+integración con tres procesos y un único escritor CSV. En la ejecución manual
+del 19 de noviembre se completaron tres intercambios: uno de A hacia B y dos
+envíos concurrentes de A y C hacia B. El CSV contiene doce eventos y seis parejas
+de envío y recepción con reloj de recepción mayor que el de envío.
+
+La solicitud con identificador vacío produjo \texttt{INVALID\_ARGUMENT}; el reloj
+de B permaneció en 9. Los tres procesos terminaron correctamente. Se conservaron
+los registros originales y cuatro capturas. Esta validación del servidor no
+incluye mediciones de latencia ni sustituye el protocolo comparativo final.
+El cliente definitivo y las corridas completas siguen pendientes.

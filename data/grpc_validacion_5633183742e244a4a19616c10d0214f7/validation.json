@@ -1,0 +1,10 @@
+{
+  "events": 12,
+  "messages": 6,
+  "lamport_pairs_valid": true,
+  "run_id": "5633183742e244a4a19616c10d0214f7",
+  "processes_closed": true,
+  "invalid_rejected": true,
+  "concurrent_senders": 2,
+  "experiment_final": false
+}
