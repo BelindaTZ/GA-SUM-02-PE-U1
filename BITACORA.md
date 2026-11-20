@@ -138,6 +138,27 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
 - Próximos pasos: implementar el cliente gRPC definitivo y ejecutar el plan común
   de intercambios y las mediciones con el equipo.
 
+## Sesión: 2026-11-20 (America/Guayaquil), cliente gRPC
+
+- Presentes: Nixon Piguave
+- Objetivo: completar el cliente gRPC y comprobarlo con el plan de intercambios del equipo.
+- Trabajo realizado: cliente con canales reutilizables, RTT, validación de acuses
+  y manejo de errores; script de demostración y seis pruebas. Ejecución manual en
+  PowerShell con los tres nodos, mensajes de 100 y 10240 bytes y modo concurrente.
+- Problemas encontrados: el entorno anterior dependía de una versión del runtime
+  que ya no estaba disponible; el envío de prueba del servidor no era todavía
+  un cliente reutilizable para las mediciones.
+- Solución aplicada: preparar un entorno con Python 3.11.9 y las dependencias
+  gRPC fijadas; implementar prepare, exchange y close usando el reloj y registro
+  compartidos, con canales preparados antes del tramo medido.
+- Corridas/archivos obtenidos: seis pruebas correctas y tres validaciones de veinte
+  intercambios: 100 bytes secuencial, 10240 bytes secuencial y 100 bytes concurrente
+  con tres emisores. En total, 60 intercambios correctos, cero fallos, 240 eventos
+  y 120 parejas Lamport válidas. CSV, condiciones y capturas originales conservados.
+- Commits o PR relacionados: [cliente gRPC y validación con tres nodos](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/3cd968bb3f04634f590dd557766cddafa71bb57b).
+- Próximos pasos: entregar el cliente al responsable de experimentos para el
+  protocolo completo y terminar las secciones y referencias personales del informe.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
