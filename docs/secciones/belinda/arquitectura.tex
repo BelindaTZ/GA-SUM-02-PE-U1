@@ -1,2 +1,136 @@
 \subsection{Arquitectura de tres nodos}
-Pendiente: diagrama TikZ de nodos, puertos y componentes compartidos.
+\label{sec:arquitectura-nodos}
+
+\subsubsection{Organización y despliegue}
+
+El sistema se diseña con tres nodos de aplicación, identificados como
+\texttt{nodo-A}, \texttt{nodo-B} y \texttt{nodo-C}. Cada nodo será un proceso
+independiente con capacidad para recibir solicitudes y enviar mensajes a los otros
+dos. Los nodos se ejecutarán en una misma máquina mediante la interfaz de bucle
+local. La Tabla~\ref{tab:nodos-puertos} fija sus direcciones de escucha.
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.2}
+\noindent\begin{tabular}{@{}p{2.2cm}p{4.4cm}p{8.0cm}@{}}
+\toprule
+Nodo & Dirección & Componentes locales \\
+\midrule
+\texttt{nodo-A} & \texttt{127.0.0.1:5000} & Servidor, cliente, reloj $L_A$ y emisor de registros. \\
+\texttt{nodo-B} & \texttt{127.0.0.1:5001} & Servidor, cliente, reloj $L_B$ y emisor de registros. \\
+\texttt{nodo-C} & \texttt{127.0.0.1:5002} & Servidor, cliente, reloj $L_C$ y emisor de registros. \\
+\bottomrule
+\end{tabular}
+\endgroup
+\begin{center}
+\refstepcounter{table}\label{tab:nodos-puertos}
+\small Tabla~\thetable: Identificación y despliegue de los nodos. Diseño del equipo.
+\end{center}
+
+Se ejecutará una versión TCP/JSON y otra gRPC/Protocol Buffers en momentos
+separados, reutilizando los mismos puertos. Ambas compartirán configuración,
+reglas del reloj, esquema de eventos y plan de solicitudes. La separación entre
+una interfaz y su implementación permite conservar estas responsabilidades al
+cambiar el mecanismo de comunicación; este principio se relaciona con la función
+del middleware descrita por van Steen y Tanenbaum
+\cite[pp.~11--13]{belinda_vansteen2023_distributed}.
+
+La Figura~\ref{fig:arquitectura-tres-nodos} muestra cómo se relacionan los
+componentes del sistema. El coordinador organizará las pruebas y los tres nodos
+intercambiarán solicitudes y acuses directamente entre sí. Los registros de cada
+nodo se reunirán en archivos CSV para verificar el orden de los eventos con los
+relojes de Lamport y comparar el desempeño de TCP y gRPC.
+
+\begin{figure}[p]
+    \centering
+    \input{figures/arquitectura_tres_nodos.tex}
+    \caption{Arquitectura de tres nodos en localhost. Cada corrida activa
+    TCP/JSON o gRPC/Protocol Buffers. Las flechas de datos representan solicitudes
+    y acuses entre nodos; las otras líneas distinguen control y registro local.
+    Elaboración propia del equipo.}
+    \label{fig:arquitectura-tres-nodos}
+\end{figure}
+\clearpage
+
+\subsubsection{Responsabilidades y coordinación}
+
+Cada proceso contendrá un servidor que escucha en su puerto y un cliente que
+inicia solicitudes hacia otros nodos. En TCP se separará la atención de conexiones
+del trabajo del cliente; en gRPC se utilizará la atención concurrente del servidor.
+Los hilos de un mismo nodo compartirán su reloj y protegerán sus actualizaciones
+mediante exclusión mutua. Los relojes de nodos distintos conservarán estados
+independientes.
+
+El coordinador experimental será una herramienta local encargada de iniciar los
+procesos, esperar su disponibilidad y entregar el plan de envíos. Se propone
+utilizar mecanismos locales de control, como eventos y canales de
+\texttt{multiprocessing}, para coordinar el inicio y el cierre. Las solicitudes
+cuya latencia se compara circularán directamente entre los clientes y servidores
+de los tres nodos a través de TCP o gRPC. El coordinador también controlará el
+identificador de corrida, el tamaño de la carga, el calentamiento y el modo
+secuencial o concurrente.
+
+La primera implementación mantendrá conexiones TCP y canales gRPC preparados
+antes del tramo cronometrado y los reutilizará durante la corrida. Para TCP, el
+framing se resolverá con una cabecera de cuatro bytes que indique la longitud
+del JSON codificado en UTF-8, seguida del cuerpo completo. El receptor leerá ambos
+componentes hasta completarlos. Estas decisiones deberán mantenerse equivalentes
+en las corridas y documentarse si se modifican.
+
+\subsubsection{Recorrido de una solicitud y su acuse}
+
+El equipo acordó un formato común para las solicitudes y los acuses, con los
+campos \texttt{message\_id}, \texttt{sender}, \texttt{timestamp} y
+\texttt{message}. El identificador combina corrida, emisor y secuencia para relacionar
+solicitudes, acuses y registros sin ambigüedad. El siguiente recorrido describe las
+operaciones de diseño entre dos nodos cualesquiera $i$ y $j$:
+
+\begin{enumerate}
+    \item El cliente de $i$ prepara la solicitud, incrementa $L_i$ y registra el
+    envío con el valor incluido en \texttt{timestamp}.
+    \item El servidor de $j$ recibe y valida el mensaje, actualiza
+    $L_j \leftarrow \max(L_j, t_{\mathrm{recibido}})+1$ y registra la recepción.
+    \item El nodo $j$ prepara un acuse con el mismo \texttt{message\_id}, su propio
+    nombre y un nuevo valor de reloj, incrementado antes de enviar. Registra ese envío.
+    \item El cliente de $i$ valida la correspondencia del acuse, aplica la regla
+    de recepción a $L_i$, registra el evento y termina la medición del intercambio.
+\end{enumerate}
+
+El acuse será un mensaje de aplicación con carga breve de confirmación. Los
+registros distinguirán \texttt{request} y \texttt{ack}, aunque compartan
+identificador. Un intercambio correcto producirá así cuatro eventos de interés:
+envío y recepción de la solicitud, y envío y recepción del acuse. La actualización
+del reloj y la emisión del evento asociado se protegerán juntas para preservar su
+orden dentro de cada nodo.
+
+\subsubsection{Registro, medición y productos del análisis}
+
+Cada nodo generará los eventos con su identidad, reloj y hora real en origen.
+Se propone enviarlos a una cola local consumida por un único escritor de CSV,
+para evitar que varios procesos escriban simultáneamente sobre el mismo archivo.
+El orden de llegada a la cola podrá diferir entre nodos; la comprobación de mensajes
+utilizará sus identificadores y direcciones, no la posición global de la fila.
+
+Para ambos mecanismos, el equipo acordó organizar los registros en los siguientes
+archivos CSV:
+\begin{itemize}
+    \item Eventos: \path{events_sockets.csv} y \path{events_grpc.csv}.
+    \item Latencias: \path{latency_sockets.csv} y \path{latency_grpc.csv}.
+    \item Condiciones y duración de los lotes: \path{runs.csv}.
+\end{itemize}
+El coordinador esperará la entrega de los registros y el cierre del escritor antes
+de considerar finalizada la corrida. Se conservarán todas las ejecuciones con
+identificadores distintos y sus archivos crudos.
+
+La latencia se medirá con \texttt{time.perf\_counter()} desde la preparación y envío
+de cada solicitud hasta la recepción y validación de su acuse. El establecimiento
+inicial de conexiones quedará fuera de ese intervalo. Las mismas tareas de reloj
+y registro se colocarán en puntos equivalentes para ambos mecanismos. Los fallos
+se registrarán con su estado y sin asignarles una latencia exitosa. El timeout será
+configurable y común a ambos mecanismos; su valor final se fijará antes de medir.
+
+El script \texttt{analysis/analyze.py} leerá los archivos
+de latencia y de lotes para generar estadísticas, tablas LaTeX y gráficos.
+La verificación de Lamport utilizará los eventos para relacionar cada envío con su
+recepción. Los resultados de esas herramientas se incorporarán al informe después
+de ejecutar el sistema y conservar los CSV reales.

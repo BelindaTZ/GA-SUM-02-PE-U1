@@ -1,0 +1,63 @@
+% Diagrama nativo TikZ. Diseño propuesto; no representa evidencia de ejecución.
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    every node/.style={font=\small},
+    nodebox/.style={draw=blue!60!black,fill=blue!4,rounded corners=3pt,
+        text width=3.7cm,minimum height=2.35cm,align=center,inner sep=6pt},
+    panel/.style={draw=black!60,fill=white,rounded corners=3pt,
+        text width=10.6cm,align=center,minimum height=1.25cm,inner sep=7pt},
+    control/.style={-{Latex},dashed,draw=black!55,line width=.85pt},
+    data/.style={{Latex}-{Latex},draw=blue!65!black,line width=1.1pt},
+    telemetry/.style={-{Latex},dotted,draw=green!40!black,line width=1.1pt}
+]
+\draw[rounded corners=5pt,draw=black!45,fill=gray!3]
+    (-.6,-3.05) rectangle (15.6,10.4);
+\node[font=\small\bfseries] at (7.5,9.9)
+    {Máquina local: procesos separados, recursos físicos compartidos};
+
+\node[panel] (coordinator) at (7.5,8.45)
+    {\textbf{Coordinador experimental}\\
+     Inicia y cierra nodos; entrega el plan y sincroniza el comienzo\\
+     Configura corrida, carga, calentamiento y concurrencia};
+
+\node[nodebox] (A) at (2.5,5.4)
+    {\textbf{nodo-A}\\\texttt{127.0.0.1:5000}\\[3pt]
+     Servidor y cliente\\Reloj $L_A$ y emisor de registros};
+\node[nodebox] (B) at (7.5,5.4)
+    {\textbf{nodo-B}\\\texttt{127.0.0.1:5001}\\[3pt]
+     Servidor y cliente\\Reloj $L_B$ y emisor de registros};
+\node[nodebox] (C) at (12.5,5.4)
+    {\textbf{nodo-C}\\\texttt{127.0.0.1:5002}\\[3pt]
+     Servidor y cliente\\Reloj $L_C$ y emisor de registros};
+
+\draw[control] (coordinator.south west) -- (A.north);
+\draw[control] (coordinator.south) -- (B.north);
+\draw[control] (coordinator.south east) -- (C.north);
+\draw[data] (A.east) -- (B.west);
+\draw[data] (B.east) -- (C.west);
+\draw[data] (A.south) -- (2.5,3.65) -- (12.5,3.65) -- (C.south);
+
+\node[panel,minimum height=1.55cm] (writer) at (7.5,1.3)
+    {\textbf{Escritor único de CSV, coordinado localmente}\\
+     Cola de eventos e información de intentos y lotes\\
+     \texttt{events\_*.csv}, \texttt{latency\_*.csv}, \texttt{runs.csv}};
+\draw[telemetry] (A.south west) -- (.0,3.9) -- (.0,1.3) -- (writer.west);
+\draw[telemetry] (B.south) -- (writer.north);
+\draw[telemetry] (C.south east) -- (15.0,3.9) -- (15.0,1.3) -- (writer.east);
+
+\node[panel,minimum height=1.35cm] (analysis) at (7.5,-1.1)
+    {\textbf{Verificación de Lamport y análisis estadístico}\\
+     Eventos emparejados; estadísticas, tablas LaTeX y gráficos};
+\draw[-{Latex},line width=.9pt] (writer.south) -- (analysis.north);
+\node[anchor=west,font=\scriptsize,fill=gray!3] at (7.7,.05)
+    {Archivos cerrados al finalizar la corrida};
+
+\draw[control] (.1,-2.45) -- (.85,-2.45);
+\node[anchor=west,font=\scriptsize] at (1,-2.45) {Control local};
+\draw[data] (4.5,-2.45) -- (5.25,-2.45);
+\node[anchor=west,font=\scriptsize] at (5.4,-2.45) {TCP/JSON o gRPC/Protobuf};
+\draw[telemetry] (10.5,-2.45) -- (11.25,-2.45);
+\node[anchor=west,font=\scriptsize] at (11.4,-2.45) {Registro local};
+\end{tikzpicture}%
+}
