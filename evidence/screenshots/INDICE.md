@@ -42,6 +42,35 @@ Esta validación utiliza `src/common`; no es una corrida de latencia ni reemplaz
 los 20 intercambios o el protocolo completo de repeticiones. La concurrencia
 comprobada aquí corresponde a dos emisores.
 
+## Cliente gRPC de Nixon: 20 de noviembre
+
+Capturas originales en `preliminares/nixon/`, sin editar. Equipo: `Nixon`;
+usuario: `nixon\user` (`user` en el script); Python 3.11.9.
+Las seis pruebas terminaron con OK en 1.070 segundos.
+
+| Número | Archivo dentro de preliminares/nixon/ | Qué acredita |
+|---|---|---|
+| 01 | 20261120_nixon_01_pruebas_cliente_grpc.png | Fecha, equipo, usuario y seis pruebas correctas del cliente. |
+| 02 | 20261120_nixon_02_nodos_cliente_grpc.png | Arranque de tres procesos y canales para la carga de 100 bytes. |
+| 03 | 20261120_nixon_03_cliente_grpc_100bytes.png | Veinte intercambios secuenciales con RTT, 20 correctos y cero fallos. |
+| 04 | 20261120_nixon_04_cliente_grpc_100bytes_csv.png | Cierre de los tres nodos y ruta de los registros de 100 bytes. |
+| 05 | 20261120_nixon_05_arranque_10240bytes_grpc.png | Identificación, fecha, carga de 10240 bytes y arranque de los tres nodos. |
+| 06 | 20261120_nixon_06_resultados_10240bytes_grpc.png | Veinte intercambios correctos de 10240 bytes, cierre y ruta de los registros. |
+| 07 | 20261120_nixon_07_arranque_concurrente_grpc.png | Identificación, fecha y arranque en modo concurrent con 100 bytes. |
+| 08 | 20261120_nixon_08_resultados_concurrentes_grpc.png | Tres emisores, veinte intercambios correctos, cierre y ruta de los registros. |
+
+Corridas conservadas bajo `data/grpc_cliente_<run_id>/`:
+
+| run_id | Carga | Modo | Inicio visible |
+|---|---|---|---|
+| c11049550eaa4897909000b30a0a8a03 | 100 bytes | sequential | 20/11/2026 16:54:17 -05:00 |
+| c9ad5e94dae640458af6eca9ef109c25 | 10240 bytes | sequential | 20/11/2026 16:57:37 -05:00 |
+| 00210d1abe034b3da66d06dfdf9ad2e6 | 100 bytes | concurrent | 20/11/2026 16:59:18 -05:00 |
+
+Las horas corresponden al arranque visible, no a la hora exacta de cada captura.
+Cada corrida produjo 80 eventos y 20 latencias; se verificaron 40 parejas causales.
+Son validaciones funcionales del cliente, no la matriz comparativa final.
+
 ## Experimento final
 
 Pendiente: capturas de las ejecuciones TCP/gRPC y del análisis bajo el protocolo

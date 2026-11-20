@@ -27,4 +27,31 @@ La solicitud con identificador vacío produjo \texttt{INVALID\_ARGUMENT}; el rel
 de B permaneció en 9. Los tres procesos terminaron correctamente. Se conservaron
 los registros originales y cuatro capturas. Esta validación del servidor no
 incluye mediciones de latencia ni sustituye el protocolo comparativo final.
-El cliente definitivo y las corridas completas siguen pendientes.
+Las corridas completas siguen pendientes.
+
+\subsubsection{Cliente gRPC}
+\texttt{GRPCClient} mantiene un canal por destinatario. El método
+\texttt{prepare} espera que el canal esté disponible antes del tramo medido.
+La interfaz \texttt{exchange} permite al coordinador usar el mismo esquema de
+argumentos y resultados que el cliente TCP.
+
+Antes de enviar se comprueban los argumentos, se incrementa el reloj y se registra
+el evento. Al recibir se valida el identificador, el emisor, el texto \texttt{ACK}
+y el timestamp; después se actualiza y registra el reloj de recepción.
+El RTT se obtiene con \texttt{time.perf\_counter()} e incluye el envío y la
+validación y registro del acuse. Los canales se reutilizan y no se programa una
+política de reintentos. Los fallos se conservan como \texttt{timeout} o
+\texttt{error}, con RTT vacío.
+
+Se preparó \texttt{scripts/demo\_grpc.py} para ejecutar el plan común de veinte
+intercambios con cargas de 100 y 10240 bytes y con tres emisores concurrentes.
+Nixon ejecutó las seis pruebas del cliente el 20 de noviembre y todas terminaron
+correctamente. Después se realizaron tres validaciones funcionales: secuencial
+con 100 bytes, secuencial con 10240 bytes y concurrente con tres emisores y
+100 bytes. Cada ejecución completó 20 de 20 intercambios sin fallos.
+
+Cada corrida produjo 80 eventos, 20 registros de RTT y una fila de lote. Se
+comprobaron 40 parejas de envío y recepción por corrida, con reloj de recepción
+mayor al de envío. Se conservaron los CSV y capturas originales. Estas ejecuciones
+comprueban el cliente; no sustituyen el calentamiento y las cinco repeticiones
+del experimento comparativo.
