@@ -12,6 +12,7 @@ import time
 import traceback
 from pathlib import Path
 
+from experiments.exchange_plan import load_plan
 from src.common.config import DATA_DIR, NODES, make_message_id, make_payload, new_run_id
 from src.common.event_log import CSVLogWriter, EventLogger
 from src.common.lamport import LamportClock
@@ -64,11 +65,24 @@ def main():
     parser.add_argument("--payload-bytes", type=int, choices=(100, 10240), default=100)
     parser.add_argument("--timeout", type=float, default=5.0)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--plan", type=Path, help="CSV con sequence,sender,receiver")
     args = parser.parse_args()
     if args.messages < 1:
         parser.error("--messages debe ser positivo.")
     if not 0 < args.timeout <= 60:
         parser.error("--timeout debe ser positivo y como máximo 60 segundos.")
+    nodes = list(NODES)
+    if args.plan:
+        try:
+            exchanges = load_plan(args.plan)
+        except (OSError, ValueError) as error:
+            parser.error(str(error))
+    else:
+        exchanges = [
+            (index + 1, nodes[index % 3], nodes[(index % 3 + 1 + (index // 3) % 2) % 3])
+            for index in range(args.messages)
+        ]
+    total = len(exchanges)
     run_id = new_run_id()
     directory = args.output or DATA_DIR / f"tcp_validacion_{run_id}"
     ctx = multiprocessing.get_context("spawn")
@@ -91,13 +105,9 @@ def main():
                     pipe.send({"action": "prepare"})
                 for pipe in pipes.values():
                     receive(pipe, 15)
-                nodes = list(NODES)
                 completed = 0
                 start = time.perf_counter()
-                for sequence in range(1, args.messages + 1):
-                    sender = nodes[(sequence - 1) % 3]
-                    # Alterna destinatarios para cubrir las seis direcciones.
-                    peer = nodes[((sequence - 1) % 3 + 1 + ((sequence - 1) // 3) % 2) % 3]
+                for sequence, sender, peer in exchanges:
                     message_id = make_message_id(run_id, sender, sequence)
                     pipes[sender].send({"action": "send", "peer": peer,
                                         "message_id": message_id, "payload_bytes": args.payload_bytes})
@@ -106,11 +116,11 @@ def main():
                     if result["status"] != "ok":
                         print(result, flush=True)
                 elapsed = time.perf_counter() - start
-                failed = args.messages - completed
+                failed = total - completed
                 logger = EventLogger(shared_queue, run_id, "sockets", "nodo-A")
                 logger.run(args.payload_bytes, "sequential", False, 3,
-                           args.messages, completed, failed, elapsed)
-                print(f"TCP real: {completed}/{args.messages} intercambios correctos; {failed} fallos.", flush=True)
+                           total, completed, failed, elapsed)
+                print(f"TCP real: {completed}/{total} intercambios correctos; {failed} fallos.", flush=True)
             finally:
                 for pipe in pipes.values():
                     try:
@@ -136,7 +146,7 @@ def main():
     metadata = {"purpose": "Validación funcional TCP, no experimento comparativo final",
                 "run_id": run_id, "python": sys.version, "platform": platform.platform(),
                 "deployment": "tres procesos localhost", "payload_bytes": args.payload_bytes,
-                "messages": args.messages, "timeout_s": args.timeout,
+                "messages": total, "plan": str(args.plan) if args.plan else None, "timeout_s": args.timeout,
                 "connections": "persistentes, preparadas fuera de RTT",
                 "batch_elapsed": "incluye coordinación local por Pipe; no usar como rendimiento final"}
     (directory / "validation.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
