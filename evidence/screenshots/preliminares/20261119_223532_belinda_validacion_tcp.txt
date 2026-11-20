@@ -1,0 +1,88 @@
+**********************
+PowerShell transcript start
+Start time: 20261119223532
+Username: DESKTOP-OCH81AB\Usuario
+RunAs User: DESKTOP-OCH81AB\Usuario
+Configuration Name: 
+Machine: DESKTOP-OCH81AB (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1118-904-0_26.1118.904.0_x64__3k8sg7r9htsxt\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$taskStamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+$taskName = "${taskStamp}_belinda_validacion_tcp.txt"
+$taskLog = Join-Path (Get-Location) "evidence/screenshots/preliminares/$taskName"
+Start-Transcript -LiteralPath $taskLog | Out-Null
+Write-Host 'Get-Date; git config user.name; hostname'
+& { Get-Date; git config user.name; hostname } | Out-Host
+python --version 2>&1 | ForEach-Object { Write-Host $_ }
+Write-Host 'python -m unittest discover -s tests -v'
+python -m unittest discover -s tests -v 2>&1 | ForEach-Object { Write-Host $_ }
+$taskExit = $LASTEXITCODE
+if ($taskExit -eq 0) {
+ foreach ($taskFolder in @('tcp_validacion_4de5cb4b6e914ff3bd6825b03e8a9ebd','tcp_validacion_8398cba577474ad9a456817339e4019f','tcp_validacion_24a4bf8a28c24e11af2ea1e21afe773e')) {
+  $taskEvents = @(Import-Csv -LiteralPath "data/$taskFolder/events_sockets.csv")
+  $taskLatency = @(Import-Csv -LiteralPath "data/$taskFolder/latency_sockets.csv")
+  foreach ($taskPair in @($taskEvents | Group-Object -Property message_id,message_kind)) {
+   $taskSent = @($taskPair.Group | Where-Object event_type -eq send)
+   $taskReceived = @($taskPair.Group | Where-Object event_type -eq receive)
+   if ($taskSent.Count -ne 1 -or $taskReceived.Count -ne 1 -or [long]$taskReceived[0].lamport -le [long]$taskSent[0].lamport) { throw "Par incorrecto en $taskFolder" }
+  }
+  if ($taskEvents.Count -ne 4*$taskLatency.Count -or @($taskLatency | Where-Object status -ne ok).Count -ne 0) { throw 'CSV incompleto.' }
+  Write-Host "${taskFolder}: $($taskLatency.Count) RTT correctos; $($taskEvents.Count) eventos; parejas Lamport comprobadas."
+ }
+}
+Write-Host "Codigo de salida de las pruebas: $taskExit"
+Stop-Transcript | Out-Null
+Write-Output "REGISTRO=$taskName"
+exit $taskExit
+Process ID: 24408
+PSVersion: 7.6.9
+PSEdition: Core
+GitCommitId: 7.6.9
+OS: Microsoft Windows 10.0.26300
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Get-Date; git config user.name; hostname
+
+jueves, 19 de noviembre de 2026 22:35:32
+BelindaTZ
+DESKTOP-OCH81AB
+
+Python 3.13.7
+python -m unittest discover -s tests -v
+test_event_emission_preserves_per_node_order (test_common.ClockTests.test_event_emission_preserves_per_node_order) ... ok
+test_rules_and_invalid_timestamps (test_common.ClockTests.test_rules_and_invalid_timestamps) ... ok
+test_thread_updates_are_not_lost (test_common.ClockTests.test_thread_updates_are_not_lost) ... ok
+test_addresses_and_payload_bytes (test_common.ConfigTests.test_addresses_and_payload_bytes) ... ok
+test_identifiers_unique_between_clients_and_runs (test_common.ConfigTests.test_identifiers_unique_between_clients_and_runs) ... ok
+test_invalid_configuration (test_common.ConfigTests.test_invalid_configuration) ... ok
+test_existing_evidence_is_not_overwritten (test_common.LogTests.test_existing_evidence_is_not_overwritten) ... ok
+test_rejects_bad_measurements (test_common.LogTests.test_rejects_bad_measurements) ... ok
+test_request_ack_and_csv_schemas (test_common.LogTests.test_request_ack_and_csv_schemas) ... ok
+test_spawned_processes_share_one_writer (test_common.LogTests.test_spawned_processes_share_one_writer) ... ok
+test_writer_error_is_reported (test_common.LogTests.test_writer_error_is_reported) ... ok
+test_coalesced_frames_remain_separate (test_tcp.ProtocolTests.test_coalesced_frames_remain_separate) ... ok
+test_contract_and_duplicate_fields (test_tcp.ProtocolTests.test_contract_and_duplicate_fields) ... ok
+test_deadline_expires (test_tcp.ProtocolTests.test_deadline_expires) ... ok
+test_fragmented_frame_and_unicode (test_tcp.ProtocolTests.test_fragmented_frame_and_unicode) ... ok
+test_invalid_and_truncated_frames (test_tcp.ProtocolTests.test_invalid_and_truncated_frames) ... ok
+test_bad_connection_does_not_stop_server (test_tcp.TransportTests.test_bad_connection_does_not_stop_server) ... ok
+test_concurrent_clients_share_server_clock (test_tcp.TransportTests.test_concurrent_clients_share_server_clock) ... ok
+test_three_nodes_twenty_exchanges_and_reused_connections (test_tcp.TransportTests.test_three_nodes_twenty_exchanges_and_reused_connections) ... ok
+test_timeout_leaves_empty_rtt (test_tcp.TransportTests.test_timeout_leaves_empty_rtt) ... ok
+test_wrong_ack_is_rejected (test_tcp.TransportTests.test_wrong_ack_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.788s
+
+OK
+tcp_validacion_4de5cb4b6e914ff3bd6825b03e8a9ebd: 20 RTT correctos; 80 eventos; parejas Lamport comprobadas.
+tcp_validacion_8398cba577474ad9a456817339e4019f: 100 RTT correctos; 400 eventos; parejas Lamport comprobadas.
+tcp_validacion_24a4bf8a28c24e11af2ea1e21afe773e: 100 RTT correctos; 400 eventos; parejas Lamport comprobadas.
+Codigo de salida de las pruebas: 0
+**********************
+PowerShell transcript end
+End time: 20261119223533
+**********************

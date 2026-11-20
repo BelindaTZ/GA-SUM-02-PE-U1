@@ -38,9 +38,27 @@ evidence/
   video/            # Guion e información del video
 ```
 
-## Ejecución (pendiente de implementar)
+## Validación TCP disponible
 
-La estructura todavía no ejecuta nodos ni produce mediciones. Antes de entregar, sustituir esta sección por comandos comprobados desde un clon limpio, usando cmd.exe en Windows:
+Desde la raíz, con Python 3.11 o superior, ejecutar:
+
+```bat
+python -m unittest discover -s tests -v
+python -m scripts.demo_tcp --messages 20 --payload-bytes 100
+python -m scripts.demo_tcp --messages 100 --payload-bytes 100
+python -m scripts.demo_tcp --messages 100 --payload-bytes 10240
+```
+
+La validación TCP utiliza la biblioteca estándar y crea tres procesos en localhost,
+puertos 5000, 5001 y 5002. Cada ejecución guarda sus CSV en una carpeta nueva
+`data/tcp_validacion_<run_id>/`. El detalle de mensajes, integración, errores y
+cierre está en `src/sockets/README.md`. Estas comprobaciones no sustituyen las
+corridas del protocolo experimental final.
+
+## Ejecución experimental (pendiente de integrar)
+
+Antes de entregar, completar los comandos comprobados para la comparación con
+gRPC desde un clon limpio, usando cmd.exe en Windows:
 
 - Crear y activar `.venv`; instalar `requirements.txt`.
 - Generar los módulos Python desde `proto/messaging.proto`.

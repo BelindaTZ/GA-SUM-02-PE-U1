@@ -1,0 +1,48 @@
+**********************
+PowerShell transcript start
+Start time: 20261119221554
+Username: DESKTOP-OCH81AB\Usuario
+RunAs User: DESKTOP-OCH81AB\Usuario
+Configuration Name: 
+Machine: DESKTOP-OCH81AB (Microsoft Windows NT 10.0.26300.0)
+Host Application: C:\Program Files\WindowsApps\OpenAI.CodexPrimaryRuntime.v26-1118-904-0_26.1118.904.0_x64__3k8sg7r9htsxt\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$taskStamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+$taskLog = Join-Path (Get-Location) "evidence/screenshots/${taskStamp}_belinda_validacion_tcp.txt"
+Start-Transcript -LiteralPath $taskLog | Out-Null
+Get-Date; git config user.name; hostname
+python --version
+python -m unittest discover -s tests -p test_tcp.py -v
+if ($LASTEXITCODE -ne 0) { Stop-Transcript | Out-Null; exit 1 }
+python -m scripts.demo_tcp --messages 20 --payload-bytes 100
+if ($LASTEXITCODE -ne 0) { Stop-Transcript | Out-Null; exit 1 }
+python -m scripts.demo_tcp --messages 100 --payload-bytes 100
+if ($LASTEXITCODE -ne 0) { Stop-Transcript | Out-Null; exit 1 }
+python -m scripts.demo_tcp --messages 100 --payload-bytes 10240
+$taskExit = $LASTEXITCODE
+Stop-Transcript | Out-Null
+Write-Output "Registro de validación: $taskLog"
+exit $taskExit
+Process ID: 32880
+PSVersion: 7.6.9
+PSEdition: Core
+GitCommitId: 7.6.9
+OS: Microsoft Windows 10.0.26300
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+
+jueves, 19 de noviembre de 2026 22:15:54
+
+
+
+
+
+
+
+**********************
+PowerShell transcript end
+End time: 20261119221557
+**********************

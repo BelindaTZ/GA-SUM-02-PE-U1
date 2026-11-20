@@ -1,0 +1,36 @@
+﻿**********************
+Inicio de la transcripción de Windows PowerShell
+Hora de inicio: 20261119215302
+Nombre de usuario: DESKTOP-OCH81AB\Usuario
+Usuario RunAs: DESKTOP-OCH81AB\Usuario
+Nombre de la configuración: 
+Máquina: DESKTOP-OCH81AB (Microsoft Windows NT 10.0.26300.0)
+Aplicación host: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoExit -NoProfile -File C:\Users\Usuario\.codex\visualizations\2026\11\18\01a1f103-d182-7132-9770-5251acc42d3e\revision_pdf\captura_pruebas_compartidas.ps1
+Id. de proceso: 29484
+PSVersion: 5.1.26100.9818
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9818
+BuildVersion: 10.0.26100.9818
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS> Get-Date; git config user.name; hostname
+
+jueves, 19 de noviembre de 2026 21:53:02
+BelindaTZ
+DESKTOP-OCH81AB
+PS> python --version
+Python 3.13.7
+PS> python -m unittest discover -s tests
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.276s
+
+OK
+Codigo de salida de las pruebas: 0
+**********************
+Fin de la transcripción de Windows PowerShell
+Hora de finalización: 20261119215303
+**********************

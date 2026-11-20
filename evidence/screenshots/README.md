@@ -1,5 +1,17 @@
 # Capturas auténticas pendientes
 
+## Organización
+
+- `preliminares/`: capturas y transcripciones de pruebas del código y validaciones
+  funcionales previas al experimento.
+- En esta carpeta principal se guardarán las capturas de la ejecución del
+  experimento final y su análisis.
+- `INDICE.md`: identifica las evidencias y distingue ambos grupos.
+
+Las evidencias preliminares no sustituyen las capturas del protocolo final.
+
+## Capturas del experimento
+
 Mínimo seis: mostrar los tres nodos en marcha, intercambio TCP, intercambio gRPC y análisis.
 Distribuir capturas para que cada uno de los cuatro integrantes aparezca en al menos una,
 tomada en su propio equipo, con usuario o máquina y fecha/hora del sistema visibles.

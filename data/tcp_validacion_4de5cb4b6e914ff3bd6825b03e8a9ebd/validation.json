@@ -1,0 +1,12 @@
+{
+  "purpose": "Validación funcional TCP, no experimento comparativo final",
+  "run_id": "4de5cb4b6e914ff3bd6825b03e8a9ebd",
+  "python": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "deployment": "tres procesos localhost",
+  "payload_bytes": 100,
+  "messages": 20,
+  "timeout_s": 5.0,
+  "connections": "persistentes, preparadas fuera de RTT",
+  "batch_elapsed": "incluye coordinación local por Pipe; no usar como rendimiento final"
+}

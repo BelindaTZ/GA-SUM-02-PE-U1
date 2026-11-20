@@ -1,2 +1,195 @@
 \subsection{Base compartida y sockets TCP}
-Pendiente: reloj, registro, framing, JSON, acuses, errores y fragmentos de código real.
+\label{sec:base-compartida}
+
+La base compartida se implementó en Python con módulos de configuración, reloj
+lógico y registro en \path{src/common/}. Estos componentes reúnen las reglas que
+utilizarán TCP y gRPC, de modo que ambos mecanismos identifiquen los nodos,
+actualicen sus relojes y produzcan los registros con los mismos criterios.
+Su funcionamiento se comprobó mediante pruebas automatizadas antes de integrar
+los clientes y servidores de red.
+
+\subsubsection{Configuración e identificación}
+
+El módulo \path{src/common/config.py} define los nombres de los tres nodos y sus
+direcciones de escucha. Cada configuración permite obtener la dirección como
+pareja de host y puerto para sockets, o como una cadena de texto para gRPC.
+Los parámetros se consultan desde una misma definición para evitar diferencias
+entre los transportes.
+
+Las cargas se construyen con texto ASCII, por lo que los 100 y 10240 caracteres
+ocupan exactamente 100 y 10240 bytes en UTF-8. Esta cantidad corresponde al campo
+\texttt{message}; el tamaño total transmitido también incluirá los demás campos
+y la representación utilizada por cada mecanismo.
+
+Cada lote recibe un identificador generado con UUID. El identificador de una
+solicitud combina ese valor, el nombre del nodo emisor y una secuencia positiva
+que el cliente no debe repetir dentro del lote. Así se pueden relacionar los
+eventos de una misma comunicación incluso cuando los tres clientes envían a la
+vez. El acuse conserva el identificador de la solicitud.
+
+\subsubsection{Reloj lógico y acceso concurrente}
+
+La clase \texttt{LamportClock}, definida en \path{src/common/lamport.py}, mantiene
+un contador inicializado en cero y un bloqueo de exclusión mutua. La instancia
+pertenece a un nodo y se comparte entre sus hilos; cada proceso conserva un reloj
+independiente. El método \texttt{tick()} incrementa el contador en uno y
+\texttt{update(received)} aplica la regla de recepción. Se rechazan valores
+negativos y entradas que no sean enteros.
+
+El siguiente fragmento se incorpora directamente desde la implementación:
+
+\lstinputlisting[language=Python,basicstyle=\ttfamily\small,
+    breaklines=true,columns=fullflexible,firstline=28,lastline=32]
+    {../src/common/lamport.py}
+
+Para los intercambios registrados se utilizan \texttt{send\_event()} y
+\texttt{receive\_event()}. Estos métodos actualizan el contador y envían el
+registro a la cola dentro del mismo bloqueo. De esta forma, otro hilo del nodo
+no puede registrar un valor posterior antes de que se haya encolado el evento
+actual. El valor devuelto por el método de envío se coloca en el campo
+\texttt{timestamp}. Las solicitudes y los acuses siguen estas mismas reglas.
+
+\subsubsection{Registro de eventos y mediciones}
+
+El módulo \path{src/common/event_log.py} separa la producción de registros de la
+escritura en disco. Cada nodo utiliza \texttt{EventLogger} para enviar sus filas
+a una cola compartida. En el coordinador, \texttt{CSVLogWriter} consume esa cola
+mediante un único hilo y escribe los archivos correspondientes. Los nodos no
+abren simultáneamente los CSV.
+
+Cada evento incluye la corrida, el identificador del mensaje, el mecanismo,
+el nodo y su interlocutor, la clase de mensaje, el tipo de evento, el reloj lógico
+y la hora real con zona horaria. El campo \texttt{message\_kind} distingue
+\texttt{request} de \texttt{ack}; \texttt{event\_type} distingue \texttt{send} de
+\texttt{receive}. La cola conserva el orden de los registros emitidos por cada
+proceso, pero su orden global de llegada no se interpreta como causalidad entre
+nodos.
+
+El mismo módulo admite registros de latencia y de duración del lote. Comprueba
+que una latencia exitosa sea un número finito no negativo y que un intento
+fallido conserve vacío ese campo. Para los lotes verifica que los intentos
+coincidan con la suma de éxitos y fallos, y que la duración sea positiva. La
+medición con \texttt{time.perf\_counter()} corresponde al cliente o coordinador;
+el registro recibe el valor medido y no lo calcula por su cuenta.
+
+Los CSV se escriben con cabecera, codificación UTF-8, coma como separador y punto
+decimal. Cada archivo se crea al recibir su primera fila. El escritor rechaza
+una carpeta que ya contenga archivos de registro y utiliza apertura exclusiva
+para impedir que se sobrescriban datos previos. Al finalizar, los productores
+deben terminar antes de cerrar el escritor, que procesa los registros pendientes
+y comunica cualquier error de escritura.
+
+\subsubsection{Pruebas de la base compartida}
+
+Se ejecutaron las once pruebas de \path{tests/test_common.py} con Python 3.13.7
+mediante el comando \texttt{python -m unittest discover -s tests}; todas
+finalizaron correctamente. Las comprobaciones abarcaron las reglas de Lamport,
+los tamaños en bytes, los identificadores, los esquemas CSV y el rechazo de
+mediciones inválidas o archivos existentes.
+
+En las pruebas concurrentes se realizaron 2000 incrementos desde ocho hilos sin
+perder actualizaciones y se comprobó que 500 eventos de un nodo conservaran su
+orden de reloj. También se iniciaron tres procesos mediante \texttt{spawn}, cada
+uno con su propio contador, y se recuperaron sus 90 registros a través del
+escritor común. Los archivos de estas pruebas se generaron en directorios
+temporales. Estas comprobaciones validan la base de software; las mediciones
+de red y la verificación experimental se realizarán con los clientes y servidores
+integrados.
+
+La Figura~\ref{fig:pruebas-base-compartida} presenta una captura de la transcripción
+original de PowerShell abierta en el editor. Antes de ejecutar las pruebas se
+registraron la fecha, el usuario de Git y el nombre del equipo mediante
+\texttt{Get-Date; git config user.name; hostname}. La ejecución del 19 de noviembre
+de 2026, a las 21:53:02, identifica al usuario \texttt{BelindaTZ} y al equipo
+\texttt{DESKTOP-OCH81AB}; el resultado muestra once pruebas correctas y código
+de salida cero. La transcripción completa se conserva junto a la captura en
+\path{evidence/screenshots/preliminares/}.
+
+\begingroup
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+\begin{figure}[p]
+    \centering
+    \includegraphics[width=0.72\linewidth,height=0.58\textheight,keepaspectratio]
+        {../evidence/screenshots/preliminares/20261119_215302_belinda_pruebas_common.jpg}
+    \caption{Captura de la transcripción original de las pruebas del código
+    compartido, visualizada en el editor. Se observan la identificación del
+    equipo, Python 3.13.7 y el resultado de las once pruebas.}
+    \label{fig:pruebas-base-compartida}
+\end{figure}
+\clearpage
+\endgroup
+
+\subsubsection{Comunicación mediante sockets TCP}
+
+El transporte TCP se implementó en \path{src/sockets/} con un servidor, un cliente
+y un módulo de protocolo. Cada nodo utiliza el mismo reloj y el mismo productor
+de registros para sus tareas de envío y recepción. El servidor atiende cada
+conexión en un hilo y el cliente mantiene una conexión persistente por
+destinatario, con un solo intercambio pendiente por conexión.
+
+\paragraph{JSON y delimitación de mensajes.}
+Las solicitudes y los acuses contienen \texttt{message\_id}, \texttt{sender},
+\texttt{timestamp} y \texttt{message}. Antes de procesarlos se verifican sus
+campos y tipos, el nombre del nodo emisor y el rango entero no negativo del
+reloj, compatible con \texttt{int64}. También se rechazan claves duplicadas y
+texto que no pueda representarse correctamente en UTF-8.
+
+TCP transporta un flujo de bytes y no conserva los límites de los mensajes de
+aplicación \cite[sección~3.7]{belinda_eddy2022_tcp}. Por ello, el módulo
+\path{src/sockets/protocol.py} antepone al JSON una cabecera de cuatro bytes que
+expresa su longitud como entero sin signo en orden de red. El receptor lee
+primero esos cuatro bytes y después acumula el cuerpo hasta completarlo.
+La longitud corresponde a los bytes del JSON codificado en UTF-8, sin incluir
+la cabecera, y se limita a 1 MiB. Así se pueden recibir tanto mensajes
+fragmentados como tramas consecutivas dentro de una misma conexión.
+
+\paragraph{Acuses y medición.}
+El servidor aplica la regla de recepción de Lamport y registra la solicitud.
+Luego incrementa su reloj para enviar un acuse con el mismo identificador,
+su propio nombre como emisor y el texto \texttt{ACK}. El cliente comprueba esa
+correspondencia y que el reloj del acuse sea mayor que el de su solicitud antes
+de actualizar su reloj y registrar la recepción. Se obtienen cuatro eventos
+por intercambio completo, dos para la solicitud y dos para su acuse.
+
+Las conexiones se preparan antes de medir y se reutilizan. El RTT se calcula
+con \texttt{time.perf\_counter()} desde la preparación final y el envío hasta
+la validación y registro del acuse, convirtiendo el resultado a milisegundos.
+La conexión inicial y la espera por el bloqueo del destinatario quedan fuera
+del intervalo. Se activó \texttt{TCP\_NODELAY} en ambos extremos; esta condición
+deberá conservarse y documentarse en las corridas comparativas.
+
+\paragraph{Errores y cierre.}
+El envío y la lectura comparten un plazo por intento medido con reloj monotónico.
+Si se agota, se registra \texttt{timeout}; un cierre inesperado, JSON inválido o
+acuse incorrecto produce \texttt{error}. En ambos casos la latencia queda vacía
+y se descarta la conexión afectada. No se reenvía automáticamente una solicitud;
+un intento posterior puede abrir una conexión nueva. En el servidor, una trama
+inválida cierra esa conexión sin detener la escucha para los demás clientes.
+Al finalizar se cierran los sockets y se espera a que terminen los hilos antes
+de cerrar los registros.
+
+\paragraph{Comprobaciones realizadas.}
+Las diez pruebas de \path{tests/test_tcp.py} finalizaron correctamente, al igual
+que las once de la base compartida. Se comprobaron fragmentación, tramas
+consecutivas, UTF-8, datos inválidos, tiempos de espera, acuses no correspondientes,
+reutilización de conexiones y atención concurrente de clientes.
+
+La validación con \path{scripts/demo_tcp.py} utilizó tres procesos reales en
+localhost, con los puertos \texttt{5000}, \texttt{5001} y \texttt{5002}. Se completaron
+20 intercambios con cargas de 100 bytes, un lote de 100 con ese mismo tamaño
+y otro de 100 con cargas de 10240 bytes, sin fallos. Los CSV conservaron
+80, 400 y 400 eventos, respectivamente; se comprobó en cada pareja de envío
+y recepción que el reloj del receptor fuera mayor.
+
+Cada ejecución se conserva en una carpeta independiente dentro de \path{data/},
+cuyo nombre combina \texttt{tcp\_validacion\_} con el identificador de corrida.
+Contiene archivos de eventos, latencias,
+duración del lote y condiciones de la validación. El registro de identificación
+y ejecución está en
+\path{evidence/screenshots/preliminares/20261119_223532_belinda_validacion_tcp.txt}.
+Estas ejecuciones comprueban el funcionamiento de TCP. La comparación final
+requiere el calentamiento, las repeticiones y los modos del protocolo experimental
+común. El tiempo de lote del programa de validación incluye coordinación local
+por canales \texttt{Pipe}, por lo que no se utilizará como rendimiento final.

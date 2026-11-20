@@ -1,0 +1,2 @@
+run_id,mechanism,payload_bytes,mode,warmup,clients,attempted,completed,failed,elapsed_s
+4de5cb4b6e914ff3bd6825b03e8a9ebd,sockets,100,sequential,0,3,20,20,0,0.011438500005169772
