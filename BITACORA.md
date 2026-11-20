@@ -64,6 +64,41 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
 - Próximos pasos: revisar el contrato e implementar el servidor gRPC usando
   el reloj y el registro compartidos de Belinda cuando estén disponibles.
 
+## Sesión: 2026-11-18 (America/Guayaquil), fundamento teórico y aclaración del reparto
+
+- Presentes: Belinda Toaquiza
+- Objetivo: desarrollar el fundamento asignado y aclarar las responsabilidades del equipo.
+- Trabajo realizado: lectura de apartados de las fuentes y redacción asistida por Codex
+  sobre sistemas distribuidos, comparación de modelos, transparencias y CAP.
+  Incorporación de citas, tablas y una fuente adicional de 2024; ajuste del reparto
+  de teoría, código y redacción. Compilación y revisión del PDF.
+- Problemas encontrados: el libro no incluía persistencia en su tabla de transparencias
+  y el reparto anterior no distinguía claramente teoría e implementación.
+- Solución aplicada: respaldar persistencia con una fuente específica, precisar
+  la revisión del libro consultada y separar las responsabilidades en la organización.
+- Corridas/archivos obtenidos: fundamento.tex, referencias.bib, LECTURA_FUNDAMENTO.md,
+  organización actualizada y PDF compilado. Sin mediciones experimentales.
+- Commits o PR relacionados:
+  [fundamento y reparto aclarado](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/b4662e5cc14dbd407fc1e2a205636fb088bde736).
+- Próximos pasos: elaborar la arquitectura y su diagrama, y desarrollar la base TCP.
+
+## Sesión: 2026-11-19 (America/Guayaquil), arquitectura del sistema
+
+- Presentes: Belinda Toaquiza
+- Objetivo: definir la arquitectura de tres nodos y su funcionamiento común para TCP y gRPC.
+- Trabajo realizado: redacción de la arquitectura y elaboración del diagrama en TikZ,
+  con apoyo de Codex. Descripción del intercambio de mensajes, relojes y registros CSV.
+  Compilación, revisión del PDF y publicación del avance.
+- Problemas encontrados: la redacción mencionaba responsables individuales y documentos
+  temporales de organización.
+- Solución aplicada: presentar las decisiones como acuerdos del equipo despues de acuerdos dialogados y conservar
+  referencias a los archivos técnicos de la entrega.
+- Corridas/archivos obtenidos: arquitectura.tex, arquitectura_tres_nodos.tex y PDF
+  actualizado. Sin corridas experimentales.
+- Commits o PR relacionados:
+  [arquitectura y diagrama](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/3aa884ab78f46509769b4ccaa4522ce5278bf389).
+- Próximos pasos: implementar el reloj, el registro compartido y los nodos TCP.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
