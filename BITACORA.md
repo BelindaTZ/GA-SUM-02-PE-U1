@@ -117,6 +117,27 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
 - Próximos pasos: integrar la base compartida con gRPC y ejecutar el protocolo
   experimental completo con el equipo.
 
+## Sesión: 2026-11-19 (America/Guayaquil), servidor gRPC
+
+- Presentes: Nixon Piguave
+- Objetivo: implementar el servidor gRPC con la base compartida y comprobar su funcionamiento.
+- Trabajo realizado: servidor con validación de mensajes, acuses ACK y uso de
+  LamportClock y EventLogger. Código preparado con asistencia de Codex; ejecución
+  manual en PowerShell con tres procesos, intercambio, concurrencia, rechazo de ID
+  vacío y cierre.
+- Problemas encontrados: PowerShell utilizaba un Python sin grpc_tools al ejecutar
+  activate.bat; era necesario usar el mismo reloj y registro que TCP.
+- Solución aplicada: invocar el Python del entorno correcto e integrar los
+  componentes de src/common sin modificarlos.
+- Corridas/archivos obtenidos: validación con tres intercambios correctos,
+  doce eventos y seis parejas Lamport válidas.
+  Dos emisores concurrentes; ID vacío rechazado sin cambiar el reloj de B (9).
+  Los tres procesos terminaron. CSV, validation.json y cuatro capturas originales
+  conservados; esta validación no corresponde al protocolo comparativo final.
+- Commits o PR relacionados: [servidor gRPC con Lamport y registro compartido](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/e74e9196242ebde24689ba9ed4e9c9e7d0ca1b69).
+- Próximos pasos: implementar el cliente gRPC definitivo y ejecutar el plan común
+  de intercambios y las mediciones con el equipo.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
