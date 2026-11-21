@@ -17,7 +17,7 @@ Las mediciones finales requieren ambos mecanismos funcionando; el análisis real
 | 1 | TOAQUIZA ZAMBRANO BELINDA BETZABETH / BelindaTZ | Base compartida y TCP | Fundamento 2.1; objetivo, hipótesis, arquitectura e implementación TCP |
 | 2 | PIGUAVE MONTAÑO NIXON ANTONIO / GitHub pendiente | gRPC equivalente a TCP | Fundamento 2.2; contrato proto e implementación gRPC |
 | 3 | EMANUEL PINO JULIANA ROMINA / GitHub pendiente | Corridas y verificación Lamport | Fundamento 2.3; protocolo, entorno y verificación de Lamport |
-| 4 | HERRERA BARCO HUMBERTO ALDAIR / GitHub pendiente | Análisis estadístico y salidas LaTeX | Fundamento 2.4; resultados y comparación cuantitativa |
+| 4 | HERRERA BARCO HUMBERTO ALDAIR / [aldhair00](https://github.com/aldhair00) | Análisis estadístico y salidas LaTeX | Fundamento 2.4; resultados y comparación cuantitativa |
 
 ## Reparto del fundamento teórico (sección 2)
 

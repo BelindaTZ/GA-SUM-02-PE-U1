@@ -159,6 +159,63 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
 - Próximos pasos: entregar el cliente al responsable de experimentos para el
   protocolo completo y terminar las secciones y referencias personales del informe.
 
+## Sesión: 2026-11-19, 00:00 a 00:30 (America/Guayaquil), script de análisis
+
+- Presentes: Humberto Herrera
+- Objetivo: preparar el análisis estadístico del bloque 4 a partir del esquema acordado,
+  sin esperar las mediciones finales.
+- Trabajo realizado: creación de analysis/analyze.py según ACUERDOS_TECNICOS.md:
+  exclusión de calentamiento, separación por modo, mecanismo y tamaño, RTT solo con
+  status=ok, media, mediana, desviación, p95, IC 95 % t de Student entre corridas,
+  rendimiento con completed/elapsed_s, boxplot, barras con intervalos y tablas LaTeX.
+  Dependencias de análisis fijadas en requirements.txt.
+- Problemas encontrados: todavía no había CSV reales en data.
+- Solución aplicada: el script termina con un mensaje de error si faltan datos y no
+  genera resultados con datos de ejemplo. Se probó fuera del repositorio.
+- Corridas/archivos obtenidos: analysis/analyze.py y requirements.txt. Sin mediciones.
+- Commits o PR relacionados:
+  [analyze.py](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/61fe5a331c1f7344a141e6620e44c408affe0e51),
+  [requerimientos](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/149722e525bd43abbe8aec9439b90a81d6d25913).
+- Próximos pasos: redactar el fundamento 2.4 y reunir las fuentes.
+
+## Sesión: 2026-11-19, 22:40 a 23:20 (America/Guayaquil), fundamento 2.4 y fuentes
+
+- Presentes: Humberto Herrera
+- Objetivo: redactar el fundamento sobre fallos y seguridad.
+- Trabajo realizado: redacción de falla, error y avería; clasificación de fallos;
+  detección con heartbeats y timeouts; recuperación; JWT y OAuth 2.0; relación con
+  los estados ok, timeout y error del CSV de latencias.
+- Problemas encontrados: las primeras fuentes candidatas no eran de acceso abierto o
+  no fue posible verificar todos sus datos bibliográficos.
+- Solución aplicada: seleccionar dos artículos de acceso abierto de IEEE Access con
+  DOI verificable y que no se repiten con las fuentes del equipo.
+- Corridas/archivos obtenidos: docs/secciones/herrera/fundamento.tex y referencias.bib.
+- Commits o PR relacionados:
+  [referencias](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/885a863a06a22915a02c46cd3abf7fdfded32e81),
+  [fundamento](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/45b85e63588e7fd218c4d049d06ef9c54653d968).
+- Próximos pasos: adaptar el análisis a la estructura de datos que use el equipo.
+
+## Sesión: 2026-11-20, 21:00 a 22:40 (America/Guayaquil), lectura por carpetas y prueba del análisis
+
+- Presentes: Humberto Herrera
+- Objetivo: preparar analyze.py para leer las corridas reales del repositorio.
+- Trabajo realizado: revisión de data; las corridas se guardan en una carpeta por
+  run_id, por lo que el script ahora recibe las carpetas a analizar con --input y
+  no mezcla validaciones con corridas finales. README de analysis actualizado.
+  Prueba con dos validaciones: TCP 8398cba5… y gRPC c1104955…, 100 bytes, secuencial.
+- Problemas encontrados: Python no estaba en el PATH del equipo y pip avisó conflictos
+  con paquetes ajenos al proyecto instalados en el entorno global.
+- Solución aplicada: uso del lanzador py (Python 3.13.3). Las salidas generadas en la
+  prueba se eliminaron porque no corresponden al experimento final.
+- Corridas/archivos obtenidos: sin corridas propias. Captura preliminar de la ejecución
+  en evidence/screenshots/preliminares/Herrera/. IC no calculable: una corrida por grupo.
+- Commits o PR relacionados:
+  [lectura por carpetas](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/8dda8bb4a8c886883d87039e964bb6f02efca582),
+  [README del análisis](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/28050e577c37830a9533a02ba3a7d0d0dadc6a15),
+  [carpeta de evidencias](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/04d4c6871c932d161dd64c2378715b696eced793).
+- Próximos pasos: ejecutar el análisis con los lotes finales de TCP y gRPC y redactar
+  resultados, discusión y conclusiones cuantificadas.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
