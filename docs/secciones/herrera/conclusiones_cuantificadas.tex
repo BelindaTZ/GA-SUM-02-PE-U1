@@ -1,2 +1,13 @@
-\section{Conclusiones cuantificadas}
-Pendiente: afirmaciones respaldadas por las mediciones y revisadas por todos.
+\section{Conclusiones generales}
+
+La práctica comparó TCP con mensajes JSON y gRPC con Protocol Buffers. Ambos mecanismos utilizaron el mismo plan de intercambios y el mismo reloj lógico de Lamport. Los resultados de las tablas~\ref{tab:latencia} y~\ref{tab:rendimiento} permiten extraer las siguientes conclusiones.
+
+\begin{enumerate}
+\item \textbf{Latencia y rendimiento.} TCP obtuvo un RTT medio menor y más intercambios por segundo en las cuatro combinaciones de tamaño y modo evaluadas. Con 100 bytes y tres emisores concurrentes, TCP registró 1,637\,ms y 1\,675 intercambios por segundo, frente a 2,358\,ms y 1\,203 de gRPC. Ninguno de los mecanismos registró fallos en los 4\,000 intentos de las corridas medidas.
+
+\item \textbf{Carga útil y concurrencia.} Con tres emisores concurrentes, al pasar de 100 a 10\,240 bytes el RTT medio subió de 1,637 a 1,984\,ms en TCP y de 2,358 a 2,560\,ms en gRPC. En modo secuencial, el RTT medio de gRPC bajó de 1,013 a 0,913\,ms. Se compararon dos tamaños, por lo que los resultados se limitan a esas condiciones y no permiten establecer una relación lineal con la carga útil.
+
+\item \textbf{Consistencia de los eventos.} En los 9\,600 pares de envío y recepción de la comparativa, el reloj del evento de recepción fue estrictamente mayor que el del envío. El reloj de Lamport respeta la precedencia causal. Si la aplicación necesita un orden total, las marcas iguales pueden desempatarse mediante un identificador estable de nodo~\cite{emanuel_lamport1978}.
+
+\item \textbf{Implementación y alcance.} gRPC permite declarar el servicio y los tipos de mensajes en \texttt{messaging.proto} y generar código a partir de ese contrato. En TCP se implementaron de forma explícita el encuadre de los mensajes, la lectura completa y la validación del acuse. El rendimiento observado favoreció a TCP en esta topología local de tres nodos. Para extrapolar el resultado a otros sistemas harían falta pruebas en máquinas separadas, con más tamaños de carga y con otras condiciones de red.
+\end{enumerate}
