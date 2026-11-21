@@ -4,7 +4,7 @@ Bloque 4 de GA-SUM-02 / PE-U1. Lee solo los CSV reales de data/ con el
 formato de ACUERDOS_TECNICOS.md y genera estadísticas, gráficos y tablas LaTeX.
 
 Uso, desde la raíz del repositorio:
-    python analysis/analyze.py
+    python analysis/analyze.py --input data/tcp_lotes data/grpc_lotes
 
 Criterios:
 - Se excluyen las filas con warmup=1 de todas las estadísticas.
@@ -16,6 +16,7 @@ Criterios:
 """
 
 from pathlib import Path
+import argparse
 import shutil
 import sys
 
@@ -27,12 +28,10 @@ import pandas as pd
 from scipy import stats
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
 FIGURES = ROOT / "analysis" / "figures"
 TABLES = ROOT / "analysis" / "tables"
 DOCS_FIGURES = ROOT / "docs" / "figures"
 
-LATENCY_FILES = ["latency_sockets.csv", "latency_grpc.csv"]
 LATENCY_COLS = ["run_id", "message_id", "mechanism", "payload_bytes", "mode",
                 "warmup", "client_id", "rtt_ms", "status"]
 RUNS_COLS = ["run_id", "mechanism", "payload_bytes", "mode", "warmup",
@@ -151,9 +150,25 @@ def bars(summary, value, err, ylabel, title, path):
     plt.close(fig)
 
 
+def load_dirs(dirs):
+    lat, runs = [], []
+    for d in dirs:
+        d = d if d.is_absolute() else ROOT / d
+        if not d.is_dir():
+            sys.exit(f"No existe la carpeta {d}.")
+        lat += [load_csv(f, LATENCY_COLS) for f in sorted(d.glob("latency_*.csv"))]
+        runs.append(load_csv(d / "runs.csv", RUNS_COLS))
+    if not lat:
+        sys.exit("Ninguna carpeta contiene latency_*.csv.")
+    return pd.concat(lat, ignore_index=True), pd.concat(runs, ignore_index=True)
+
+
 def main():
-    lat = pd.concat([load_csv(DATA / f, LATENCY_COLS) for f in LATENCY_FILES], ignore_index=True)
-    runs = load_csv(DATA / "runs.csv", RUNS_COLS)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--input", type=Path, nargs="+", required=True,
+                        help="Carpetas de corridas finales, p. ej. data/tcp_lotes data/grpc_lotes")
+    args = parser.parse_args()
+    lat, runs = load_dirs(args.input)
 
     lat = lat[lat["warmup"] == 0]
     runs = runs[runs["warmup"] == 0]
