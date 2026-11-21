@@ -107,14 +107,15 @@ def write_latex(df, path, columns, headers, caption, label):
     lines = [
         "% Generado por analysis/analyze.py. No editar a mano.",
         "\\begin{table}[htbp]", "\\centering", f"\\caption{{{caption}}}",
-        f"\\label{{{label}}}", f"\\begin{{tabular}}{{{'l' * 3 + 'r' * (len(columns) - 3)}}}",
+        f"\\label{{{label}}}", "\\resizebox{\\linewidth}{!}{%",
+        f"\\begin{{tabular}}{{{'l' * 3 + 'r' * (len(columns) - 3)}}}",
         "\\toprule", " & ".join(headers) + " \\\\", "\\midrule",
     ]
     for _, r in df.iterrows():
         cells = [str(int(r[c])) if c in INT_COLS else str(r[c]) if c in GROUP else fmt(r[c])
                  for c in columns]
         lines.append(" & ".join(cells) + " \\\\")
-    lines += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
+    lines += ["\\bottomrule", "\\end{tabular}%", "}", "\\end{table}", ""]
     path.write_text("\n".join(lines), encoding="utf-8")
 
 

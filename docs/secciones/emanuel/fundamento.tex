@@ -1,2 +1,4 @@
-\subsection{Lamport, relojes vectoriales y causalidad}
-Pendiente: reglas formales, causalidad, ejemplo matemático y relojes vectoriales.
+\subsection{Relojes lógicos y causalidad}
+La relación \emph{ocurrió antes}, denotada por \(a\to b\), incluye el orden de los eventos dentro de un nodo, el envío antes de la recepción del mismo mensaje y la clausura transitiva de esas relaciones. Un reloj de Lamport cumple \(a\to b\Rightarrow C(a)<C(b)\). Para implementarlo, cada nodo incrementa su contador antes de enviar, adjunta la marca al mensaje y, al recibir una marca \(t\), actualiza su contador a \(\max(C_{\mathrm{local}},t)+1\)~\cite{emanuel_lamport1978}. Por ejemplo, si A envía con marca 7 y B estaba en 4, B registra la recepción con marca 8.
+
+Dos eventos pueden tener marcas escalares distintas y seguir siendo concurrentes. Un reloj vectorial conserva un contador por nodo y combina vectores mediante máximos por componente al recibir. Para dos eventos, la precedencia causal se refleja cuando un vector es menor o igual componente a componente y estrictamente menor en al menos un componente. Si ambos vectores tienen alguna componente mayor que la correspondiente del otro, los eventos son incomparables. El tamaño del vector crece con el número de nodos representados.

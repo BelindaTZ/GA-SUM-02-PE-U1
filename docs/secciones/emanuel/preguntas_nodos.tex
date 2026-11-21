@@ -1,5 +1,5 @@
 \subsection{Fallo de un nodo y relojes restantes}
-Pendiente: observar y explicar el comportamiento real.
+Se probó el cierre del nodo C en TCP. Primero A completó un intercambio con C. Tras cerrar C, B intentó enviarle una solicitud y agotó el plazo de espera de dos segundos. En ambos pasos los contadores de A, B y C quedaron en 4, 0 y 3, respectivamente. A continuación, A completó un intercambio con B. Los contadores terminaron en 8, 7 y 3. El CSV de la prueba conserva los tres intentos y los eventos de los dos intercambios completados. El comportamiento observado corresponde a un cierre controlado en TCP.
+
 \subsection{Efecto del número de nodos}
-Pendiente: responder con datos adicionales si se compara el número de nodos.
-Aclarar que Lamport no sincroniza relojes físicos ni garantiza convergencia a valores iguales.
+La regla de actualización de Lamport usa el contador local y la marca recibida, de modo que conserva su forma al aumentar el número de nodos. Con más emisores pueden aparecer más eventos incomparables y más empates en las marcas escalares. Si la aplicación necesita un orden total, puede desempatar con un identificador estable del nodo. Ese orden es compatible con la precedencia causal y puede ordenar también eventos concurrentes. Los contadores lógicos no tienen una meta de convergencia a un valor común. Las mediciones de esta práctica se realizaron con una topología de tres nodos.

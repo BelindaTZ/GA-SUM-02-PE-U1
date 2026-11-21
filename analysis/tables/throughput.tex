@@ -1,0 +1,22 @@
+% Generado por analysis/analyze.py. No editar a mano.
+\begin{table}[htbp]
+\centering
+\caption{Rendimiento (completed/elapsed\_s) por corrida válida}
+\label{tab:rendimiento}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllrrrrrr}
+\toprule
+Modo & Mecanismo & Bytes & Corridas & Intentos & Fallos & Media (msg/s) & Desv. (msg/s) & IC95 $\pm$ (msg/s) \\
+\midrule
+concurrent & grpc & 100 & 5 & 500 & 0 & 1202.803 & 104.608 & 129.889 \\
+concurrent & grpc & 10240 & 5 & 500 & 0 & 1100.527 & 48.957 & 60.788 \\
+concurrent & sockets & 100 & 5 & 500 & 0 & 1675.336 & 55.227 & 68.573 \\
+concurrent & sockets & 10240 & 5 & 500 & 0 & 1378.049 & 70.722 & 87.813 \\
+sequential & grpc & 100 & 5 & 500 & 0 & 958.806 & 42.322 & 52.549 \\
+sequential & grpc & 10240 & 5 & 500 & 0 & 1058.826 & 35.698 & 44.325 \\
+sequential & sockets & 100 & 5 & 500 & 0 & 1472.371 & 77.104 & 95.737 \\
+sequential & sockets & 10240 & 5 & 500 & 0 & 1118.389 & 75.388 & 93.606 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
