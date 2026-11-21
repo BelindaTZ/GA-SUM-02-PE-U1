@@ -2,3 +2,13 @@
 El verificador emparejó cada envío con su recepción mediante el identificador de corrida, el mecanismo, el identificador del mensaje y el tipo de evento (solicitud o acuse). Comprobó la correspondencia de los nodos y la desigualdad estricta \(C(\mathrm{envío})<C(\mathrm{recepción})\). En la comparativa pasaron 4\,800 pares TCP y 4\,800 pares gRPC. Los recorridos independientes de 20 intercambios aportaron 40 pares válidos por mecanismo, contando solicitudes y acuses. Los dos recorridos se conservaron también en JSON.
 
 En la corrida concurrente gRPC \texttt{9bf4c732fc2b49af844294252e2d60b0}, la solicitud 4 de A hacia B y la solicitud 5 de B hacia C salieron con \(C=1957\). Los emisores partieron de una barrera común y cada uno ejecutó su secuencia de forma independiente. Ambos eventos pertenecen a nodos distintos. Como la marca crece estrictamente a lo largo de cualquier cadena causal del modelo, su igualdad excluye una relación causal en ambas direcciones entre estos envíos~\cite{emanuel_lamport1978}.
+
+\paragraph{Captura de la verificación preliminar.}
+La figura~\ref{fig:lamport-preliminar} muestra la salida del verificador sobre los CSV de la sesión con hilos. Los resultados de la comparativa se obtuvieron en la ejecución posterior con tres procesos.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{../evidence/screenshots/preliminares/20261121_juliana_lamport_comparativa_con_hilos.png}
+\caption{Verificación preliminar de Lamport en TCP y gRPC.}
+\label{fig:lamport-preliminar}
+\end{figure}

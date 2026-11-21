@@ -5,8 +5,10 @@ Para los lotes de RTT se usaron tres procesos independientes en localhost, uno p
 
 La sesión se ejecutó con Windows 11, Python 3.13.15 y un AMD Ryzen 7 7730U de 8 núcleos y 16 procesadores lógicos, con aproximadamente 15,3\,GiB de RAM. gRPC usó \texttt{grpcio} 1.76.0 y Protobuf 6.33.0. Los archivos \texttt{environment.json} registran los PID y puertos de los tres nodos de cada mecanismo. Los CSV de esta comparativa están en \path{data/comparativa_procesos_20261121_150936}.
 
-\subsection{Salidas reproducibles de la sesión}
-Las 40 corridas medidas aportaron 4\,000 RTT válidos, con 500 por combinación de mecanismo, tamaño y modo. Los intervalos de confianza del RTT usan la media de cada corrida como unidad estadística, con \(n=5\) por combinación. Las tablas~\ref{tab:latencia} y~\ref{tab:rendimiento} y los gráficos provienen de los CSV de la sesión.
+\subsection{Resultados de la comparativa}
+Las 40 corridas medidas aportaron 4\,000 RTT válidos, con 500 por combinación de mecanismo, tamaño y modo. Los intervalos de confianza del RTT usan la media de cada corrida como unidad estadística, con \(n=5\) por combinación. Las tablas~\ref{tab:latencia} y~\ref{tab:rendimiento} y las figuras~\ref{fig:rtt-cajas}, \ref{fig:rtt-barras} y~\ref{fig:rendimiento-barras} fueron generadas por \path{analysis/analyze.py} a partir de los CSV de la sesión con tres procesos.
+
+Las 40 corridas medidas terminaron con cero fallos. TCP obtuvo un RTT medio menor y más intercambios por segundo en las cuatro combinaciones evaluadas. En el modo concurrente con 100 bytes, el RTT medio fue de 0,416\,ms en TCP y 0,680\,ms en gRPC. Los promedios de rendimiento fueron de 6\,248 y 4\,044 intercambios por segundo, respectivamente.
 
 \begingroup
 \footnotesize
@@ -19,14 +21,17 @@ Las 40 corridas medidas aportaron 4\,000 RTT válidos, con 500 por combinación 
 \centering
 \includegraphics[width=\linewidth]{figures/boxplot.png}
 \caption{Distribución del RTT por mecanismo, modo y tamaño de carga útil.}
+\label{fig:rtt-cajas}
 \end{figure}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{../analysis/figures/latency_bars.png}
 \caption{RTT medio con intervalos de confianza del 95\,\%.}
+\label{fig:rtt-barras}
 \end{figure}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{../analysis/figures/throughput_bars.png}
 \caption{Rendimiento medio con intervalos de confianza del 95\,\%.}
+\label{fig:rendimiento-barras}
 \end{figure}

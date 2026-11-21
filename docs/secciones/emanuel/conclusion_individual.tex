@@ -1,2 +1,7 @@
 \subsection{Conclusión individual: Emanuel Pino}
-Pendiente: al menos 150 palabras escritas por el integrante.
+
+Mi principal aporte en esta práctica fue preparar el plan de intercambios, ejecutar las corridas de TCP y gRPC y verificar los eventos registrados en los archivos CSV. Al revisar cómo se habían ejecutado las primeras mediciones, encontré una diferencia entre la topología utilizada y la que pedía la consigna. Por eso repetí la comparativa con tres procesos independientes en localhost y conservé los datos anteriores. Registrar el PID y el puerto de cada nodo me permitió comprobar cómo se ejecutó la prueba y dejar esa información disponible para quien quiera reproducirla.
+
+La verificación de Lamport confirmó que, en los 9\,600 pares de envío y recepción de la nueva comparativa, la recepción siempre tuvo una marca mayor que el envío. También encontré dos solicitudes de nodos distintos que salieron con la misma marca, \(C=1957\). Ese ejemplo me ayudó a entender que la marca de Lamport respeta la precedencia causal, pero puede coincidir entre eventos concurrentes.
+
+Al revisar las tablas, observé que TCP tuvo menor latencia media en las cuatro condiciones medidas. Con 100 bytes y tres emisores concurrentes, el RTT medio fue de 0,416\,ms en TCP y de 0,680\,ms en gRPC. Los resultados corresponden a una sola máquina. Si repitiera la práctica, registraría la topología y las versiones desde la primera corrida y probaría también en máquinas separadas para observar cómo cambia la comparación cuando interviene una red real.
