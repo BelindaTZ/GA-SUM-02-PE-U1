@@ -216,6 +216,23 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
 - Próximos pasos: ejecutar el análisis con los lotes finales de TCP y gRPC y redactar
   resultados, discusión y conclusiones cuantificadas.
 
+## Sesión: 2026-11-21 (America/Guayaquil), cierre de apartados del informe
+
+- Presentes: Belinda Toaquiza
+- Objetivo: completar los apartados individuales y su relación con el PFC.
+- Trabajo realizado: redacción del análisis de transparencias ANSA y aplicación de
+  TCP, gRPC y CAP a SGRA, tras revisar sus repositorios. Conclusión individual y
+  aportes con commits; retiro de Estado de referencias.
+- Problemas encontrados: faltaba concretar el PFC y ajustar la extensión y presentación
+  de los apartados.
+- Solución aplicada: usar SGRA como caso, distinguir su funcionamiento actual de las
+  posibles extensiones y ajustar textos, tabla y referencias.
+- Corridas/archivos obtenidos: apartados LaTeX, bibliografía y PDF actualizados.
+  Sin nuevas corridas experimentales.
+- Commits o PR relacionados:
+  [ANSA, SGRA y cierre individual](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/720520fdcc023921532ccc73253bf3b39110d6a7).
+- Próximos pasos: revisar la integración final del informe y participar en el video.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
