@@ -1,2 +1,24 @@
 \subsection{Conclusión individual: Nixon Piguave}
-Pendiente: al menos 150 palabras escritas por el integrante.
+Mi aporte fue implementar la comunicación gRPC conservando el formato de mensajes,
+el reloj de Lamport y el registro compartido del equipo. Definir el contrato antes
+del servidor y del cliente permitió mantener los mismos campos que TCP. También
+fue necesario validar el contenido: tener un campo de tipo texto no impide que el
+identificador llegue vacío, y recibir una respuesta no basta si su identificador
+o su emisor no corresponden al intercambio.
+
+En mis validaciones del cliente ejecuté seis pruebas correctas y tres recorridos
+de veinte intercambios, con cargas de 100 y 10\,240 bytes y una ejecución
+concurrente. Los 60 intercambios terminaron sin fallos; sus 240 eventos permitieron
+comprobar 120 parejas de envío y recepción. Estas validaciones comprobaron la
+integración antes de que el equipo realizara las repeticiones comparativas.
+
+La comparativa final con tres procesos mostró que gRPC no obtuvo la menor latencia
+en este entorno. En modo secuencial y con 100 bytes, su RTT medio fue de
+0,566\,ms, frente a 0,305\,ms de TCP. Con 10\,240 bytes los valores fueron
+0,584 y 0,433\,ms, respectivamente, según la tabla~\ref{tab:latencia}. El formato
+binario y el código generado aportan un contrato compartido, pero no garantizan
+una ventaja de tiempo para cualquier carga. Para una futura separación de
+servicios del SGRA consideraría gRPC cuando hiciera falta acordar operaciones y
+tipos entre componentes. Esa decisión exigiría medir también en máquinas
+separadas: las pruebas locales no incluyen los retrasos ni las pérdidas de una
+red real entre equipos.

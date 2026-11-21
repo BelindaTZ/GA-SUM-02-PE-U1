@@ -1,2 +1,165 @@
 \subsection{Sockets TCP/UDP, RPC, gRPC, Protocol Buffers y RMI}
-Pendiente: modelos, diagramas de secuencia y comparación conceptual.
+\label{sec:nixon-comunicacion}
+
+\subsubsection{Sockets y mensajes de aplicación}
+Un socket permite que dos programas intercambien datos mediante una dirección y
+un puerto. En esta práctica los nodos se comunican por localhost, pero cada uno
+mantiene su propio reloj lógico. Un nodo puede atender solicitudes como servidor
+y enviar otras como cliente; esos papeles dependen del intercambio.
+
+TCP establece una conexión y entrega a la aplicación un flujo de bytes fiable y
+ordenado. Sin embargo, el flujo no conserva los límites de cada mensaje. Tampoco
+un reconocimiento del transporte demuestra que la aplicación receptora haya
+procesado una solicitud~\cite{belinda_eddy2022_tcp}. Por eso el equipo utiliza un
+acuse de aplicación con el identificador del mensaje y el reloj del receptor.
+
+En Python una llamada a \texttt{recv} puede devolver solamente parte de los bytes
+esperados. El programa debe acumularlos hasta completar su mensaje, o detectar
+que la conexión se cerró~\cite{nixon_python_sockets}. El archivo
+\path{src/sockets/protocol.py} resuelve este problema anteponiendo al JSON una
+cabecera de cuatro bytes que indica la longitud del cuerpo. Primero lee esa
+cabecera y después el cuerpo completo. La codificación UTF-8 permite conservar
+el contenido del texto y medir su tamaño en bytes.
+
+UDP trabaja con datagramas y no exige establecer previamente una conexión.
+La aplicación debe estar preparada para datagramas perdidos, repetidos o fuera
+de orden~\cite{nixon_microsoft_udp}. Si necesitara confirmar la recepción tendría
+que definir sus propios acuses y controles. UDP sirve aquí para comparar modelos;
+los mecanismos implementados y medidos son TCP con JSON y gRPC con Protobuf.
+
+\subsubsection{RPC y gRPC}
+Una llamada a procedimiento remoto, o RPC, presenta una operación de otro proceso
+mediante una interfaz de llamada. Un representante local, denominado \emph{stub},
+prepara los argumentos para enviarlos; el servidor ejecuta la operación y devuelve
+el resultado. La apariencia de una función local facilita el uso, aunque sigue
+existiendo comunicación entre espacios de memoria distintos~\cite{nixon_oracle_rmi}.
+
+gRPC concreta este modelo mediante un contrato de servicio y código generado para
+cliente y servidor. Permite llamadas unarias y distintas formas de transmisión
+de secuencias de mensajes. El servicio de la práctica usa una llamada unaria:
+\texttt{EnviarMensaje} recibe un \texttt{Mensaje} y devuelve un
+\texttt{Acuse}~\cite{nixon_grpc_conceptos}. El cliente reutiliza el canal al mismo
+destino; no necesita construir manualmente las tramas JSON de TCP.
+
+La comparación experimental corresponde a dos formas de programar la comunicación:
+un protocolo propio sobre TCP y un servicio gRPC sobre HTTP/2 y TCP. Por tanto,
+gRPC también utiliza TCP en esta implementación. Zhu y colaboradores analizan
+cómo las capas de serialización, RPC, HTTP y transporte añaden trabajo a una
+llamada remota~\cite{nixon_zhu2025_rpc}. Ese análisis ayuda a entender por qué un
+contrato más cómodo para el programador no garantiza un RTT menor.
+
+Las llamadas remotas necesitan un plazo de espera y tratamiento de errores.
+gRPC proporciona estados de terminación y plazos por llamada~\cite{nixon_grpc_conceptos}.
+En nuestro cliente, un plazo agotado se registra como \texttt{timeout}; un acuse
+con identificador incorrecto se considera un error. No se reintenta automáticamente
+una solicitud, porque perder la respuesta no demuestra que el receptor no la haya
+procesado. El identificador permite relacionar los registros, pero por sí solo
+no elimina duplicados si en el futuro se añadieran reintentos.
+
+\subsubsection{Protocol Buffers y contrato compartido}
+Protocol Buffers describe mensajes mediante campos con tipos y números estables.
+Su formato binario utiliza esos números para identificar los campos; los textos
+se codifican en UTF-8. El número asignado a un campo identifica su significado en
+el formato y no representa un valor de ejemplo~\cite{nixon_protobuf_encoding}.
+
+El contrato \path{proto/messaging.proto} declara \texttt{message\_id},
+\texttt{sender} y \texttt{message} como texto, y \texttt{timestamp} como
+\texttt{int64}. Conserva así los cuatro campos acordados con TCP. El código
+generado conoce esos tipos, pero el servidor todavía debe comprobar reglas del
+experimento, como que el identificador no esté vacío y que el emisor sea un nodo
+válido. El acuse devuelve el mismo identificador, el nombre del receptor y su
+reloj de envío para actualizar el reloj del cliente.
+
+Una carga útil de 100 bytes significa que el contenido de \texttt{message} ocupa
+100 bytes en UTF-8. El mensaje serializado también incluye los otros campos y la
+comunicación añade sus propias cabeceras. Por ello, igualar la carga útil entre
+los mecanismos no significa igualar todos los bytes transmitidos.
+
+Niswar y colaboradores compararon REST, GraphQL y gRPC en microservicios con
+consultas de datos planos y anidados. En sus pruebas gRPC obtuvo menores tiempos
+de respuesta~\cite{nixon_niswar2024_microservices}. Ese estudio no compara el
+protocolo TCP/JSON de esta práctica: cambian las operaciones y el entorno. Sus
+resultados sirven como antecedente, mientras que la elección para nuestro caso
+se apoya en los CSV obtenidos por el equipo.
+
+\subsubsection{RMI y comparación conceptual}
+Java RMI permite invocar métodos de objetos alojados en otras máquinas virtuales
+Java mediante un representante local. Su modelo conserva conceptos propios de
+los objetos, incluidas las referencias a objetos remotos~\cite{nixon_oracle_rmi}.
+Comparte con RPC la idea de ocultar parte del intercambio de mensajes, pero su
+abstracción se centra en objetos del entorno Java. En esta práctica se implementa
+un servicio gRPC en Python; RMI se estudia como otra forma de comunicación remota.
+
+La tabla~\ref{tab:nixon-modelos} resume las responsabilidades de cada modelo.
+Las filas de TCP y gRPC describen las decisiones de este repositorio; UDP y RMI
+corresponden a sus características conceptuales documentadas anteriormente.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}p{2.1cm}p{3.5cm}p{4cm}p{4.7cm}@{}}
+\toprule
+Modelo & Unidad para el programa & Representación & Trabajo de la aplicación \\
+\midrule
+Socket TCP & Flujo de bytes conectado & JSON UTF-8 con longitud & Delimitar y leer mensajes, validar campos y acuses, controlar errores. \\
+\addlinespace
+Socket UDP & Datagrama & Bytes elegidos por la aplicación & Prever pérdidas, duplicados y desorden según sus necesidades. \\
+\addlinespace
+gRPC & Operación de un servicio & Mensajes Protobuf en este proyecto & Definir contrato, implementar métodos y atender estados y plazos. \\
+\addlinespace
+Java RMI & Método de un objeto remoto & Objetos y referencias del entorno Java & Definir interfaces remotas, implementar objetos y atender fallos remotos. \\
+\bottomrule
+\end{tabular}
+\caption{Comparación conceptual de los modelos de comunicación.}
+\label{tab:nixon-modelos}
+\end{table}
+
+\subsubsection{Secuencia de un intercambio}
+Las figuras~\ref{fig:nixon-secuencia-tcp} y~\ref{fig:nixon-secuencia-grpc}
+representan el recorrido de una solicitud válida de A a B según el código.
+Los intercambios B a C y C a A siguen la misma secuencia. En ambos mecanismos
+se registran cuatro eventos: envío de la solicitud, recepción de la solicitud,
+envío del acuse y recepción del acuse. Las marcas $L_s$, $L_r$ y $L_a$ son los
+valores del reloj en esos eventos; los valores reales se verifican a partir de
+los CSV en el apartado de Lamport.
+
+\begingroup
+\shorthandoff{<>}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\small,>=Stealth]
+\node at (0,0) {Cliente de nodo-A};
+\node at (9,0) {Servidor de nodo-B};
+\draw[dashed] (0,-0.3) -- (0,-6.6);
+\draw[dashed] (9,-0.3) -- (9,-6.6);
+\node[anchor=west] at (0.15,-0.75) {Incrementar reloj: $L_s$};
+\draw[->] (0,-1.8) -- node[above] {Longitud + JSON: identificador, emisor, $L_s$, texto} (9,-1.8);
+\node[anchor=east] at (8.85,-2.6) {Leer trama y validar};
+\node[anchor=east] at (8.85,-3.35) {$L_r=\max(L_B,L_s)+1$};
+\node[anchor=east] at (8.85,-4.1) {Incrementar para enviar el acuse: $L_a$};
+\draw[->] (9,-5.2) -- node[above] {Longitud + JSON: mismo identificador, B, $L_a$, ACK} (0,-5.2);
+\node[anchor=west] at (0.15,-6) {Validar acuse y actualizar reloj};
+\end{tikzpicture}
+\caption{Secuencia TCP/JSON con encuadre definido por la aplicación.}
+\label{fig:nixon-secuencia-tcp}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[font=\small,>=Stealth]
+\node at (0,0) {Cliente de nodo-A};
+\node at (4.5,0) {Stub gRPC de A};
+\node at (10,0) {Servicio de nodo-B};
+\foreach \x in {0,4.5,10} {\draw[dashed] (\x,-0.3) -- (\x,-5.4);}
+\draw[->] (0,-0.9) -- node[above] {EnviarMensaje(Mensaje)} (4.5,-0.9);
+\draw[->] (4.5,-1.6) -- node[above] {Protobuf sobre HTTP/2 y TCP} (10,-1.6);
+\node[anchor=east] at (9.85,-2.2) {Validar y registrar recepción};
+\node[anchor=east] at (9.85,-2.75) {Actualizar reloj; formar acuse};
+\draw[->] (10,-3.45) -- node[above] {Acuse serializado} (4.5,-3.45);
+\draw[->] (4.5,-4.2) -- node[above] {Acuse} (0,-4.2);
+\node[anchor=west] at (0.15,-4.9) {Validar identificador, emisor y reloj; registrar recepción};
+\end{tikzpicture}
+\caption{Secuencia de la llamada unaria gRPC del proyecto.}
+\label{fig:nixon-secuencia-grpc}
+\end{figure}
+\endgroup
