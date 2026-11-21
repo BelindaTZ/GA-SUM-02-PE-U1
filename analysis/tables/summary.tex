@@ -8,14 +8,14 @@
 \toprule
 Modo & Mecanismo & Bytes & Corridas & n & Media (ms) & Mediana (ms) & Desv. (ms) & p95 (ms) & IC95 $\pm$ (ms) \\
 \midrule
-concurrent & grpc & 100 & 5 & 500 & 2.358 & 2.307 & 0.590 & 3.456 & 0.286 \\
-concurrent & grpc & 10240 & 5 & 500 & 2.560 & 2.512 & 0.613 & 3.623 & 0.184 \\
-concurrent & sockets & 100 & 5 & 500 & 1.637 & 1.615 & 0.466 & 2.404 & 0.078 \\
-concurrent & sockets & 10240 & 5 & 500 & 1.984 & 1.938 & 0.577 & 3.007 & 0.129 \\
-sequential & grpc & 100 & 5 & 500 & 1.013 & 0.989 & 0.170 & 1.264 & 0.057 \\
-sequential & grpc & 10240 & 5 & 500 & 0.913 & 0.893 & 0.084 & 1.095 & 0.040 \\
-sequential & sockets & 100 & 5 & 500 & 0.632 & 0.618 & 0.080 & 0.774 & 0.041 \\
-sequential & sockets & 10240 & 5 & 500 & 0.785 & 0.775 & 0.131 & 0.975 & 0.068 \\
+concurrent & grpc & 100 & 5 & 500 & 0.680 & 0.668 & 0.062 & 0.805 & 0.015 \\
+concurrent & grpc & 10240 & 5 & 500 & 0.689 & 0.682 & 0.056 & 0.795 & 0.018 \\
+concurrent & sockets & 100 & 5 & 500 & 0.416 & 0.399 & 0.080 & 0.541 & 0.013 \\
+concurrent & sockets & 10240 & 5 & 500 & 0.483 & 0.473 & 0.085 & 0.610 & 0.045 \\
+sequential & grpc & 100 & 5 & 500 & 0.566 & 0.540 & 0.098 & 0.729 & 0.026 \\
+sequential & grpc & 10240 & 5 & 500 & 0.584 & 0.547 & 0.221 & 0.724 & 0.044 \\
+sequential & sockets & 100 & 5 & 500 & 0.305 & 0.300 & 0.037 & 0.376 & 0.028 \\
+sequential & sockets & 10240 & 5 & 500 & 0.433 & 0.393 & 0.110 & 0.684 & 0.096 \\
 \bottomrule
 \end{tabular}%
 }

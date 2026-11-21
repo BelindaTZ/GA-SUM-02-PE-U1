@@ -55,20 +55,9 @@ puertos 5000, 5001 y 5002. Cada ejecución guarda sus CSV en una carpeta nueva
 cierre está en `src/sockets/README.md`. Estas comprobaciones no sustituyen las
 corridas del protocolo experimental final.
 
-## Ejecución experimental (pendiente de integrar)
+## Ejecución experimental
 
-Antes de entregar, completar los comandos comprobados para la comparación con
-gRPC desde un clon limpio, usando cmd.exe en Windows:
-
-- Crear y activar `.venv`; instalar `requirements.txt`.
-- Generar los módulos Python desde `proto/messaging.proto`.
-- Iniciar nodo-A, nodo-B y nodo-C en localhost:5000, :5001 y :5002.
-- Ejecutar TCP y gRPC por separado para reutilizar los mismos puertos.
-- Ejecutar intercambios Lamport, calentamiento, corridas secuenciales y concurrentes.
-- Analizar CSV, verificar causalidad y generar tablas y gráficos.
-- Generar y verificar `data/SHA256SUMS` sobre los CSV conservados.
-
-Cada comando final debe indicar su directorio de ejecución, argumentos y salidas.
+El ejecutor arranca tres procesos independientes en localhost para cada mecanismo. Los comandos de instalación, corridas, verificación de Lamport y análisis están en [Ejecución experimental](experiments/README.md). Los datos de los lotes que sustentan el informe están en [la comparativa con tres procesos](data/comparativa_procesos_20261121_150936).
 
 ## Compilación del informe
 
