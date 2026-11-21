@@ -1,2 +1,57 @@
 \subsection{Aplicación de TCP y gRPC al PFC desde CAP}
-Pendiente: integrar la decisión del equipo sobre su proyecto real. Todos aportan argumentos.
+\label{sec:pfc-sgra}
+
+El proyecto considerado es el Sistema de Gestión de Refuerzos Académicos
+(SGRA), organizado en un frontend Angular y un backend Spring Boot con Java 21
+y acceso a PostgreSQL. Los servicios del frontend realizan peticiones HTTP para
+crear solicitudes, consultar sesiones y registrar asistencia o resultados. La
+API del backend contempla aceptar, reprogramar y cancelar refuerzos, además de
+gestionar sus recursos \cite{belinda_sgra_front,belinda_sgra_back}.
+Esta separación permite ubicar las comunicaciones del sistema; mantener dos
+repositorios no demuestra por sí solo que exista una arquitectura de
+microservicios o una base de datos replicada.
+
+\paragraph{Aplicación de sockets TCP.}
+Una extensión posible sería conectar un agente de los espacios de refuerzo con
+el backend para comunicar cambios de disponibilidad. El agente enviaría mensajes
+con identificador de operación, espacio, franja horaria y estado, y recibiría un
+acuse que permitiera relacionar la respuesta con el envío. La delimitación y
+lectura completa utilizadas en la práctica servirían como base para ese protocolo
+de aplicación. El acuse tendría que distinguir la recepción del mensaje de la
+confirmación de una reserva, que exige validar y guardar la operación.
+Este canal sería adicional a la API HTTP que utiliza el navegador.
+
+\paragraph{Aplicación de gRPC.}
+Si la programación de sesiones y la gestión de espacios se separaran en
+servicios, podrían comunicarse mediante un contrato Protocol Buffers con
+operaciones como consultar disponibilidad y reservar un espacio. Los mensajes
+incluirían la sesión, el espacio, el horario y un identificador que permitiera
+detectar solicitudes repetidas. gRPC facilitaría definir esos métodos y generar
+clientes y servidores para su comunicación interna
+\cite{belinda_grpc_introduccion}. Se mantendría la API HTTP para el frontend.
+Esta alternativa plantea una evolución del sistema; no describe un servicio
+gRPC ya incorporado a SGRA.
+
+\paragraph{Decisiones ante una partición de red.}
+CAP resulta pertinente si el estado de las reservas se distribuye y replica.
+Ante una partición, dos réplicas incomunicadas podrían intentar confirmar el
+mismo espacio y horario. Para preservar una única decisión válida se priorizaría
+la consistencia de la reserva: solo se confirmaría donde pudiera coordinarse
+la escritura con la autoridad o el cuórum definido. El componente aislado
+devolvería indisponibilidad o dejaría la solicitud pendiente, sin presentarla
+como una reserva confirmada. Se sacrificaría así disponibilidad de esa operación
+durante la partición \cite{belinda_lee2023_cap}.
+
+Para consultas informativas, como el historial, podría permitirse una copia
+temporalmente desactualizada, indicando su fecha de actualización. Esa tolerancia
+no se extendería a confirmar reservas con datos antiguos. Son decisiones por
+operación y bajo una arquitectura replicada; la revisión de los repositorios
+no basta para clasificar el despliegue actual de SGRA como CP o AP.
+
+La práctica aporta mecanismos para intercambiar mensajes y conservar trazas que
+ayuden a diagnosticar solicitudes y acuses. El reloj Lamport permite relacionar
+su orden causal, pero no evita por sí solo una doble reserva. Tampoco elegir TCP
+o gRPC resuelve CAP: las garantías dependen de cómo el servicio coordine y
+almacene su estado. Los RTT obtenidos en localhost deberán interpretarse dentro
+de sus condiciones de prueba y no como una predicción directa del rendimiento
+de SGRA en producción.

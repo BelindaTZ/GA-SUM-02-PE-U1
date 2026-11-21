@@ -1,2 +1,17 @@
 \subsection{Conclusión individual: Belinda Toaquiza}
-Pendiente: al menos 150 palabras escritas por el integrante.
+
+El desarrollo de la base compartida y la comunicación TCP me permitió relacionar
+los conceptos de sistemas distribuidos con una implementación de tres nodos.
+La configuración común y los identificadores de mensajes facilitan la integración
+del trabajo y el seguimiento de cada solicitud y su acuse. También comprendí la
+importancia de delimitar los mensajes JSON, proteger el reloj ante accesos
+concurrentes y conservar registros que permitan revisar lo ocurrido.
+
+Las pruebas y validaciones locales completaron los intercambios sin fallos y
+permitieron comprobar que el reloj de cada recepción fuera mayor que el de su
+envío correspondiente. Estos resultados respaldan el funcionamiento de TCP;
+la comparación de rendimiento con gRPC requiere completar el protocolo
+experimental del equipo. Ejecutar los nodos en una sola máquina también limita
+las conclusiones sobre una red entre equipos distintos. Como aprendizaje,
+destaco que documentar las condiciones, registrar los errores y conservar los
+datos originales permite revisar y reproducir el trabajo.

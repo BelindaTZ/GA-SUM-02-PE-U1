@@ -1,2 +1,84 @@
 \subsection{Transparencias ANSA del sistema}
-Pendiente: cuáles se cumplen y cómo implementar las faltantes.
+\label{sec:ansa-sistema}
+
+Se evalúan las ocho transparencias descritas en el fundamento según el
+comportamiento del código implementado. La transparencia busca ocultar detalles
+de la distribución mediante interfaces y mecanismos de coordinación, aunque su
+alcance depende de las garantías de cada sistema
+\cite[pp.~11--15]{belinda_vansteen2023_distributed}.
+En esta práctica, los módulos de cliente, la configuración común y la protección
+del reloj ofrecen una transparencia parcial de acceso, ubicación y concurrencia.
+Las demás propiedades requieren mecanismos adicionales, como se resume en la
+Tabla~\ref{tab:ansa-implementacion}.
+
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.15}
+\renewcommand{\tablename}{Tabla}
+\setlength{\LTcapwidth}{\linewidth}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{5.4cm}>{\raggedright\arraybackslash}p{7.1cm}@{}}
+\caption{Evaluación de las transparencias del sistema y mecanismos para ampliarlas. Elaboración del equipo.}
+\label{tab:ansa-implementacion}\\
+\toprule
+Transparencia & Alcance actual & Qué se necesitaría añadir \\
+\midrule
+\endfirsthead
+\toprule
+Transparencia & Alcance actual & Qué se necesitaría añadir \\
+\midrule
+\endhead
+Acceso & Parcial. Los clientes TCP y gRPC ofrecen operaciones de preparación
+y de intercambio que encapsulan la serialización y el acuse. La aplicación aún
+debe elegir y construir el cliente de cada transporte.
+& Una interfaz común con adaptadores que permita utilizar el servicio sin
+modificar las llamadas de la aplicación al cambiar de transporte. \\
+Ubicación & Parcial. Se utiliza el nombre lógico del destinatario y una
+configuración central de direcciones. La correspondencia con host y puerto es
+estática y las conexiones conservan su destino.
+& Un mecanismo de resolución o descubrimiento que actualice las direcciones
+sin cambiar la identidad del servicio ni exigir ajustes manuales en el cliente. \\
+Migración & No implementada. Los nodos se crean en direcciones conocidas y no
+se transfiere su estado a otra ubicación.
+& Trasladar el estado del nodo, incluido su reloj y las solicitudes procesadas,
+y actualizar la resolución de su nombre antes de reanudar la atención. \\
+Reubicación & No implementada. Una conexión o canal activo no acompaña al nodo
+si este cambia de ubicación.
+& Coordinar el traslado mientras hay operaciones en curso, conservar su
+seguimiento y restablecer la comunicación sin perder ni duplicar sus efectos. \\
+Replicación & No implementada. Los tres nodos tienen relojes independientes;
+no mantienen copias coordinadas de un mismo estado de aplicación.
+& Definir un servicio lógico con réplicas, una política de consistencia de su
+estado y un mecanismo de selección de réplica oculto al cliente. \\
+Concurrencia & Parcial, para el estado local. Los bloqueos protegen el reloj
+y el orden de sus registros; cada conexión cliente limita sus intercambios
+pendientes. No hay control de un recurso compartido entre nodos.
+& Definir las operaciones sobre ese recurso y añadir coordinación distribuida
+según sus requisitos, por ejemplo exclusión mutua o transacciones. \\
+Fallos & No implementada como ocultación del fallo. Los clientes devuelven
+\texttt{timeout} o \texttt{error} y descartan la conexión afectada; el fallo es
+visible para quien invoca el intercambio.
+& Recuperación o conmutación a una réplica y reintentos controlados, con
+identificación de operaciones e idempotencia para evitar efectos duplicados. \\
+Persistencia & No implementada para el servicio. Los CSV conservan eventos,
+pero el reloj y las conexiones se crean de nuevo al reiniciar el nodo.
+& Guardar y recuperar el estado necesario para continuar el servicio, incluidos
+el reloj y las operaciones atendidas, manteniendo una interfaz estable tras
+su desactivación y reactivación. \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+La evaluación se apoya en \path{src/common/config.py},
+\path{src/common/lamport.py} y los clientes y servidores de ambos transportes.
+La atención mediante hilos y la escritura centralizada de CSV protegen recursos
+locales, pero no equivalen a una transacción distribuida. Asimismo, el reloj de
+Lamport permite comprobar relaciones de orden entre eventos; no replica el
+estado de aplicación ni recupera nodos que han fallado.
+
+En persistencia se distingue entre conservar evidencia y mantener el servicio
+a través de su ciclo de vida, conforme a la propiedad descrita en la literatura
+\cite[tabla~4]{belinda_soiland2024_transparency}. Los archivos permiten revisar
+una ejecución anterior, pero el código actual no los utiliza para restaurar
+automáticamente un nodo. Por tanto, disponer de registros y de tres nodos
+operativos no demuestra por sí solo persistencia, replicación o tolerancia
+transparente a fallos.
