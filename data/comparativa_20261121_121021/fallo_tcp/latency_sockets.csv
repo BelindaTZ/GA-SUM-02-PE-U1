@@ -1,0 +1,4 @@
+run_id,message_id,mechanism,payload_bytes,mode,warmup,client_id,rtt_ms,status
+b43752322c0a471b96e5b1666659a064,b43752322c0a471b96e5b1666659a064:nodo-A:1,sockets,100,sequential,0,nodo-A,1.2349000026006252,ok
+b43752322c0a471b96e5b1666659a064,b43752322c0a471b96e5b1666659a064:nodo-B:2,sockets,100,sequential,0,nodo-B,,timeout
+b43752322c0a471b96e5b1666659a064,b43752322c0a471b96e5b1666659a064:nodo-A:3,sockets,100,sequential,0,nodo-A,1.133999990997836,ok

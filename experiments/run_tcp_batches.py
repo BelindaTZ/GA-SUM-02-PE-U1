@@ -1,7 +1,8 @@
-"""Mide lotes TCP con tres nodos locales y conexiones persistentes."""
+"""Mide lotes TCP o gRPC con tres nodos locales y conexiones persistentes."""
 
 import argparse
 import json
+from importlib.metadata import version
 import platform
 import sys
 import time
@@ -29,7 +30,7 @@ class BatchLogger(EventLogger):
         super()._put(kind, **fields)
 
 
-def run_batch(clients, queue, plan, size, mode, warmup):
+def run_batch(clients, queue, plan, size, mode, warmup, mechanism):
     run_id = new_run_id()
     payload = make_payload(size)
     exchanges = [
@@ -63,7 +64,7 @@ def run_batch(clients, queue, plan, size, mode, warmup):
         elapsed = time.perf_counter() - start
 
     failed = len(exchanges) - completed
-    logger = EventLogger(queue, run_id, "sockets", next(iter(clients)))
+    logger = EventLogger(queue, run_id, mechanism, next(iter(clients)))
     logger.run(size, mode, warmup, len(clients), len(exchanges), completed, failed, elapsed)
     print(f"{run_id} {size} B {mode} warmup={int(warmup)}: {completed}/{len(exchanges)}")
     return failed
@@ -71,6 +72,7 @@ def run_batch(clients, queue, plan, size, mode, warmup):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--mechanism", choices=("sockets", "grpc"), default="sockets")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--plan", type=Path, default=Path(__file__).with_name("plan_intercambios.csv"))
     parser.add_argument("--repetitions", type=int, default=5)
@@ -82,15 +84,24 @@ def main():
     if len(plan) != 20 or {sender for _, sender, _ in plan} != set(NODES):
         parser.error("El plan debe tener 20 intercambios y los tres emisores.")
 
+    server_type, client_type = TCPServer, TCPClient
+    server_options = {"timeout": max(30, args.timeout * 2)}
+    if args.mechanism == "grpc":
+        from src.grpc.client_grpc import GRPCClient
+        from src.grpc.server_grpc import GRPCServer
+
+        server_type, client_type = GRPCServer, GRPCClient
+        server_options = {}
+
     queue = Queue()
     failure_count = 0
     with CSVLogWriter(queue, args.output), ExitStack() as stack:
         clients = {}
         for node in NODES:
             clock = LamportClock()
-            logger = BatchLogger(queue, "initial", "sockets", node)
-            stack.enter_context(TCPServer(node, clock, logger, timeout=max(30, args.timeout * 2)))
-            clients[node] = stack.enter_context(TCPClient(node, clock, logger, timeout=args.timeout))
+            logger = BatchLogger(queue, "initial", args.mechanism, node)
+            stack.enter_context(server_type(node, clock, logger, **server_options))
+            clients[node] = stack.enter_context(client_type(node, clock, logger, timeout=args.timeout))
         for node, client in clients.items():
             for peer in NODES:
                 if peer != node:
@@ -98,12 +109,19 @@ def main():
         for size in (100, 10240):
             for mode in ("sequential", "concurrent"):
                 for repetition in range(args.repetitions + 1):
-                    failure_count += run_batch(clients, queue, plan, size, mode, repetition == 0)
+                    failure_count += run_batch(
+                        clients, queue, plan, size, mode, repetition == 0, args.mechanism,
+                    )
 
     metadata = {
         "python": sys.version,
         "platform": platform.platform(),
-        "deployment": "tres nodos TCP, hilos en un proceso local",
+        "mechanism": args.mechanism,
+        "deployment": "tres nodos, hilos en un proceso local",
+        "dependencies": (
+            {name: version(name) for name in ("grpcio", "grpcio-tools", "protobuf")}
+            if args.mechanism == "grpc" else {}
+        ),
         "timeout_s": args.timeout,
         "repetitions": args.repetitions,
         "plan": str(args.plan),

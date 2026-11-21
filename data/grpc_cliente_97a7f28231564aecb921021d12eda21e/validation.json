@@ -1,0 +1,17 @@
+{
+  "purpose": "Validación funcional del cliente gRPC",
+  "experiment_final": false,
+  "run_id": "97a7f28231564aecb921021d12eda21e",
+  "python": "3.13.15 (tags/v3.13.15:4061bc4, Aug  5 2026, 13:05:39) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "deployment": "tres procesos localhost",
+  "plan": "experiments\\plan_intercambios.csv",
+  "payload_bytes": 100,
+  "mode": "sequential",
+  "messages": 20,
+  "completed": 20,
+  "failed": 0,
+  "timeout_s": 5.0,
+  "connections": "canales persistentes preparados fuera de RTT",
+  "batch_elapsed": "incluye coordinación por Pipe; no usar como rendimiento final"
+}

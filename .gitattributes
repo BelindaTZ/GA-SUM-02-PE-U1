@@ -1,0 +1,3 @@
+data/**/*.csv -text
+data/SHA256SUMS text eol=lf
+/docs/guia1_practica.pdf binary

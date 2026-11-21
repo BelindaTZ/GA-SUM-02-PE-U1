@@ -22,3 +22,6 @@ Thumbs.db
 # Renders temporales de revisión del PDF
 tmp/pdfs/
 docs/**/compilacion_*.txt
+
+# Módulos regenerados a partir del contrato Protobuf
+/src/grpc/generated/messaging_pb2*.py
