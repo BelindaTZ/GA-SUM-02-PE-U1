@@ -233,6 +233,24 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
   [ANSA, SGRA y cierre individual](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/720520fdcc023921532ccc73253bf3b39110d6a7).
 - Próximos pasos: revisar la integración final del informe y participar en el video.
 
+## Sesión: 2026-11-21 (America/Guayaquil), fundamento y conclusión de comunicación
+
+- Presentes: Nixon Piguave.
+- Objetivo: completar el fundamento 2.2, sus referencias y la conclusión individual de la implementación gRPC.
+- Trabajo realizado: redacción sobre TCP/UDP, RPC, gRPC, Protocol Buffers y RMI;
+  elaboración de una comparación conceptual y dos diagramas de secuencia en TikZ (se utilizo codex para estos dos diagramas en TikZ, y para la estructura en el documento de latex).
+  Incorporación de dos trabajos académicos con DOI contrastados con las publicaciones
+  y Crossref, y de documentación oficial. Conclusión apoyada en las validaciones
+  propias y en las tablas de la comparativa con tres procesos. Sustitución del
+  enlace pendiente del cliente en el apartado de aportes. Se utilizó Codex como
+  apoyo para la mejora de redacción de mis borradores, la verificación de referencias fue realizado personalmente.
+- Problemas encontrados: los símbolos de flechas de TikZ entraban en conflicto con la configuración de español; algunas etiquetas quedaban demasiado juntas. Biber no aceptó la ruta absoluta con el carácter del nombre de la carpeta.
+- Solución aplicada: desactivar localmente los caracteres activos en las figuras, aumentar las separaciones y ejecutar Biber con rutas relativas, conservando la configuración compartida del informe.
+- Corridas/archivos obtenidos: fundamento.tex, referencias.bib, conclusion_individual.tex y aportes.tex de Nixon; PDF regenerado mediante pdflatex, biber y dos pasadas finales de pdflatex, con revisión de las páginas nuevas. 
+- Commits o PR relacionados:
+  [fundamento de comunicación, referencias y conclusión individual](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/338b4d613c2348d98c57fedbaa07d4e3f7cac92f).
+- Próximos pasos: participar en la grabación y montaje del video del equipo.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
