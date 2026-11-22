@@ -1,2 +1,7 @@
 \subsection{Conclusión individual: Humberto Herrera}
-Pendiente: al menos 150 palabras escritas por el integrante.
+
+A nivel personal, esta práctica me permitió comprender mejor cómo evaluar el rendimiento de diferentes mecanismos de comunicación y por qué es importante analizar los datos antes de sacar conclusiones. Aprendí que convertir los archivos CSV en estadísticas, excluir las pruebas de calentamiento y calcular los intervalos de confianza ayuda a obtener resultados más confiables.
+
+Durante las pruebas observé que TCP fue más rápido en las cuatro combinaciones evaluadas, aunque su ventaja disminuyó al trabajar con mensajes de mayor tamaño (en modo secuencial, gRPC pasó de tardar un 85,7\,\% más que TCP a un 34,8\,\% más). También comprendí que tener un mayor rendimiento en concurrencia no significa necesariamente que cada mensaje tenga una menor latencia, ya que son métricas que miden aspectos diferentes.
+
+Por otro lado, considero importante reconocer que las pruebas se realizaron en localhost y en un solo equipo, por lo que los resultados podrían cambiar en una red real. Para el PFC elegiría TCP mediante sockets, principalmente por el rendimiento demostrado en los experimentos, aunque también tendría en cuenta gRPC si el proyecto necesitara una comunicación más estructurada entre servicios.
