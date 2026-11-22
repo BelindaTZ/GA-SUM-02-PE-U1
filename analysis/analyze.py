@@ -119,6 +119,28 @@ def write_latex(df, path, columns, headers, caption, label):
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def write_latency_diff(lat_sum, path):
+    """Tabla LaTeX con la diferencia de RTT medio de gRPC respecto de TCP (sockets)."""
+    p = lat_sum.pivot_table(index=["mode", "payload_bytes"], columns="mechanism", values="mean_ms")
+    if not {"sockets", "grpc"} <= set(p.columns):
+        return
+    lines = [
+        "% Generado por analysis/analyze.py. No editar a mano.",
+        "\\begin{table}[htbp]", "\\centering",
+        "\\caption{Diferencia del RTT medio entre gRPC y TCP}",
+        "\\label{tab:dif-latencia}", "\\begin{tabular}{llrrrr}", "\\toprule",
+        "Modo & Bytes & TCP (ms) & gRPC (ms) & Diferencia (ms) & gRPC sobre TCP \\\\",
+        "\\midrule",
+    ]
+    for (mode, size), r in p.sort_index(ascending=[False, True]).iterrows():
+        diff = r["grpc"] - r["sockets"]
+        pct = 100 * (r["grpc"] / r["sockets"] - 1)
+        lines.append(f"{mode} & {int(size)} & {fmt(r['sockets'])} & {fmt(r['grpc'])} & "
+                     f"{fmt(diff)} & {pct:+.1f}\\,\\% \\\\")
+    lines += ["\\bottomrule", "\\end{tabular}", "\\end{table}", ""]
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
 def boxplot(ok, path):
     modes = sorted(ok["mode"].unique())
     fig, axes = plt.subplots(1, len(modes), figsize=(6 * len(modes), 4.5), squeeze=False)
@@ -199,6 +221,7 @@ def main():
                 ["Modo", "Mecanismo", "Bytes", "Corridas", "Intentos", "Fallos",
                  "Media (msg/s)", "Desv. (msg/s)", "IC95 $\\pm$ (msg/s)"],
                 "Rendimiento (completed/elapsed\\_s) por corrida válida", "tab:rendimiento")
+    write_latency_diff(lat_sum, TABLES / "latency_diff.tex")
 
     boxplot(ok, FIGURES / "boxplot.png")
     shutil.copy2(FIGURES / "boxplot.png", DOCS_FIGURES / "boxplot.png")

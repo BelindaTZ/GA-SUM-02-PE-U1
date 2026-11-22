@@ -16,21 +16,7 @@ los intervalos de confianza de ambos mecanismos; el caso más cercano es el secu
 con 10\,240 bytes, donde el límite superior de TCP (0,529\,ms) queda por debajo del
 límite inferior de gRPC (0,540\,ms).
 
-\begin{table}[htbp]
-\centering
-\caption{Diferencia del RTT medio entre gRPC y TCP}
-\label{tab:dif-latencia}
-\begin{tabular}{llrrrr}
-\toprule
-Modo & Bytes & TCP (ms) & gRPC (ms) & Diferencia (ms) & gRPC sobre TCP \\
-\midrule
-sequential & 100    & 0,305 & 0,566 & 0,261 & +85,7\,\% \\
-sequential & 10\,240 & 0,433 & 0,584 & 0,151 & +34,8\,\% \\
-concurrent & 100    & 0,416 & 0,680 & 0,264 & +63,6\,\% \\
-concurrent & 10\,240 & 0,483 & 0,689 & 0,206 & +42,7\,\% \\
-\bottomrule
-\end{tabular}
-\end{table}
+\input{../analysis/tables/latency_diff.tex}
 
 La diferencia se redujo al aumentar la carga útil: en modo secuencial pasó de 0,261
 a 0,151\,ms, y en modo concurrente, de 0,264 a 0,206\,ms. El aumento de la carga
@@ -51,8 +37,9 @@ TCP fue el caso más estable, con desviación de 0,037\,ms y p95 de 0,376\,ms.
 \subsection{Rendimiento y fallos}
 
 TCP completó más intercambios por segundo en las cuatro combinaciones
-(tabla~\ref{tab:rendimiento}). La ventaja fue de 38,3\,\% y 13,5\,\% en modo
-secuencial con 100 y 10\,240 bytes, y de 35,3\,\% y 22,2\,\% en modo concurrente.
+(tabla~\ref{tab:rendimiento}). Tomando gRPC como referencia, TCP completó 62,1\,\% y 15,6\,\% más
+intercambios por segundo en modo secuencial con 100 y 10\,240 bytes, y 54,5\,\% y
+28,6\,\% más en modo concurrente.
 El modo concurrente aumentó el rendimiento de ambos mecanismos: con 100 bytes,
 TCP pasó de 2\,312 a 6\,248 intercambios por segundo y gRPC, de 1\,426 a 4\,044.
 Las 40 corridas medidas sumaron 4\,000 intentos sin \texttt{timeout} ni

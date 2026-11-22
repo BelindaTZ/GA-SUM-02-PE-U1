@@ -1,0 +1,16 @@
+% Generado por analysis/analyze.py. No editar a mano.
+\begin{table}[htbp]
+\centering
+\caption{Diferencia del RTT medio entre gRPC y TCP}
+\label{tab:dif-latencia}
+\begin{tabular}{llrrrr}
+\toprule
+Modo & Bytes & TCP (ms) & gRPC (ms) & Diferencia (ms) & gRPC sobre TCP \\
+\midrule
+sequential & 100 & 0.305 & 0.566 & 0.261 & +85.7\,\% \\
+sequential & 10240 & 0.433 & 0.584 & 0.151 & +34.8\,\% \\
+concurrent & 100 & 0.416 & 0.680 & 0.264 & +63.6\,\% \\
+concurrent & 10240 & 0.483 & 0.689 & 0.206 & +42.7\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
