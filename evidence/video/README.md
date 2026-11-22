@@ -1,6 +1,3 @@
-# Video de respaldo pendiente
+# Video de respaldo
 
-Duración: 3 a 5 minutos. Todos participan con rostro y voz.
-Guion sugerido: arquitectura y nodos; intercambio TCP; intercambio gRPC;
-mediciones y análisis; comprobación Lamport y conclusión respaldada por datos.
-Publicar enlace accesible en README.md y comprobar permisos antes de entregar.
+[Ver el video grupal de la práctica experimental GA-SUM-02 / PE-U1](https://drive.google.com/file/d/1fnbA7aR3_vXjFtn6MuS56ZwWqmkgVyEo/view?usp=drivesdk)
