@@ -4,7 +4,9 @@ Estado: estructura inicial; implementación, mediciones e informe pendientes.
 
 Equipo de cuatro integrantes con nombres y bloques confirmados en `EQUIPO.md`.
 Código de la actividad: GA-SUM-02 / PE-U1 (renumeración confirmada por el equipo).
-Repositorio público: https://github.com/BelindaTZ/GA-SUM-02-PE-U1. [Video de respaldo de la práctica](https://drive.google.com/file/d/1fnbA7aR3_vXjFtn6MuS56ZwWqmkgVyEo/view?usp=drivesdk).
+Repositorio público: https://github.com/BelindaTZ/GA-SUM-02-PE-U1.
+
+Video de respaldo: `https://drive.google.com/file/d/1fnbA7aR3_vXjFtn6MuS56ZwWqmkgVyEo/view?usp=drivesdk`
 Fecha límite: sábado 21 de noviembre de 2026, 23:59 (America/Guayaquil).
 
 ## Empezar aquí
