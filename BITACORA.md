@@ -251,6 +251,23 @@ problemas, soluciones y enlaces a sus commits. Horarios en America/Guayaquil.
   [fundamento de comunicación, referencias y conclusión individual](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/338b4d613c2348d98c57fedbaa07d4e3f7cac92f).
 - Próximos pasos: participar en la grabación y montaje del video del equipo.
 
+## Sesión: 2026-11-21 (America/Guayaquil), revisión y cierre del informe
+
+- Presentes: Belinda Toaquiza.
+- Objetivo: integrar los resultados finales y preparar la entrega del repositorio.
+- Trabajo realizado: actualización del informe, portada, resumen y abstract;
+  integración del enlace del video y retiro de guías internas del repositorio,
+  conservándolas localmente. Revisión de evidencias y documentación de los CSV.
+- Problemas encontrados: referencias a guías internas y una frase que indicaba
+  que las corridas completas seguían pendientes.
+- Solución aplicada: trasladar el esquema a `data/README.md`, actualizar las
+  referencias y retirar la frase desactualizada de la sección gRPC.
+- Corridas/archivos obtenidos: informe y documentación actualizados; once pruebas
+  de la base correctas. Sin nuevas corridas experimentales.
+- Commits o PR relacionados:
+  [informe y documentación de entrega](https://github.com/BelindaTZ/GA-SUM-02-PE-U1/commit/315d364).
+- Próximos pasos: conservar la versión publicada y atender observaciones del docente.
+
 ## Plantilla para próximas sesiones — todos los integrantes
 
 Copiar este bloque para registrar cada sesión de trabajo real.
