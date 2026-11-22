@@ -1,7 +1,7 @@
 """Análisis de latencia y rendimiento TCP (sockets) vs gRPC.
 
 Bloque 4 de GA-SUM-02 / PE-U1. Lee solo los CSV reales de data/ con el
-formato de ACUERDOS_TECNICOS.md y genera estadísticas, gráficos y tablas LaTeX.
+formato de data/README.md y genera estadísticas, gráficos y tablas LaTeX.
 
 Uso, desde la raíz del repositorio:
     python analysis/analyze.py --input data/tcp_lotes data/grpc_lotes
@@ -48,7 +48,7 @@ def load_csv(path, columns):
     df = pd.read_csv(path)
     missing = [c for c in columns if c not in df.columns]
     if missing:
-        sys.exit(f"{path.name}: faltan columnas {missing} (ver ACUERDOS_TECNICOS.md).")
+        sys.exit(f"{path.name}: faltan columnas {missing} (ver data/README.md).")
     if df.empty:
         sys.exit(f"{path.name} no tiene filas.")
     return df[columns]

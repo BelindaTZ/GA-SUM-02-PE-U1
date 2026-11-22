@@ -3,7 +3,7 @@
 
 La base compartida se implementó en Python con módulos de configuración, reloj
 lógico y registro en \path{src/common/}. Estos componentes reúnen las reglas que
-utilizarán TCP y gRPC, de modo que ambos mecanismos identifiquen los nodos,
+utilizan TCP y gRPC, de modo que ambos mecanismos identifiquen los nodos,
 actualicen sus relojes y produzcan los registros con los mismos criterios.
 Su funcionamiento se comprobó mediante pruebas automatizadas antes de integrar
 los clientes y servidores de red.
@@ -92,9 +92,9 @@ perder actualizaciones y se comprobó que 500 eventos de un nodo conservaran su
 orden de reloj. También se iniciaron tres procesos mediante \texttt{spawn}, cada
 uno con su propio contador, y se recuperaron sus 90 registros a través del
 escritor común. Los archivos de estas pruebas se generaron en directorios
-temporales. Estas comprobaciones validan la base de software; las mediciones
-de red y la verificación experimental se realizarán con los clientes y servidores
-integrados.
+temporales. Estas comprobaciones validan la base de software. Las mediciones
+con los clientes y servidores integrados y su verificación se presentan en
+los apartados de protocolo experimental, resultados y verificación de Lamport.
 
 La Figura~\ref{fig:pruebas-base-compartida} presenta una captura de la transcripción
 original de PowerShell abierta en el editor. Antes de ejecutar las pruebas se
@@ -190,6 +190,7 @@ duración del lote y condiciones de la validación. El registro de identificaci�
 y ejecución está en
 \path{evidence/screenshots/preliminares/20261119_223532_belinda_validacion_tcp.txt}.
 Estas ejecuciones comprueban el funcionamiento de TCP. La comparación final
-requiere el calentamiento, las repeticiones y los modos del protocolo experimental
-común. El tiempo de lote del programa de validación incluye coordinación local
-por canales \texttt{Pipe}, por lo que no se utilizará como rendimiento final.
+utiliza los lotes de la sesión con tres procesos, con calentamiento, repeticiones
+y modos definidos en el protocolo experimental común. El tiempo de lote de esta
+validación funcional incluye coordinación local por canales \texttt{Pipe};
+los resultados comparativos proceden del ejecutor experimental.

@@ -1,6 +1,53 @@
+\noindent\begin{minipage}[t]{\linewidth}
 \section*{Resumen}
-Pendiente: resumen en español y palabras clave; aclarar extensión de 200 palabras.
+
+Esta práctica comparó la comunicación mediante sockets TCP con JSON y gRPC con
+Protocol Buffers en un sistema de tres nodos. Se implementaron una configuración
+compartida, relojes lógicos de Lamport y registros de eventos, solicitudes y acuses.
+Los nodos se ejecutaron como procesos independientes en localhost, utilizando los
+puertos 5000, 5001 y 5002. Ambos mecanismos siguieron un plan común de intercambios
+y se evaluaron con cargas útiles de 100 y 10240 bytes, en modos secuencial y
+concurrente. Cada combinación incluyó calentamiento y cinco corridas medidas de
+100 envíos. Los 4000 intentos medidos finalizaron sin fallos. Se calcularon media,
+mediana, desviación estándar, percentil 95, rendimiento e intervalos de confianza
+entre corridas. TCP presentó menor latencia media y mayor rendimiento en las
+cuatro combinaciones. Con 100 bytes y concurrencia, registró 0,416 milisegundos y
+6248 intercambios por segundo, frente a 0,680 milisegundos y 4044 en gRPC. La
+verificación confirmó 9600 parejas de eventos con reloj de recepción mayor que
+el de envío. Los resultados respaldan la hipótesis en las condiciones locales
+evaluadas. Su alcance está limitado por el uso de un solo equipo y una sesión
+experimental; la elección del mecanismo también requiere considerar contratos,
+mantenimiento e interoperabilidad para cada aplicación y despliegue.
+
+\medskip
+\noindent\textbf{Palabras clave:} sockets TCP; gRPC; Protocol Buffers; Lamport;
+latencia; concurrencia.
+
 \begin{otherlanguage}{english}
 \section*{Abstract}
-Pending: English abstract and keywords.
+
+This study compared TCP sockets with JSON and gRPC with Protocol Buffers in a
+system comprising three nodes. The implementation included shared configuration, Lamport
+logical clocks, and logs of events, requests, and acknowledgments. Nodes ran as
+independent processes on localhost using ports 5000, 5001, and 5002. Both mechanisms
+followed a common exchange plan and were evaluated with payloads of 100 and 10240
+bytes under sequential and concurrent execution. Each combination included warmup
+and five measured runs of 100 requests. All 4000 measured attempts completed
+without failures. The analysis calculated mean, median, standard deviation, the
+95th percentile, throughput, and confidence intervals across runs. TCP achieved
+lower mean latency and higher throughput in all four combinations. With concurrent
+clients and payloads of 100 bytes, TCP recorded 0.416 milliseconds and 6248 exchanges
+per second, compared with 0.680 milliseconds and 4044 for gRPC. Verification
+confirmed 9600 event pairs in which the receiving timestamp exceeded the sending
+timestamp. These findings support the hypothesis under the local conditions
+evaluated. Their scope is limited by the use of a single computer and one
+experimental session. Selecting a communication mechanism requires considering
+service contracts, maintenance, and interoperability rather than relying
+exclusively on the performance observed in this experiment.
+
+\medskip
+\noindent\textbf{Keywords:} TCP sockets; gRPC; Protocol Buffers; Lamport;
+latency; concurrency.
 \end{otherlanguage}
+\end{minipage}\par
+\clearpage

@@ -1,7 +1,8 @@
 # Contrato gRPC
 
-`messaging.proto` define los datos que enviarán los nodos, siguiendo
-`ACUERDOS_TECNICOS.md`. El servicio `MessagingService` tiene una función:
+`messaging.proto` define los datos que intercambian los nodos. La relación de
+sus campos con los registros está en [Datos y esquema CSV](../data/README.md).
+El servicio `MessagingService` tiene una función:
 `EnviarMensaje` recibe un `Mensaje` y devuelve un `Acuse` como respuesta.
 
 ## Campos
@@ -25,9 +26,9 @@ También deberán comprobar que el acuse corresponda a la solicitud.
 El `.proto` define los tipos, pero no realiza esas comprobaciones.
 
 Los tamaños de 100 y 10240 bytes corresponden solo al texto de `message`:
-`len(solicitud.message.encode("utf-8"))`. En las pruebas se usará texto ASCII.
+`len(solicitud.message.encode("utf-8"))`. En las pruebas se utiliza texto ASCII.
 El acuse lleva un texto de confirmación y no devuelve todo el mensaje.
-Antes de medir, se acordará ese texto con la implementación TCP.
+En ambos mecanismos, ese texto es `ACK`.
 
 ## Uso del reloj en el intercambio
 
@@ -38,8 +39,8 @@ Antes de medir, se acordará ese texto con la implementación TCP.
 
 Son cuatro eventos por intercambio. Comparten `message_id`, pero se distinguen
 en CSV con `message_kind=request` o `ack` y `event_type=send` o `receive`.
-El reloj y los registros se tomarán de `src/common` cuando estén disponibles.
-Este primer aporte solo define el contrato; todavía no ejecuta los nodos.
+El reloj y los registros se reutilizan desde `src/common`. Las implementaciones
+del servidor y cliente están documentadas en `src/grpc/README.md`.
 
 ## Generacion reproducible en Windows (cmd.exe)
 

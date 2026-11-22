@@ -25,3 +25,14 @@ docs/**/compilacion_*.txt
 
 # Módulos regenerados a partir del contrato Protobuf
 /src/grpc/generated/messaging_pb2*.py
+
+# Guías internas y notas personales: se conservan localmente.
+/EQUIPO.md
+/PLAN_ACTIVIDAD.md
+/CHECKLIST_ENTREGA.md
+/ACUERDOS_TECNICOS.md
+/docs/README.md
+/docs/organizacion/
+/docs/secciones/belinda/FUENTES.md
+/docs/secciones/belinda/LECTURA_FUNDAMENTO.md
+/README_VIDEO_BELINDA_LOCAL.md

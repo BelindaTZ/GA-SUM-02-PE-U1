@@ -78,3 +78,4 @@ Capturas de las ejecuciones y del análisis bajo el protocolo experimental compl
 | Archivo | Integrante | Equipo / usuario Git | Fecha y hora de ejecución | Qué acredita |
 |---|---|---|---|---|
 | 20261121_2033_herrera_analisis_final.png | Humberto Herrera | DESKTOP-3I23BEK / aldair xd | 2026-11-21 20:33:00, America/Guayaquil | Ejecución de `analyze.py --input` con la comparativa final de tres procesos (`data/comparativa_procesos_20261121_150936`, sockets y gRPC): 5 corridas y 500 RTT por combinación, estadísticas de latencia, rendimiento, IC 95 % y cero fallos. Las cifras coinciden con las tablas del informe. |
+| 20261121_juliana_verificacion_lamport_tres_procesos.png | Emanuel Pino | DESKTOP-2G72T6F / usuario del sistema Juliana | 2026-11-21 15:30:23, America/Guayaquil | Verificación de los CSV de la comparativa con tres procesos: 4800/4800 parejas válidas en TCP y 4800/4800 en gRPC, sin incidencias. |

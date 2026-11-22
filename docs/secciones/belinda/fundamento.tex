@@ -29,7 +29,7 @@ conclusiones están vinculadas a las aplicaciones y plataformas evaluadas; const
 un antecedente para justificar mediciones controladas, no un resultado anticipado
 sobre TCP y gRPC \cite[pp.~20371--20372]{belinda_blinowski2022_architecture}.
 
-En esta práctica, los nodos A, B y C serán procesos independientes ejecutados en
+En esta práctica, los nodos A, B y C son procesos independientes ejecutados en
 \texttt{localhost}. Esta configuración reproduce la separación lógica y el intercambio
 de mensajes, pero los tres procesos comparten equipo, sistema operativo y recursos
 físicos. En consecuencia, permite estudiar mecanismos de comunicación y ordenamiento
@@ -129,10 +129,10 @@ implementación. Ocultar una operación detrás de una función no elimina los r
 ni asegura que un fallo pueda recuperarse. El libro advierte que intentar ocultar
 por completo la distribución puede aumentar el coste y dificultar que el programador
 comprenda los errores \cite[pp.~14--15]{belinda_vansteen2023_distributed}.
-En el sistema del equipo, guardar eventos en CSV conservará evidencia experimental,
-pero esa acción aislada no demostraría transparencia de persistencia de un servicio.
-La evaluación de las propiedades efectivamente implementadas se realizará después
-de ejecutar los nodos.
+En el sistema del equipo, los CSV conservan evidencia experimental, pero ese
+almacenamiento no restaura el estado de los nodos al reiniciarlos. La evaluación
+de las transparencias implementadas se presenta en el
+apartado~\ref{sec:ansa-sistema}.
 
 \subsubsection{Teorema CAP y compromisos de diseño}
 

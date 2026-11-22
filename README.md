@@ -1,8 +1,9 @@
 # Práctica experimental U1: TCP, gRPC y Lamport
 
-Estado: estructura inicial; implementación, mediciones e informe pendientes.
+Estado: implementación TCP/gRPC, mediciones y análisis disponibles. Informe en
+revisión de cierre, con el enlace del video de respaldo disponible.
 
-Equipo de cuatro integrantes con nombres y bloques confirmados en `EQUIPO.md`.
+Equipo: Belinda Toaquiza, Nixon Piguave, Emanuel Pino y Humberto Herrera.
 Código de la actividad: GA-SUM-02 / PE-U1 (renumeración confirmada por el equipo).
 Repositorio público: https://github.com/BelindaTZ/GA-SUM-02-PE-U1.
 
@@ -11,12 +12,27 @@ Fecha límite: sábado 21 de noviembre de 2026, 23:59 (America/Guayaquil).
 
 ## Empezar aquí
 
-1. Leer `PLAN_ACTIVIDAD.md`. No hay actividades formativas previas exigidas para esta práctica.
-2. Consultar el reparto aceptado en `EQUIPO.md` y los formatos comunes en `ACUERDOS_TECNICOS.md`. Completar las cuentas GitHub pendientes y registrar la hipótesis antes de medir.
-3. Implementar los módulos indicados en los README de cada carpeta.
-4. Preparar Python 3.11 o superior y fijar versiones exactas en `requirements.txt` tras validar el entorno.
-5. Ejecutar experimentos reales, análisis y verificación de Lamport; conservar los CSV sin editar.
-6. Completar el informe, las evidencias y `CHECKLIST_ENTREGA.md`.
+1. Preparar el entorno con las instrucciones siguientes.
+2. Consultar los comandos de [ejecución experimental](experiments/README.md).
+3. Reproducir el análisis con los CSV de
+   `data/comparativa_procesos_20261121_150936/`, separando sockets y gRPC.
+4. Consultar el [índice de evidencias](evidence/screenshots/INDICE.md) y compilar
+   el informe desde `docs/`.
+
+## Preparación del entorno
+
+Se requiere Python 3.11 o superior. Desde la raíz, en `cmd.exe` de Windows:
+
+```bat
+python -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install -r requirements.txt
+python -m scripts.generate_proto
+```
+
+Las versiones están fijadas en `requirements.txt`; el entorno utilizado para las
+mediciones se registra en `environment.json` de cada mecanismo. La generación
+Protobuf es necesaria antes de ejecutar las pruebas o los nodos gRPC.
 
 ## Estructura
 
@@ -27,17 +43,16 @@ src/
   grpc/             # Servidor y cliente gRPC
 proto/              # Contrato messaging.proto
 experiments/        # Plan común, mediciones y concurrencia
-scripts/            # Generación proto, entorno y hashes
+scripts/            # Generación Protobuf y validaciones TCP/gRPC
 data/              # CSV reales y SHA256SUMS
 analysis/           # Análisis y verificación de eventos reales
   figures/          # Gráficos generados
   tables/           # Tablas generadas para LaTeX
 docs/               # Informe, bibliografía y figuras
   secciones/        # Fragmentos y bibliografía por integrante
-  organizacion/     # Planificación del informe
 evidence/
   screenshots/      # Capturas reales de los cuatro integrantes
-  video/            # Guion e información del video
+  video/            # Enlace al video de respaldo
 ```
 
 ## Validación TCP disponible
@@ -63,7 +78,7 @@ El ejecutor arranca tres procesos independientes en localhost para cada mecanism
 
 ## Compilación del informe
 
-Archivo principal previsto: `docs/guia1_practica.tex`. Es una plantilla por completar.
+Archivo principal: `docs/guia1_practica.tex`.
 Usar pdfLaTeX y Biber (TeX Live o MiKTeX). Desde `docs`:
 
 ```bat
@@ -77,11 +92,15 @@ Paquetes: babel (español e inglés), fontenc, inputenc, geometry, amsmath,
 booktabs, listings, graphicx, tikz, longtable, biblatex (estilo ieee), csquotes y hyperref.
 Incorporar la plantilla institucional del LMS si es obligatoria.
 El PDF compilado final debe quedar en `docs/guia1_practica.pdf`.
-El informe está dividido por responsable en `docs/secciones/`. Consultar `docs/README.md` antes de editar. El archivo principal incorpora los fragmentos y `configuracion.tex` reúne paquetes y bibliografías. El PDF compilado es una vista previa con contenido y fuentes pendientes; todavía no cumple los requisitos del informe final. La planificación de `docs/organizacion/` se muestra después de la portada del PDF de trabajo, para que todos vean el reparto; se retirará de la entrega final.
+El informe está dividido por responsable en `docs/secciones/`. El archivo
+principal incorpora los fragmentos y `configuracion.tex` reúne paquetes y
+bibliografías. El resumen bilingüe está incorporado y el documento incluye las
+secciones y los resultados de la práctica. Las guías internas de coordinación
+se conservan localmente y están excluidas de Git y del PDF.
 
 ## Autoría e inteligencia artificial
 
-Registrar aportes reales y enlaces a commits en `EQUIPO.md` y en el informe.
-La organización inicial y las plantillas fueron preparadas con asistencia de IA;
-el equipo debe revisar y declarar su uso. No atribuir esta preparación a commits
-personales de los integrantes ni presentar plantillas como resultados.
+Los aportes y sus commits se documentan en el informe; las sesiones se registran
+en `BITACORA.md`. Los usos de asistencia de IA se declaran en el documento y en
+los apartados de los integrantes que la utilizaron. Cada integrante revisa y
+comprende los contenidos y las ejecuciones que presenta.

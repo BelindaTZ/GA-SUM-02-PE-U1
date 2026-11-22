@@ -1,7 +1,8 @@
 # Análisis de resultados
 
 `analyze.py` calcula las estadísticas de latencia y rendimiento de TCP (sockets)
-y gRPC a partir de los CSV reales de `data/`, con el formato de `../ACUERDOS_TECNICOS.md`.
+y gRPC a partir de los CSV reales de `data/`, con el formato de
+[Datos y esquema CSV](../data/README.md).
 
 ## Ejecución
 
