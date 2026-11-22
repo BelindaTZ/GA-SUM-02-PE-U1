@@ -1,3 +1,59 @@
 \section{Discusión}
-Pendiente: latencia, variabilidad, rendimiento, tipado, desarrollo y errores.
-Contrastar la hipótesis y discutir amenazas a la validez; solicitar aportes de todos.
+
+\subsection{Contraste con la hipótesis}
+
+La hipótesis previa se cumple en las condiciones medidas. TCP con JSON tuvo menor
+RTT medio que gRPC con Protocol Buffers para 100 bytes, y la diferencia disminuyó
+con 10\,240 bytes en ambos modos (tabla~\ref{tab:dif-latencia}). Como los
+intervalos de confianza no se superponen, la ventaja de TCP no se explica solo por
+la variación entre corridas.
+
+\subsection{Latencia y sobrecarga}
+
+La diferencia con mensajes pequeños es coherente con la sobrecarga de cada
+mecanismo. En TCP, cada intercambio solo encuadra y envía el JSON sobre una conexión
+ya abierta. En gRPC, cada llamada atraviesa además HTTP/2, la serialización con
+Protocol Buffers y la pila de llamadas de la biblioteca. Con 100 bytes, ese costo
+fijo pesa más que la transferencia de la carga. Con 10\,240 bytes, el tiempo de
+copiar y transmitir los datos crece en ambos mecanismos y la diferencia relativa
+baja de 85,7\,\% a 34,8\,\% en modo secuencial. Este experimento no separa el tiempo
+de serialización del de transporte, por lo que la explicación es una interpretación
+y no una medición directa.
+
+\subsection{Variabilidad y concurrencia}
+
+La cola de la distribución de gRPC secuencial con 10\,240 bytes indica que algunos
+intercambios tardaron bastante más que la mediana. En un equipo local, esas
+demoras pueden deberse a la planificación del sistema operativo o a procesos ajenos
+al experimento, que no se aislaron. Con tres emisores concurrentes, el RTT de cada
+intercambio aumentó porque los mensajes compiten por los mismos procesos, pero el
+rendimiento total creció porque los envíos se solapan. Por eso latencia y
+rendimiento deben leerse juntos: más intercambios por segundo no significan
+intercambios individuales más rápidos.
+
+\subsection{Tipado, desarrollo y errores}
+
+gRPC define el servicio y los mensajes en \texttt{messaging.proto}, genera el
+código y rechaza en la frontera los mensajes con tipos incorrectos; en TCP hubo
+que implementar a mano el encuadre, la lectura completa y la validación del acuse.
+gRPC también entrega códigos de estado estándar, como \texttt{INVALID\_ARGUMENT}
+en la validación del servidor, mientras que en TCP el manejo de errores depende de
+la convención acordada por el equipo. En esta práctica no hubo fallos durante las
+corridas medidas, por lo que no se pudo comparar cómo se recupera cada mecanismo
+ante un \texttt{timeout} real.
+
+\subsection{Amenazas a la validez}
+
+\begin{itemize}
+  \item \textbf{Entorno local.} Los tres nodos se ejecutaron en un mismo equipo y
+        en localhost; no hubo latencia ni pérdidas de red reales.
+  \item \textbf{Un solo equipo y sesión.} Los resultados dependen del hardware y de
+        la carga del sistema durante la sesión del 21 de noviembre.
+  \item \textbf{Tamaño de muestra.} Cinco corridas por combinación producen
+        intervalos amplios en algunos casos, como TCP secuencial con 10\,240 bytes.
+  \item \textbf{Dos tamaños de carga.} Con dos puntos no puede establecerse cómo
+        crece el RTT con la carga útil.
+  \item \textbf{Medición del rendimiento.} El tiempo de pared incluye la
+        coordinación del ejecutor mediante canales \texttt{Pipe}, que es común a
+        ambos mecanismos pero se suma a la comunicación medida.
+\end{itemize}
