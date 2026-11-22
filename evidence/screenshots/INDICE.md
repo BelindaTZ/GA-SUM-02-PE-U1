@@ -73,5 +73,8 @@ Son validaciones funcionales del cliente, no la matriz comparativa final.
 
 ## Experimento final
 
-Pendiente: capturas de las ejecuciones TCP/gRPC y del análisis bajo el protocolo
-experimental completo, con identificación de integrante, equipo y fecha.
+Capturas de las ejecuciones y del análisis bajo el protocolo experimental completo.
+
+| Archivo | Integrante | Equipo / usuario Git | Fecha y hora de ejecución | Qué acredita |
+|---|---|---|---|---|
+| 20261121_2033_herrera_analisis_final.png | Humberto Herrera | DESKTOP-3I23BEK / aldair xd | 2026-11-21 20:33:00, America/Guayaquil | Ejecución de `analyze.py --input` con la comparativa final de tres procesos (`data/comparativa_procesos_20261121_150936`, sockets y gRPC): 5 corridas y 500 RTT por combinación, estadísticas de latencia, rendimiento, IC 95 % y cero fallos. Las cifras coinciden con las tablas del informe. |
