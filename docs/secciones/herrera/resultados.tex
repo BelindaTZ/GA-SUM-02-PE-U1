@@ -1,4 +1,59 @@
 \section{Resultados}
-Pendiente: importar tablas y gráficos producidos por el script con mediciones reales.
-% Ejemplo futuro: \input{../analysis/tables/summary.tex}
-% Ejemplo futuro: \includegraphics[width=\linewidth]{figures/boxplot.png}
+
+Esta sección compara los mecanismos a partir de las tablas~\ref{tab:latencia}
+y~\ref{tab:rendimiento} y de las figuras~\ref{fig:rtt-cajas}, \ref{fig:rtt-barras}
+y~\ref{fig:rendimiento-barras}, generadas por \path{analysis/analyze.py} con los
+CSV de \path{data/comparativa_procesos_20261121_150936}. Cada combinación de
+mecanismo, tamaño y modo reúne cinco corridas medidas y 500 RTT válidos; la corrida
+de calentamiento se excluyó. Los intervalos son IC del 95\,\% con $t$ de Student
+sobre la media de cada corrida ($n=5$).
+
+\subsection{Latencia}
+
+La tabla~\ref{tab:dif-latencia} resume la diferencia entre los RTT medios.
+TCP tuvo menor latencia en las cuatro combinaciones. En ningún caso se superponen
+los intervalos de confianza de ambos mecanismos; el caso más cercano es el secuencial
+con 10\,240 bytes, donde el límite superior de TCP (0,529\,ms) queda por debajo del
+límite inferior de gRPC (0,540\,ms).
+
+\begin{table}[htbp]
+\centering
+\caption{Diferencia del RTT medio entre gRPC y TCP}
+\label{tab:dif-latencia}
+\begin{tabular}{llrrrr}
+\toprule
+Modo & Bytes & TCP (ms) & gRPC (ms) & Diferencia (ms) & gRPC sobre TCP \\
+\midrule
+sequential & 100    & 0,305 & 0,566 & 0,261 & +85,7\,\% \\
+sequential & 10\,240 & 0,433 & 0,584 & 0,151 & +34,8\,\% \\
+concurrent & 100    & 0,416 & 0,680 & 0,264 & +63,6\,\% \\
+concurrent & 10\,240 & 0,483 & 0,689 & 0,206 & +42,7\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La diferencia se redujo al aumentar la carga útil: en modo secuencial pasó de 0,261
+a 0,151\,ms, y en modo concurrente, de 0,264 a 0,206\,ms. El aumento de la carga
+afectó más a TCP (de 0,305 a 0,433\,ms en secuencial) que a gRPC (de 0,566 a
+0,584\,ms). Con tres emisores concurrentes, el RTT medio de cada intercambio aumentó
+en ambos mecanismos respecto del modo secuencial.
+
+\subsection{Variabilidad}
+
+La mediana fue menor que la media en todas las combinaciones, lo que indica
+distribuciones con cola hacia valores altos (figura~\ref{fig:rtt-cajas}). La mayor
+dispersión apareció en gRPC secuencial con 10\,240 bytes: desviación de 0,221\,ms,
+coeficiente de variación de 0,38 y p95 de 0,724\,ms frente a una mediana de
+0,547\,ms. En TCP, la mayor dispersión fue la del modo secuencial con 10\,240 bytes,
+con desviación de 0,110\,ms y p95 de 0,684\,ms. Con 100 bytes en modo secuencial,
+TCP fue el caso más estable, con desviación de 0,037\,ms y p95 de 0,376\,ms.
+
+\subsection{Rendimiento y fallos}
+
+TCP completó más intercambios por segundo en las cuatro combinaciones
+(tabla~\ref{tab:rendimiento}). La ventaja fue de 38,3\,\% y 13,5\,\% en modo
+secuencial con 100 y 10\,240 bytes, y de 35,3\,\% y 22,2\,\% en modo concurrente.
+El modo concurrente aumentó el rendimiento de ambos mecanismos: con 100 bytes,
+TCP pasó de 2\,312 a 6\,248 intercambios por segundo y gRPC, de 1\,426 a 4\,044.
+Las 40 corridas medidas sumaron 4\,000 intentos sin \texttt{timeout} ni
+\texttt{error}.
